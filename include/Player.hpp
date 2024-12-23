@@ -36,9 +36,9 @@ protected:
     int score;
     std::string name;
     Choice::Value choice;
-    std::shared_ptr<MySocket> enemySocket;
+    std::shared_ptr<MySocket> connectionSocket;
 public:
-    Player(std::string name, std::unique_ptr<MySocket>& enemySocket);
+    Player(std::string name, std::shared_ptr<MySocket> connectionSocket);
 
     virtual void choose();
     
@@ -51,7 +51,7 @@ public:
 
 class Enemy : public Player {
 public:
-    Enemy(std::unique_ptr<MySocket>& enemySocket);
+    Enemy(std::shared_ptr<MySocket> connectionSocket);
 
     virtual void choose();
 };

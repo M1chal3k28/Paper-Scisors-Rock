@@ -11,7 +11,7 @@ Client::Client(const char * addr)
     this->service.sin_port = htons(PORT); // PORT set in config
     // Using the bind function
     if( connect( this->currentSocket, (SOCKADDR*)&( this->service ), sizeof( this->service ) ) == SOCKET_ERROR){
-        cout << "bind() failed: " << WSAGetLastError() << endl;
+        cout << "Connection with server failed: " << WSAGetLastError() << endl;
         // Close socket and clean up on error
         closesocket(currentSocket);
         WSACleanup();

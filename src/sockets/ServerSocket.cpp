@@ -5,9 +5,9 @@ PlayerServer::PlayerServer(const std::string & name) : MySocket(), serverName(na
     this->service = sockaddr_in(); 
     this->service.sin_family = AF_INET; // ipv4
     this->service.sin_addr.s_addr = INADDR_ANY; // Listen on all addresses
-    this->service.sin_port = htons(PORT); // 55555
+    this->service.sin_port = htons(PORT); // PORT specified in config
     // Using the bind function
-    if( bind(this->currentSocket, (SOCKADDR*)&(this->service), sizeof( this->service ) ) == SOCKET_ERROR){
+    if( bind( this->currentSocket, (SOCKADDR*)&( this->service ), sizeof( this->service ) ) == SOCKET_ERROR){
         cout << "bind() failed: " << WSAGetLastError() << endl;
         // Close socket and clean up on error
         closesocket(currentSocket);
@@ -16,8 +16,8 @@ PlayerServer::PlayerServer(const std::string & name) : MySocket(), serverName(na
     }
 
     // Create socket for broadcast
-    this->broadcastSocket = socket(AF_INET, SOCK_DGRAM, 0); // UDP socket
-    if (this->broadcastSocket == INVALID_SOCKET) {
+    this->broadcastSocket = socket( AF_INET, SOCK_DGRAM, 0 ); // UDP socket
+    if ( this->broadcastSocket == INVALID_SOCKET ) {
         std::cerr << "Socket creation failed: " << WSAGetLastError() << endl;
         closesocket(currentSocket);
         WSACleanup();
@@ -26,10 +26,10 @@ PlayerServer::PlayerServer(const std::string & name) : MySocket(), serverName(na
 
     // Set timeout for data receiving (recvfrom)
     int timeout = TIMEOUT_MS;
-    setsockopt(this->broadcastSocket, SOL_SOCKET, SO_RCVTIMEO, (char*)&timeout, sizeof(timeout));
+    setsockopt( this->broadcastSocket, SOL_SOCKET, SO_RCVTIMEO, (char*)&timeout, sizeof(timeout) );
 
     // bind to broadcast socket
-    if (bind(this->broadcastSocket, (const sockaddr*)&(this->service), sizeof(this->service)) == SOCKET_ERROR) {
+    if ( bind( this->broadcastSocket, (const sockaddr*)&(this->service), sizeof(this->service) ) == SOCKET_ERROR ) {
         cout << "bind() for broadcast failed: " << WSAGetLastError() << endl;
         // Close socket and clean up on error
         closesocket(currentSocket);

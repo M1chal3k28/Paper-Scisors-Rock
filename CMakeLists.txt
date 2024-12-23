@@ -8,6 +8,7 @@ add_executable(RockPaperScisors
     src/sockets/ServerSocket.cpp
     src/sockets/EnemySocket.cpp
     src/Player.cpp
+    src/Game.cpp
     main.cpp
 )
 

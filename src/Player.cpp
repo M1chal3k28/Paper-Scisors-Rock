@@ -1,13 +1,13 @@
 #include <Player.hpp>
 
-Player::Player(std::string name, std::unique_ptr<MySocket>& enemySocket) 
+Player::Player(std::string name, std::shared_ptr<MySocket> connectionSocket) 
     :  
     name(name),
     score(0), 
     choice(Choice::Paper), 
     // enemy socket is required to send the player's choice
     // it works cause player is server which accepted connection to enemy socket
-    enemySocket( std::make_shared<MySocket>(*enemySocket) ) {}
+    connectionSocket( std::move(connectionSocket) ) {}
 
 void Player::choose() {
     bool goodChoice = false;
@@ -29,7 +29,7 @@ void Player::choose() {
     } while(!goodChoice);
 
     // Send choice to enemy
-    this->enemySocket->_send( choiceString.c_str() );
+    this->connectionSocket->_send( choiceString.c_str() );
 }
 
 const Choice::Value &Player::getChoice() {
@@ -48,17 +48,17 @@ void Player::addScore() {
     this->score += 1;
 }
 
-Enemy::Enemy(std::unique_ptr<MySocket>& enemySocket)
-    : Player("", enemySocket) {
+Enemy::Enemy(std::shared_ptr<MySocket> connectionSocket)
+    : Player("", connectionSocket) {
         // Enemy's name is empty
         // receive name from enemy
         // it works cause enemy is client connected to server so it can receive data from server
-        this->name = this->enemySocket->receive();
+        this->name = this->connectionSocket->receive();
     }
 
 void Enemy::choose() {
     // Enemy's choice is received from the player
-    std::string choiceString = this->enemySocket->receive();
+    std::string choiceString = this->connectionSocket->receive();
     // Convert to int to check if it is between 1 and 3
     this->choice = static_cast<Choice::Value>(atoi(choiceString.c_str()));
 }
