@@ -38,14 +38,20 @@ protected:
     Choice::Value choice;
     std::shared_ptr<MySocket> connectionSocket;
 public:
+    // Constructor
+    // 1. Name of the player
+    // 2. Connection socket
     Player(std::string name, std::shared_ptr<MySocket> connectionSocket);
 
+    // Choose
     virtual void choose();
     
+    // Getters
     const Choice::Value & getChoice();
     const std::string & getName();
     const int & getScore();
 
+    // add score
     void addScore();
 };
 
@@ -53,5 +59,7 @@ class Enemy : public Player {
 public:
     Enemy(std::shared_ptr<MySocket> connectionSocket);
 
+    // Choose
+    // It receive choice from player
     virtual void choose();
 };
