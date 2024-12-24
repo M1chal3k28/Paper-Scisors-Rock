@@ -1,81 +1,42 @@
-#pragma once 
+#pragma once
 
-#include <string>
-#include <unordered_map>
-#include <memory>
-#include <raylib.h>
+#include <Config.hpp>
 
 class ResourceManager {
 public:
     // Singleton access to ResourceManager instance
-    static ResourceManager& getInstance() {
-        static ResourceManager instance;
-        return instance;
-    }
+    static ResourceManager& getInstance();
 
-    // Load a PNG file and store it by a key
-    void loadPNG(const std::string& key, const std::string& filePath) {
-        if (pngFiles.find(key) == pngFiles.end()) {
-            Image image = LoadImage(filePath.c_str());
-            pngFiles[key] = image;
-        }
-    }
+    // Load a texture and store it by a key
+    void loadTexture(const std::string& key, const std::string& filePath);
 
-    // Get a PNG file by key
-    Image& getPNG(const std::string& key) {
-        return pngFiles.at(key);
-    }
+    // Get a texture by key
+    Texture2D& getTexture(const std::string& key);
 
-    // Unload a specific PNG file by key
-    void unloadPNG(const std::string& key) {
-        if (pngFiles.find(key) != pngFiles.end()) {
-            UnloadImage(pngFiles[key]);
-            pngFiles.erase(key);
-        }
-    }
+    // Unload a specific texture by key
+    void unloadTexture(const std::string& key);
 
     // Load a sound and store it by a key
-    void loadSound(const std::string& key, const std::string& filePath) {
-        if (sounds.find(key) == sounds.end()) {
-            sounds[key] = LoadSound(filePath.c_str());
-        }
-    }
+    void loadSound(const std::string& key, const std::string& filePath);
 
     // Get a sound by key
-    Sound& getSound(const std::string& key) {
-        return sounds.at(key);
-    }
+    Sound& getSound(const std::string& key);
 
     // Unload a specific sound by key
-    void unloadSound(const std::string& key) {
-        if (sounds.find(key) != sounds.end()) {
-            UnloadSound(sounds[key]);
-            sounds.erase(key);
-        }
-    }
+    void unloadSound(const std::string& key);
 
     // Clean up all loaded resources
-    void cleanUp() {
-        for (auto& [key, image] : pngFiles) {
-            UnloadImage(image);
-        }
-        pngFiles.clear();
-
-        for (auto& [key, sound] : sounds) {
-            UnloadSound(sound);
-        }
-        sounds.clear();
-    }
+    void cleanUp();
 
 private:
     // Private constructor for singleton pattern
-    ResourceManager() {}
+    ResourceManager();
     
     // Deleted copy constructor and assignment operator
     ResourceManager(const ResourceManager&) = delete;
     ResourceManager& operator=(const ResourceManager&) = delete;
 
     // Resource storage
-    std::unordered_map<std::string, Image> pngFiles;
+    std::unordered_map<std::string, Texture2D> textures;
     std::unordered_map<std::string, Sound> sounds;
 };

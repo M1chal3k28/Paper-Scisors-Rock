@@ -1,5 +1,11 @@
 #include <Game.hpp>
 
+// Singleton static instance
+Game& Game::getInstance() {
+    static Game instance;
+    return instance;
+}
+
 PlayerType::Value Game::menu() {
     bool set = false;
     std::string temporary;

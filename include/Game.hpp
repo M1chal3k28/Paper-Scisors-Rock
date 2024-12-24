@@ -37,10 +37,7 @@ class Game {
 
 public:
     // Singleton access to game instance
-    static Game& getInstance() {
-        static Game instance;
-        return instance;
-    }
+    static Game& getInstance();
 
     // Menu for choosing of either server or client
     PlayerType::Value menu();

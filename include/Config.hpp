@@ -25,6 +25,7 @@
 #include <chrono>
 #include <algorithm>
 #include <memory>
+#include <unordered_map>
 
 // Include all needed namespaces
 using namespace std;
