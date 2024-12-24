@@ -1,7 +1,5 @@
 #include <Game.hpp>
 
-Game::Game() {}
-
 PlayerType::Value Game::menu() {
     bool set = false;
     std::string temporary;
@@ -50,8 +48,6 @@ void Game::setup() {
     cout << "Give nick: ";
     std::getline( cin, temporary );
 
-    // // Create player
-    // this->player = std::make_unique<Player>(temporary, this->serverOrClientSocket);
 
     // Menu 
     this->playerType = this->menu();

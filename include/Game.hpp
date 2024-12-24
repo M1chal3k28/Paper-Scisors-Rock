@@ -13,6 +13,13 @@ class PlayerType {
 };
 
 class Game {
+    // Private constructor for singleton pattern
+    Game() {}
+    
+    // Deleted copy constructor and assignment operator
+    Game(const Game&) = delete;
+    Game& operator=(const Game&) = delete;
+
     // Players
     std::unique_ptr<Player> player = nullptr;
     std::unique_ptr<Enemy> enemy = nullptr;
@@ -29,7 +36,11 @@ class Game {
     PlayerType::Value playerType; // update logic depend on this
 
 public:
-    Game();
+    // Singleton access to game instance
+    static Game& getInstance() {
+        static Game instance;
+        return instance;
+    }
 
     // Menu for choosing of either server or client
     PlayerType::Value menu();

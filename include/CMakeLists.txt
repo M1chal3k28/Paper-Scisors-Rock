@@ -1,1 +1,1 @@
-include_directories(Sockets)
+include_directories(sockets)
