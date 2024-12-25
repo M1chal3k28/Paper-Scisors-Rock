@@ -1,5 +1,6 @@
 #include <IntroScene.hpp>
 
+#include <SceneManager.hpp>
 
 IntroScene::~IntroScene() {
     cleanUp();
@@ -16,7 +17,7 @@ void IntroScene::prepareResources() {
 void IntroScene::update(float deltaTime) {
     timer += deltaTime;
     if (timer > INTRO_SCENE_DURATION) {
-        exit(-10);
+        SCENE_MANAGER.pushScene( SceneType::INTRO );
     }
 }
 
