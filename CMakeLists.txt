@@ -21,9 +21,12 @@ add_executable(RockPaperScisors
     src/sockets/EnemySocket.cpp
     src/Player.cpp
     src/Game.cpp
+    src/ResourceManager.cpp
+    src/scenes/IntroScene.cpp
+    src/scenes/SceneManager.cpp
     main.cpp
 )
 
-include_directories(${RAYLIB_INCLUDE_DIRS} include include/sockets)
+include_directories(${RAYLIB_INCLUDE_DIRS} include include/sockets include/scenes)
 target_compile_features(RockPaperScisors PUBLIC cxx_std_17)
 target_link_libraries(RockPaperScisors PRIVATE raylib wsock32 ws2_32)

@@ -4,9 +4,6 @@
 
 class Scene {
 public:
-    // Virtual destructor to ensure proper cleanup of derived classes
-    virtual ~Scene() {}
-
     // Function to prepare resources needed by the scene
     virtual void prepareResources() = 0;
 

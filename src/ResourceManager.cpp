@@ -14,7 +14,11 @@ void ResourceManager::loadTexture(const std::string& key, const std::string& fil
 }
 
 Texture2D& ResourceManager::getTexture(const std::string& key) {
-    return textures.at(key);
+    if ( textures.find(key) != textures.end() ) {
+        return textures.at(key);
+    }
+
+    return getTexture("default");
 }
 
 void ResourceManager::unloadTexture(const std::string& key) {

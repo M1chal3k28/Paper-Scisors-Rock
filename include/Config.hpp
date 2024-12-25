@@ -26,6 +26,7 @@
 #include <algorithm>
 #include <memory>
 #include <unordered_map>
+#include <stack>
 
 // Include all needed namespaces
 using namespace std;

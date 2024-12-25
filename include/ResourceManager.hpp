@@ -2,6 +2,8 @@
 
 #include <Config.hpp>
 
+#define RESOURCE_MANAGER ResourceManager::getInstance()
+
 class ResourceManager {
 public:
     // Singleton access to ResourceManager instance
