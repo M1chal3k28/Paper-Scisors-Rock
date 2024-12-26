@@ -27,6 +27,15 @@ public:
     // Unload a specific sound by key
     void unloadSound(const std::string& key);
 
+    // Load a font and store it by a key
+    void loadFont(const std::string& key, const std::string& filePath);
+
+    // Get a font by key
+    std::shared_ptr<Font> getFont(const std::string& key);
+
+    // Unload a specific font by key
+    void unloadFont(const std::string& key);
+
     // Clean up all loaded resources
     void cleanUp();
 
@@ -41,4 +50,5 @@ private:
     // Resource storage
     std::unordered_map<std::string, std::shared_ptr<Texture2D>> textures;
     std::unordered_map<std::string, std::shared_ptr<Sound>> sounds;
+    std::unordered_map<std::string, std::shared_ptr<Font>> fonts;
 };

@@ -20,6 +20,7 @@ add_executable(RockPaperScisors
     src/sprites/MovingSprite.cpp
     src/sprites/RotatingSprite.cpp
     src/Background.cpp
+    src/Button.cpp
     main.cpp
 )
 

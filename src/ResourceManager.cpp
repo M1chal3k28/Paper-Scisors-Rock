@@ -48,6 +48,26 @@ void ResourceManager::unloadSound(const std::string& key) {
     }
 }
 
+void ResourceManager::loadFont(const std::string & key, const std::string & filePath) {
+    if (fonts.find(key) == fonts.end()) {
+        fonts[key] = std::make_shared<Font>( LoadFont( filePath.c_str() ) );
+    }
+}
+
+std::shared_ptr<Font> ResourceManager::getFont(const std::string &key) {
+    if (fonts.find(key) != fonts.end()) {
+        return fonts.at(key);
+    }
+    return std::shared_ptr<Font>();
+}
+
+void ResourceManager::unloadFont(const std::string &key) {
+    if (fonts.find(key) != fonts.end()) {
+        UnloadFont(*fonts[key]);
+        fonts.erase(key);
+    }
+}
+
 void ResourceManager::cleanUp() {
     for (auto& [key, texture] : textures) {
         UnloadTexture(*texture);
@@ -58,4 +78,9 @@ void ResourceManager::cleanUp() {
         UnloadSound(*sound);
     }
     sounds.clear();
+
+    for (auto& [key, font] : fonts) {
+        UnloadFont(*font);
+    }
+    fonts.clear();
 }

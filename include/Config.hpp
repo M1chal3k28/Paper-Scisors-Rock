@@ -1,5 +1,6 @@
 #pragma once
 
+#define RAYMATH_IMPLEMENTATION
 #include <raylib.h>
 
 // Include all needed windows libraries
@@ -26,6 +27,7 @@
 #include <memory>
 #include <unordered_map>
 #include <stack>
+#include <functional>
 
 // Include all needed namespaces
 using namespace std;
