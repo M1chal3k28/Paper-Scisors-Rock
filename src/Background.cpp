@@ -7,20 +7,6 @@ Background::Background() {
 
     // Create empty vector
     this->backgroundSprites = std::vector<std::unique_ptr<Sprite>>();
-
-    // Add test sprite
-    this->backgroundSprites.emplace_back(new MovingSprite(
-        RESOURCE_MANAGER.getTexture("backgroundSprite"),
-        2,
-        {80.f, 100.f},
-        {100.f, 70.f}
-    ));
-    this->backgroundSprites.emplace_back(new MovingSprite(
-        RESOURCE_MANAGER.getTexture("backgroundSprite"),
-        2,
-        {80.f, 100.f},
-        {200.f, 150.f}
-    ));
 }
 
 // Unload Resources
@@ -38,11 +24,14 @@ void Background::generateSprites() {
         int posX = RANDOM(-GetScreenWidth(), GetScreenWidth());
         int posY = -(Vector2)BACKGROUND_SPRITE_SIZE.y - RANDOM(0, 100);
 
-        this->backgroundSprites.emplace_back(new MovingSprite(
+        float rotationSpeed = RANDOM(-20, 20);
+
+        this->backgroundSprites.emplace_back(new RotatingSprite(
             RESOURCE_MANAGER.getTexture("backgroundSprite"),
             2,
             BACKGROUND_SPRITE_SIZE,
-            {speedX, speedY}
+            {speedX, speedY},
+            rotationSpeed
         ));
 
         this->backgroundSprites.back()->setPosition({(float)posX, (float)posY});

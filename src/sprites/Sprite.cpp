@@ -1,13 +1,14 @@
 #include <sprites/Sprite.hpp>
 
+// Constructor
 Sprite::Sprite(std::shared_ptr<Texture2D> texture, int maxFrames, Vector2 frameSize) 
     : sTexture( texture ), sPosition({0, 0}), sMaxFrames(maxFrames), sFrame(0), sFrameSize(frameSize) {
         sFrameRect = {0, 0, frameSize.x, frameSize.y};
+        offset = {this->sFrameSize.x / 2, this->sFrameSize.y / 2};
     }
 
-Sprite::~Sprite() {
-    std::cout << "Deleted Sprite\n";
-}
+// Destructor
+Sprite::~Sprite() {}
 
 // Update sprite
 void Sprite::update(float deltaTime) {}
@@ -18,7 +19,7 @@ void Sprite::draw() {
         *(this->sTexture),
         (Rectangle){this->sFrame * this->sFrameSize.x, this->sFrame * this->sFrameSize.y, this->sFrameSize.x, this->sFrameSize.y}, // source rectangle sprite sheet plays role in here
         (Rectangle){this->sPosition.x, this->sPosition.y, this->sFrameSize.x, this->sFrameSize.y}, // where to display
-        (Vector2){0, 0},
+        this->offset,
         0.0f,
         WHITE
     );
@@ -31,6 +32,7 @@ void Sprite::setFrame(int frame) {
     }
 }
 
+// Set sprite position
 void Sprite::setPosition(Vector2 pos) {
     this->sPosition = pos;
 }

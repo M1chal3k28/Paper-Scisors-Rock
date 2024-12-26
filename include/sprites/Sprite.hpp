@@ -14,6 +14,7 @@ protected:
     int sFrame;
     Vector2 sFrameSize;
     Rectangle sFrameRect;
+    Vector2 offset;
 public:
     Sprite( std::shared_ptr<Texture2D> texture, int maxFrames, Vector2 frameSize );
     ~Sprite();

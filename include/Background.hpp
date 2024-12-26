@@ -8,7 +8,7 @@
 
 #define M_BG Background::getInstance()
 #define GENERATION_DELAY 0.5f
-#define SPRITES_PER_GENERATION 10
+#define SPRITES_PER_GENERATION 5
 class Background {
     Background();
     ~Background();
