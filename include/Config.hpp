@@ -1,6 +1,5 @@
 #pragma once
 
-// Include all needed libraries
 #include <raylib.h>
 
 // Include all needed windows libraries
