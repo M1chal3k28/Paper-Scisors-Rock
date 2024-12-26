@@ -24,9 +24,17 @@ add_executable(RockPaperScisors
     src/ResourceManager.cpp
     src/scenes/IntroScene.cpp
     src/scenes/SceneManager.cpp
+    src/scenes/SetupScene.cpp
+    src/sprites/Sprite.cpp
+    src/sprites/MovingSprite.cpp
+    src/Background.cpp
     main.cpp
 )
 
-include_directories(${RAYLIB_INCLUDE_DIRS} include include/sockets include/scenes)
+include_directories(
+    ${RAYLIB_INCLUDE_DIRS} 
+    include 
+    include/sockets 
+)
 target_compile_features(RockPaperScisors PUBLIC cxx_std_17)
 target_link_libraries(RockPaperScisors PRIVATE raylib wsock32 ws2_32)

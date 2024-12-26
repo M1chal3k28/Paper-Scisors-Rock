@@ -2,14 +2,17 @@
 
 #include <scenes/Scene.hpp>
 #include <ResourceManager.hpp>
+#include <Background.hpp>
 
-#define INTRO_SCENE_DURATION 5.f
+#include <Game.hpp>
 
-class IntroScene : public Scene {
-    float timer = 0.0f;
+class SetupScene : public Scene {
+    std::string nick;
+    PlayerType::Value playerType;
+
 public:
-    IntroScene();
-    ~IntroScene();
+    SetupScene();
+    ~SetupScene();
 
     void prepareResources() override;
     void update(float deltaTime) override;

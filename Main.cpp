@@ -1,15 +1,15 @@
 
 #include <Config.hpp>
-#include <Scenes.hpp>
+#include <scenes/Scenes.hpp>
 
 int main() {
     // Initialization
     //--------------------------------------------------------------------------------------
-    
+    SetConfigFlags(FLAG_VSYNC_HINT);
     InitWindow(GetMonitorWidth(GetCurrentMonitor()), GetMonitorHeight(GetCurrentMonitor()), "Rock-Paper-Scissors");
-    SetWindowState(FLAG_FULLSCREEN_MODE);
+    SetWindowState(FLAG_FULLSCREEN_MODE);              // Set our game to run at 60 frames-per-second
 
-    SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
+    RESOURCE_MANAGER.loadTexture("backgroundSprites", "assets/backgroundSprite.png");
 
     SCENE_MANAGER.pushScene( SceneType::INTRO );
     //--------------------------------------------------------------------------------------
@@ -28,7 +28,6 @@ int main() {
             ClearBackground(RAYWHITE);
 
             SCENE_MANAGER.draw();
-
         EndDrawing();
         //----------------------------------------------------------------------------------
     }

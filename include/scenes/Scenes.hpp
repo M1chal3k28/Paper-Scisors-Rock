@@ -1,5 +1,6 @@
 #pragma once
 
-#include <Scene.hpp>
-#include <IntroScene.hpp>
-#include <SceneManager.hpp>
+#include <scenes/Scene.hpp>
+#include <scenes/IntroScene.hpp>
+#include <scenes/SceneManager.hpp>
+#include <scenes/SetupScene.hpp>

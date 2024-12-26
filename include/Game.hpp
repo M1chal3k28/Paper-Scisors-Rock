@@ -4,6 +4,8 @@
 #include <Player.hpp>
 #include <Sockets.hpp>
 
+#define GAME Game::getInstance()
+ 
 class PlayerType {
     public:
         enum Value {

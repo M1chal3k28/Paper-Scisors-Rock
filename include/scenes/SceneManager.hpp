@@ -1,7 +1,7 @@
 #pragma once 
 
 #include <Config.hpp>
-#include <Scenes.hpp>
+#include <scenes/Scenes.hpp>
 
 #define SCENE_MANAGER SceneManager::getInstance()
 
@@ -9,6 +9,7 @@ class SceneType {
 public:
     enum Value {
         INTRO = 0,
+        SETUP,
     };    
 };
 

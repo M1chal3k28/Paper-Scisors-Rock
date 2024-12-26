@@ -1,6 +1,7 @@
-#include <IntroScene.hpp>
+#include <scenes/IntroScene.hpp>
 
-#include <SceneManager.hpp>
+#include <scenes/SceneManager.hpp>
+#include <scenes/SetupScene.hpp>
 
 IntroScene::~IntroScene() {
     cleanUp();
@@ -17,13 +18,13 @@ void IntroScene::prepareResources() {
 void IntroScene::update(float deltaTime) {
     timer += deltaTime;
     if (timer > INTRO_SCENE_DURATION) {
-        SCENE_MANAGER.pushScene( SceneType::INTRO );
+        SCENE_MANAGER.pushScene( SceneType::SETUP );
     }
 }
 
 void IntroScene::draw() const {
     Color color = {255, 255, 255, 255 * (timer / INTRO_SCENE_DURATION)};
-    DrawTexturePro(RESOURCE_MANAGER.getTexture("intro"), {0, 0, (float)GetScreenWidth(), (float)GetScreenHeight()}, {0, 0, (float)GetScreenWidth(), (float)GetScreenHeight()}, {0, 0}, 0, color);
+    DrawTexturePro(*RESOURCE_MANAGER.getTexture("intro"), {0, 0, (float)GetScreenWidth(), (float)GetScreenHeight()}, {0, 0, (float)GetScreenWidth(), (float)GetScreenHeight()}, {0, 0}, 0, color);
 }
 
 void IntroScene::cleanUp() {

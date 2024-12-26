@@ -13,7 +13,7 @@ public:
     void loadTexture(const std::string& key, const std::string& filePath);
 
     // Get a texture by key
-    Texture2D& getTexture(const std::string& key);
+    std::shared_ptr<Texture2D> getTexture(const std::string& key);
 
     // Unload a specific texture by key
     void unloadTexture(const std::string& key);
@@ -22,7 +22,7 @@ public:
     void loadSound(const std::string& key, const std::string& filePath);
 
     // Get a sound by key
-    Sound& getSound(const std::string& key);
+    std::shared_ptr<Sound> getSound(const std::string& key);
 
     // Unload a specific sound by key
     void unloadSound(const std::string& key);
@@ -39,6 +39,6 @@ private:
     ResourceManager& operator=(const ResourceManager&) = delete;
 
     // Resource storage
-    std::unordered_map<std::string, Texture2D> textures;
-    std::unordered_map<std::string, Sound> sounds;
+    std::unordered_map<std::string, std::shared_ptr<Texture2D>> textures;
+    std::unordered_map<std::string, std::shared_ptr<Sound>> sounds;
 };

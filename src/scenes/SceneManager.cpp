@@ -1,4 +1,5 @@
-#include <SceneManager.hpp>
+#include <scenes/SceneManager.hpp>
+#include <scenes/Scenes.hpp>
 
 SceneManager &SceneManager::getInstance() {
     static SceneManager instance;
@@ -9,6 +10,9 @@ void SceneManager::pushScene(const SceneType::Value &scene)  {
     switch ( scene ) {
         case SceneType::INTRO:
             scenesStack.push( std::make_unique<IntroScene>() );
+            break;
+        case SceneType::SETUP:
+            scenesStack.push( std::make_unique<SetupScene>() );
             break;
     }
 }
