@@ -36,3 +36,16 @@ using namespace std;
 #define TIMEOUT_MS 2000
 #define BUFFER_SIZE 256
 #define DISCOVER "DISCOVER"
+
+// Define all needed macros
+#define RANDOM(FROM, TO) rand() % (TO - FROM + 1) + FROM
+
+class ScreenSide {
+public:
+    enum Value {
+        LEFT = 0,
+        RIGHT = 1,
+        TOP = 2,
+        BOTTOM = 3
+    };
+};

@@ -5,12 +5,17 @@
 int main() {
     // Initialization
     //--------------------------------------------------------------------------------------
+        // Init random number generator
+        srand(time(NULL));
+        //----------------------------------------------------------------------------------
+
+    // Set config flag to enable V-Sync
     SetConfigFlags(FLAG_VSYNC_HINT);
     InitWindow(GetMonitorWidth(GetCurrentMonitor()), GetMonitorHeight(GetCurrentMonitor()), "Rock-Paper-Scissors");
-    SetWindowState(FLAG_FULLSCREEN_MODE);              // Set our game to run at 60 frames-per-second
+    // Set full screen
+    SetWindowState(FLAG_FULLSCREEN_MODE);
 
-    RESOURCE_MANAGER.loadTexture("backgroundSprites", "assets/backgroundSprite.png");
-
+    // Initialize scenes
     SCENE_MANAGER.pushScene( SceneType::INTRO );
     //--------------------------------------------------------------------------------------
 
@@ -19,6 +24,7 @@ int main() {
     {
         // Update
         //----------------------------------------------------------------------------------
+        // Update currentScene
         SCENE_MANAGER.update( GetFrameTime() );
         //----------------------------------------------------------------------------------
 
@@ -26,7 +32,7 @@ int main() {
         //----------------------------------------------------------------------------------
         BeginDrawing();
             ClearBackground(RAYWHITE);
-
+            // Draw current scene
             SCENE_MANAGER.draw();
         EndDrawing();
         //----------------------------------------------------------------------------------

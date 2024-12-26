@@ -1,5 +1,3 @@
-#pragma once
-
 #include <sprites/MovingSprite.hpp>
 #include <raymath.h>
 

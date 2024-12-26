@@ -16,6 +16,7 @@ protected:
     Rectangle sFrameRect;
 public:
     Sprite( std::shared_ptr<Texture2D> texture, int maxFrames, Vector2 frameSize );
+    ~Sprite();
 
     // Draw sprite on its position with current frame
     virtual void draw();
@@ -24,8 +25,11 @@ public:
 
     // Set sprite texture frame
     void setFrame(int frame);
+    void setPosition(Vector2 pos);
 
     // Checks if sprite is outside of the window
     bool isOutsideOfTheWindow();
 
+    // Checks if sprite is outside of the window side
+    bool isOutsideOfTheWindowSide( ScreenSide::Value side );
 };

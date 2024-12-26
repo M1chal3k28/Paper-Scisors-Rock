@@ -9,7 +9,7 @@ SetupScene::~SetupScene() {
 }
 
 void SetupScene::prepareResources() {
-    // This will create bg object if it doesn't exist
+    // This will create background object if it doesn't exist
     M_BG;
 }
 

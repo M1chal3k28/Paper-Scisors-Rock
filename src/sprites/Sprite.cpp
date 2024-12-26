@@ -1,9 +1,13 @@
 #include <sprites/Sprite.hpp>
 
 Sprite::Sprite(std::shared_ptr<Texture2D> texture, int maxFrames, Vector2 frameSize) 
-    : sTexture(std::move(texture)), sPosition({0, 0}), sMaxFrames(maxFrames), sFrame(0), sFrameSize(frameSize) {
+    : sTexture( texture ), sPosition({0, 0}), sMaxFrames(maxFrames), sFrame(0), sFrameSize(frameSize) {
         sFrameRect = {0, 0, frameSize.x, frameSize.y};
     }
+
+Sprite::~Sprite() {
+    std::cout << "Deleted Sprite\n";
+}
 
 // Update sprite
 void Sprite::update(float deltaTime) {}
@@ -27,6 +31,10 @@ void Sprite::setFrame(int frame) {
     }
 }
 
+void Sprite::setPosition(Vector2 pos) {
+    this->sPosition = pos;
+}
+
 // Checks if sprite is outside of the screen
 bool Sprite::isOutsideOfTheWindow()
 {
@@ -34,5 +42,20 @@ bool Sprite::isOutsideOfTheWindow()
          this->sPosition.y > GetScreenHeight() || this->sPosition.y < 0 ) {
             return true;
          }
+    return false;
+}
+
+// Checks if sprite is outside of the window side
+bool Sprite::isOutsideOfTheWindowSide(ScreenSide::Value side) {
+    switch (side) {
+        case ScreenSide::Value::LEFT:
+            return this->sPosition.x < 0;
+        case ScreenSide::Value::RIGHT:
+            return this->sPosition.x > GetScreenWidth();
+        case ScreenSide::Value::TOP:
+            return this->sPosition.y < 0;
+        case ScreenSide::Value::BOTTOM:
+            return this->sPosition.y > GetScreenHeight();
+    }
     return false;
 }
