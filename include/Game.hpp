@@ -49,11 +49,11 @@ public:
     // checks if p1 won or lost against p2
     int checkWin( const Choice::Value &p1, const Choice::Value &p2 );
 
-        // Set up game
+    // Set up game
     // 1. Get nick name
     // 2. Set player type
-    // 2. Setup server/client socket
-    void setup();
+    // 3. Setup server/client socket
+    void setup(std::string nick, PlayerType::Value type);
 
         //  Set up server socket
     // 1. Create server socket

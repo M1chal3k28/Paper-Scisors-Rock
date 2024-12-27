@@ -1,4 +1,5 @@
 #include <scenes/SetupScene.hpp>
+#include <scenes/SceneManager.hpp>
 
 SetupScene::SetupScene() {
     // This will create background object 
@@ -119,6 +120,19 @@ void SetupScene::update(float deltaTime) {
         this->hostButton->update();
         this->clientButton->update();
         this->backButton->update();
+    }
+
+    if (this->nickGiven && this->playerTypeGiven) {
+        // Setup game
+        GAME.setup(this->nick, this->playerType);
+
+        // Go to proper scene
+        switch( this->playerType ) {
+            case PlayerType::Host:
+                SCENE_MANAGER.pushScene( SceneType::HOST_LOBBY );
+            break;
+
+        }
     }
 }
 

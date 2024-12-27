@@ -10,6 +10,7 @@ public:
     enum Value {
         INTRO = 0,
         SETUP,
+        HOST_LOBBY
     };    
 };
 

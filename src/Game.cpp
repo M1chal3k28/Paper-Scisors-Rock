@@ -48,23 +48,15 @@ int Game::checkWin( const Choice::Value & p1, const Choice::Value & p2 ) {
 // 1. Get nick name
 // 2. Set player type
 // 2. Setup server/client socket
-void Game::setup() {
-    string temporary;
-    // Get nick from user
-    cout << "Give nick: ";
-    std::getline( cin, temporary );
-
-
-    // Menu 
-    this->playerType = this->menu();
-
+void Game::setup(std::string nick, PlayerType::Value type) {
+    this->playerType = type;
     switch( this->playerType ) {
         case PlayerType::Host:
-            this->setupServer( temporary );
+            this->setupServer( nick );
         break;
 
         case PlayerType::Client:
-            this->setupClient( temporary );
+            this->setupClient( nick );
         break;
     }
 }
