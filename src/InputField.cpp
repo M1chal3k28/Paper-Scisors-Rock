@@ -1,14 +1,22 @@
 #include <InputField.hpp>
 
-InputField::InputField(Vector2 position, Vector2 sizeOfButton /* In the sheet (texture) */, std::shared_ptr<Texture2D> texture, std::shared_ptr<Font> font, Vector2 scale) 
-    : Sprite(texture, 1, sizeOfButton), scale(scale) {
-    // Set font
-    this->font = font;
+InputField::InputField(Vector2 position, Vector2 sizeOfTexture /* In the sheet (texture) */, std::shared_ptr<Texture2D> texture, std::shared_ptr<Font> font, Vector2 actualSize) 
+    : Sprite(texture, 1, sizeOfTexture), actualSize(actualSize), font(font) {
     // Set offset to the center
-    this->offset = {scale.x / 2, scale.y / 2};
-
+    this->offset = {actualSize.x / 2, actualSize.y / 2};
     // Set text size 
-    this->textSize = this->scale.y - 10;
+    this->textSize = this->actualSize.y - 30;
+
+    // Set sprite position
+    this->setPosition(position);
+}
+
+InputField::InputField(Vector2 position, Vector2 sizeOfTexture /* In the sheet (texture) */, std::shared_ptr<Texture2D> texture, std::shared_ptr<Font> font) 
+    : Sprite(texture, 1, sizeOfTexture), actualSize(sizeOfTexture), font(font) {
+    // Set offset to the center
+    this->offset = {this->actualSize.x / 2, this->actualSize.y / 2};
+    // Set text size 
+    this->textSize = this->actualSize.y - 30;
 
     // Set sprite position
     this->setPosition(position);
@@ -16,7 +24,7 @@ InputField::InputField(Vector2 position, Vector2 sizeOfButton /* In the sheet (t
 
 void InputField::draw() {
     // Draw texture
-    Sprite::draw(this->scale);
+    Sprite::draw(this->actualSize);
 
     // Draw text
     DrawTextPro(
@@ -29,11 +37,39 @@ void InputField::draw() {
         TEXT_SPACING,
         WHITE
     );
+
+    Vector2 textMeausure = MeasureTextEx(*(this->font), this->text, this->textSize, TEXT_SPACING);
+    
+    // Draw underscore
+    if ( this->isFocused ) {
+        if ( this->cursorPos > 0 ) 
+            DrawTextPro(
+                *(this->font),
+                "_",
+                {this->sPosition.x + textMeausure.x / 2.f, this->sPosition.y - textMeausure.y / 2.f},
+                {0, 0},
+                0,
+                this->textSize,
+                TEXT_SPACING,
+                WHITE
+            );
+        else 
+            DrawTextPro(
+                *(this->font),
+                "_",
+                {this->sPosition.x, this->sPosition.y - this->textSize / 2.f},
+                {0, 0},
+                0,
+                this->textSize,
+                TEXT_SPACING,
+                WHITE
+            );
+    }
 }
 
 void InputField::update(float deltaTime) {
     // Check if mouse is on the input field
-    if ( CheckCollisionPointRec(GetMousePosition(), {this->sPosition.x - this->offset.x, this->sPosition.y - this->offset.y, this->scale.x, this->scale.y}) ) {
+    if ( CheckCollisionPointRec(GetMousePosition(), {this->sPosition.x - this->offset.x, this->sPosition.y - this->offset.y, this->actualSize.x, this->actualSize.y}) ) {
         this->isFocused = true;
         this->sFrame = 1;
     } else { 
@@ -79,7 +115,7 @@ void InputField::update(float deltaTime) {
         if(anyChange) {
             // Update text offset
             this->textOffset = MeasureTextEx(*(this->font), this->text, this->textSize, TEXT_SPACING);
-            this->textOffset = {this->textOffset.x / 2, this->textOffset.y / 2};
+            this->textOffset = {this->textOffset.x / 2.f, this->textOffset.y / 2.f};
         }
     }
 }

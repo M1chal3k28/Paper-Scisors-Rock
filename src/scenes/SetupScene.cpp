@@ -11,7 +11,7 @@ SetupScene::SetupScene() {
         (Vector2)MENU_BUTTON_SIZE, 
         "Confirm", 
         RESOURCE_MANAGER.getTexture("button"), 
-        RESOURCE_MANAGER.getFont("font-roboto-regular"),
+        RESOURCE_MANAGER.getFont("minecraft-font"),
         []() {}
     );
 
@@ -19,7 +19,7 @@ SetupScene::SetupScene() {
         Vector2{ (float)GetScreenWidth() / 2, (float)GetScreenHeight() / 2 }, 
         (Vector2)MENU_BUTTON_SIZE, 
         RESOURCE_MANAGER.getTexture("button"), 
-        RESOURCE_MANAGER.getFont("font-roboto-regular"),
+        RESOURCE_MANAGER.getFont("minecraft-font"),
         Vector2{ 800, 100 }
     );
 }
@@ -34,7 +34,7 @@ void SetupScene::prepareResources() {
     // Load button png sprite sheet
     RESOURCE_MANAGER.loadTexture("button", "assets/menuButton.png");
     // Load font
-    RESOURCE_MANAGER.loadFont("font-roboto-regular", "assets/Roboto-Regular.ttf");
+    RESOURCE_MANAGER.loadFont("minecraft-font", "assets/Minecraft.ttf");
 }
 
 void SetupScene::update(float deltaTime) {

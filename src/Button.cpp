@@ -6,14 +6,14 @@ Button::Button(Vector2 position, Vector2 sizeOfButton, std::string text, std::sh
     this->onClick = std::move( onClick );
 
     // Set offset to the center of the object
-    this->offset = Vector2{sizeOfButton.x / 2, sizeOfButton.y / 2};
+    this->offset = Vector2{sizeOfButton.x / 2.f, sizeOfButton.y / 2.f};
 
     // Set position cause sprite constructor doesn't set it
     this->setPosition(position);
 
     // Set text offset and position
     Vector2 textSize = MeasureTextEx(*(this->font), this->text.c_str(), TEXT_SIZE, TEXT_SPACING);
-    this->textOffset = Vector2{ textSize.x / 2, textSize.y / 2 };
+    this->textOffset = Vector2{ textSize.x / 2.f, textSize.y / 2.f };
     this->textPosition = Vector2{ this->sPosition.x, this->sPosition.y };
 }
 

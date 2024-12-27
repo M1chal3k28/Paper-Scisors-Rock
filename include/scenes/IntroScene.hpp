@@ -3,7 +3,7 @@
 #include <scenes/Scene.hpp>
 #include <ResourceManager.hpp>
 
-#define INTRO_SCENE_DURATION 5.f
+#define INTRO_SCENE_DURATION 0.5f
 
 class IntroScene : public Scene {
     float timer = 0.0f;

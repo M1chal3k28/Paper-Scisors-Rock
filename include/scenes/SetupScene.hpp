@@ -13,6 +13,8 @@ class SetupScene : public Scene {
     PlayerType::Value playerType;
     std::unique_ptr<Button> confirmButton = nullptr;
     std::unique_ptr<InputField> nameInput = nullptr;
+
+    std::unique_ptr<InputField> test = nullptr;
 public:
     SetupScene();
     ~SetupScene();

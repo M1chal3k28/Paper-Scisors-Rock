@@ -1,6 +1,5 @@
 #pragma once
 
-#define RAYMATH_IMPLEMENTATION
 #include <raylib.h>
 
 // Include all needed windows libraries
@@ -13,6 +12,7 @@
 #include <winsock2.h>
 #include <ws2tcpip.h>
 #undef CloseWindow
+#undef DrawText
 #undef ShowCursor
 #undef Rectangle
 
