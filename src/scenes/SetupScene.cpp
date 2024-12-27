@@ -14,6 +14,14 @@ SetupScene::SetupScene() {
         RESOURCE_MANAGER.getFont("font-roboto-regular"),
         []() {}
     );
+
+    this->nameInput = std::make_unique<InputField>(
+        Vector2{ (float)GetScreenWidth() / 2, (float)GetScreenHeight() / 2 }, 
+        (Vector2)MENU_BUTTON_SIZE, 
+        RESOURCE_MANAGER.getTexture("button"), 
+        RESOURCE_MANAGER.getFont("font-roboto-regular"),
+        Vector2{ 800, 100 }
+    );
 }
 
 SetupScene::~SetupScene() {
@@ -31,13 +39,18 @@ void SetupScene::prepareResources() {
 
 void SetupScene::update(float deltaTime) {
     M_BG.update(deltaTime);
+    // Set Mouse Cursor to Default
+    SetMouseCursor(MOUSE_CURSOR_DEFAULT);
+
     // Update button
     this->confirmButton->update();
+    this->nameInput->update(deltaTime);
 }
 
 void SetupScene::draw() const {
     M_BG.draw();
     this->confirmButton->draw();
+    this->nameInput->draw();
 }
 
 void SetupScene::cleanUp() {}

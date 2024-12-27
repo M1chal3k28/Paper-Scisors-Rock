@@ -21,6 +21,7 @@ add_executable(RockPaperScisors
     src/sprites/RotatingSprite.cpp
     src/Background.cpp
     src/Button.cpp
+    src/InputField.cpp
     main.cpp
 )
 

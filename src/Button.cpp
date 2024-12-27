@@ -63,8 +63,5 @@ void Button::update() {
     } else {
         // Set button state to not hovered
         this->sFrame = 0;
-
-        // Set mouse to arrow when not hovered
-        SetMouseCursor(MOUSE_CURSOR_ARROW);
     }
 }

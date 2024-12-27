@@ -21,6 +21,9 @@ public:
 
     // Draw sprite on its position with current frame
     virtual void draw();
+    
+    // Draw sprite on its position with current frame and give size
+    void draw(Vector2 size);
     // Updates sprite
     virtual void update( float deltaTime ); 
 

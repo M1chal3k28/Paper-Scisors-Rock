@@ -7,7 +7,6 @@
 #define BUTTON_MAX_STATES 2 // 0 is not hovered, 1 is hovered 2 is pressed
 #define MENU_BUTTON_SIZE {600.f, 100.f}
 #define TEXT_SIZE 40.f
-#define TEXT_SPACING 2.f
 
 class Button : public Sprite {
     std::string text;

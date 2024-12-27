@@ -40,6 +40,13 @@ using namespace std;
 
 // Define all needed macros
 #define RANDOM(FROM, TO) rand() % (TO - FROM + 1) + FROM
+#define TEXT_SPACING 2.f
+
+// Define colors
+#define MY_LIGHTGRAY Color{217, 217, 217, 255}
+#define MY_DARKGRAY Color{166, 166, 166, 255}
+#define MY_YELLOW Color{255, 222, 89, 255}
+#define MY_ORANGE Color{255, 189, 89, 255}
 
 class ScreenSide {
 public:

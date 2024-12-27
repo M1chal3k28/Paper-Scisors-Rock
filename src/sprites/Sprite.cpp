@@ -25,6 +25,18 @@ void Sprite::draw() {
     );
 }
 
+// Draw sprite with current frame and give sizeing
+void Sprite::draw(Vector2 size) {
+    DrawTexturePro(
+        *(this->sTexture),
+        (Rectangle){this->sFrame * this->sFrameSize.x, 0, this->sFrameSize.x, this->sFrameSize.y}, // source rectangle sprite sheet plays role in here
+        (Rectangle){this->sPosition.x, this->sPosition.y, size.x, size.y}, // where to display
+        this->offset,
+        0.0f,
+        WHITE
+    );
+}
+
 // Set sprite texture frame
 void Sprite::setFrame(int frame) {
     if ( frame >= 0 && frame <= this->sMaxFrames ) {
