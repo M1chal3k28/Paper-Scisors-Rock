@@ -119,3 +119,12 @@ void InputField::update(float deltaTime) {
         }
     }
 }
+
+std::string InputField::getText() {
+    return std::string(this->text);
+}
+
+void InputField::clear() {
+    this->text[0] = '\0';
+    this->cursorPos = 0;
+}

@@ -20,4 +20,7 @@ public:
     InputField(Vector2 position, Vector2 sizeOfTexture /* In the sheet (texture) */, std::shared_ptr<Texture2D> texture, std::shared_ptr<Font> font);
     virtual void draw();
     virtual void update(float deltaTime) override; 
+
+    std::string getText();
+    void clear();
 };

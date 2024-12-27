@@ -10,7 +10,8 @@ class PlayerType {
     public:
         enum Value {
             Host = 0,
-            Client = 1
+            Client = 1,
+            Offline = 2
         };
 };
 

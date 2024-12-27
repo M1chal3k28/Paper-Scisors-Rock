@@ -15,6 +15,7 @@
 #undef DrawText
 #undef ShowCursor
 #undef Rectangle
+#undef DrawTextEx
 
 #include <iostream>
 #include <tchar.h>
