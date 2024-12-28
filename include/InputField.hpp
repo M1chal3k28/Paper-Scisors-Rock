@@ -13,11 +13,11 @@ class InputField : public Sprite {
     int cursorPos = 0;
     bool isFocused = false;
     float textSize;
-    std::shared_ptr<Font> font;
+    std::string fontId;
     Vector2 actualSize;
 public:
-    InputField(Vector2 position, Vector2 sizeOfTexture /* In the sheet (texture) */, std::string textureId, std::shared_ptr<Font> font, Vector2 scaleToSize);
-    InputField(Vector2 position, Vector2 sizeOfTexture /* In the sheet (texture) */, std::string textureId, std::shared_ptr<Font> font);
+    InputField(Vector2 position, Vector2 sizeOfTexture /* In the sheet (texture) */, std::string textureId, std::string fontId, Vector2 scaleToSize);
+    InputField(Vector2 position, Vector2 sizeOfTexture /* In the sheet (texture) */, std::string textureId, std::string fontId);
     virtual void draw();
     virtual void update(float deltaTime) override; 
 

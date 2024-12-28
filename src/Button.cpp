@@ -1,7 +1,7 @@
 #include <Button.hpp>
 
-Button::Button(Vector2 position, Vector2 sizeOfButton, std::string text, std::string textureId, std::shared_ptr<Font> font, std::function<void()> onClick) 
- : Sprite( textureId, BUTTON_MAX_STATES, sizeOfButton ), text(text), font(font) {
+Button::Button(Vector2 position, Vector2 sizeOfButton, std::string text, std::string textureId, std::string fontId, std::function<void()> onClick) 
+ : Sprite( textureId, BUTTON_MAX_STATES, sizeOfButton ), text(text), fontId(fontId) {
     // Move function to the object variable
     this->onClick = std::move( onClick );
 
@@ -12,7 +12,7 @@ Button::Button(Vector2 position, Vector2 sizeOfButton, std::string text, std::st
     this->setPosition(position);
 
     // Set text offset and position
-    Vector2 textSize = MeasureTextEx(*(this->font), this->text.c_str(), TEXT_SIZE, TEXT_SPACING);
+    Vector2 textSize = MeasureTextEx(*RESOURCE_MANAGER.getFont(this->fontId), this->text.c_str(), TEXT_SIZE, TEXT_SPACING);
     this->textOffset = Vector2{ textSize.x / 2.f, textSize.y / 2.f };
     this->textPosition = Vector2{ this->sPosition.x, this->sPosition.y };
 }
@@ -31,7 +31,7 @@ void Button::draw() {
     // Draw button text
     // in the center of the button
     DrawTextPro(
-        *(this->font),
+        *RESOURCE_MANAGER.getFont(this->fontId),
         this->text.c_str(),
         this->textPosition,
         this->textOffset,

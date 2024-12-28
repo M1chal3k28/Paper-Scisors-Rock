@@ -10,7 +10,7 @@ HostLobbyScene::HostLobbyScene() {
         (Vector2)MENU_BUTTON_SIZE, 
         "Back", 
         "button", 
-        RESOURCE_MANAGER.getFont("minecraft-font"),
+        "minecraft-font",
         [this]() {
             // This is a function that will be called when the button is clicked
             // Go back to main menu scene

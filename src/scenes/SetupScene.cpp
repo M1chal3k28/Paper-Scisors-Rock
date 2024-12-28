@@ -14,7 +14,7 @@ SetupScene::SetupScene() {
         (Vector2)MENU_BUTTON_SIZE, 
         "Confirm", 
         "button", 
-        RESOURCE_MANAGER.getFont("minecraft-font"),
+        "minecraft-font",
         [this]() {
             // This is a function that will be called when the button is clicked
             if (this->nameInput->getText().length() < 3) return;
@@ -29,7 +29,7 @@ SetupScene::SetupScene() {
         Vector2{ (float)GetScreenWidth() / 2, (float)GetScreenHeight() / 2 }, 
         (Vector2)MENU_BUTTON_SIZE, 
         "button", 
-        RESOURCE_MANAGER.getFont("minecraft-font"),
+        "minecraft-font",
         Vector2{ 800, 100 }
     );
     // -------------------------------------------------------------------------------------------
@@ -42,7 +42,7 @@ SetupScene::SetupScene() {
         (Vector2)MENU_BUTTON_SIZE, 
         "Play offline", 
         "button", 
-        RESOURCE_MANAGER.getFont("minecraft-font"),
+        "minecraft-font",
         [this]() {
             // This is a function that will be called when the button is clicked
             this->playerType = PlayerType::Offline;
@@ -55,7 +55,7 @@ SetupScene::SetupScene() {
         (Vector2)MENU_BUTTON_SIZE, 
         "Host Game", 
         "button", 
-        RESOURCE_MANAGER.getFont("minecraft-font"),
+        "minecraft-font",
         [this]() {
             // This is a function that will be called when the button is clicked
             this->playerType = PlayerType::Host;
@@ -68,7 +68,7 @@ SetupScene::SetupScene() {
         (Vector2)MENU_BUTTON_SIZE, 
         "Join game", 
         "button", 
-        RESOURCE_MANAGER.getFont("minecraft-font"),
+        "minecraft-font",
         [this]() {
             // This is a function that will be called when the button is clicked
             this->playerType = PlayerType::Client;
@@ -81,7 +81,7 @@ SetupScene::SetupScene() {
         (Vector2)MENU_BUTTON_SIZE, 
         "Back", 
         "button", 
-        RESOURCE_MANAGER.getFont("minecraft-font"),
+        "minecraft-font",
         [this]() {
             // This is a function that will be called when the button is clicked
             this->nickGiven = false;
@@ -147,7 +147,7 @@ void SetupScene::draw() const {
         DrawTextEx(
             *RESOURCE_MANAGER.getFont("minecraft-font"),
             "Enter your name: ",
-            Vector2{ (float)GetScreenWidth() / 2 - 380, (float)GetScreenHeight() / 2 - 150 },
+            Vector2{ (float)GetScreenWidth() / 2 - 400, (float)GetScreenHeight() / 2 - 150 },
             50,
             1,
             MY_DARKGRAY

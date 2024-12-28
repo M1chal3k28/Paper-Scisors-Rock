@@ -1,7 +1,7 @@
 #include <InputField.hpp>
 
-InputField::InputField(Vector2 position, Vector2 sizeOfTexture /* In the sheet (texture) */, std::string textureId, std::shared_ptr<Font> font, Vector2 actualSize) 
-    : Sprite(textureId, 1, sizeOfTexture), actualSize(actualSize), font(font) {
+InputField::InputField(Vector2 position, Vector2 sizeOfTexture /* In the sheet (texture) */, std::string textureId, std::string fontId, Vector2 actualSize) 
+    : Sprite(textureId, 1, sizeOfTexture), actualSize(actualSize), fontId(fontId) {
     // Set offset to the center
     this->offset = {actualSize.x / 2, actualSize.y / 2};
     // Set text size 
@@ -11,8 +11,8 @@ InputField::InputField(Vector2 position, Vector2 sizeOfTexture /* In the sheet (
     this->setPosition(position);
 }
 
-InputField::InputField(Vector2 position, Vector2 sizeOfTexture /* In the sheet (texture) */, std::string textureId, std::shared_ptr<Font> font) 
-    : Sprite(textureId, 1, sizeOfTexture), actualSize(sizeOfTexture), font(font) {
+InputField::InputField(Vector2 position, Vector2 sizeOfTexture /* In the sheet (texture) */, std::string textureId, std::string fontId) 
+    : Sprite(textureId, 1, sizeOfTexture), actualSize(sizeOfTexture), fontId(fontId) {
     // Set offset to the center
     this->offset = {this->actualSize.x / 2, this->actualSize.y / 2};
     // Set text size 
@@ -28,7 +28,7 @@ void InputField::draw() {
 
     // Draw text
     DrawTextPro(
-        *(this->font),
+        *RESOURCE_MANAGER.getFont(this->fontId),
         this->text,
         this->sPosition,
         this->textOffset,
@@ -38,13 +38,13 @@ void InputField::draw() {
         WHITE
     );
 
-    Vector2 textMeausure = MeasureTextEx(*(this->font), this->text, this->textSize, TEXT_SPACING);
+    Vector2 textMeausure = MeasureTextEx(*RESOURCE_MANAGER.getFont(this->fontId), this->text, this->textSize, TEXT_SPACING);
     
     // Draw underscore
     if ( this->isFocused ) {
         if ( this->cursorPos > 0 ) 
             DrawTextPro(
-                *(this->font),
+                *RESOURCE_MANAGER.getFont(this->fontId),
                 "_",
                 {this->sPosition.x + textMeausure.x / 2.f, this->sPosition.y - textMeausure.y / 2.f},
                 {0, 0},
@@ -55,7 +55,7 @@ void InputField::draw() {
             );
         else 
             DrawTextPro(
-                *(this->font),
+                *RESOURCE_MANAGER.getFont(this->fontId),
                 "_",
                 {this->sPosition.x, this->sPosition.y - this->textSize / 2.f},
                 {0, 0},
@@ -114,7 +114,7 @@ void InputField::update(float deltaTime) {
         // If any change was made, update the text offset
         if(anyChange) {
             // Update text offset
-            this->textOffset = MeasureTextEx(*(this->font), this->text, this->textSize, TEXT_SPACING);
+            this->textOffset = MeasureTextEx(*RESOURCE_MANAGER.getFont(this->fontId), this->text, this->textSize, TEXT_SPACING);
             this->textOffset = {this->textOffset.x / 2.f, this->textOffset.y / 2.f};
         }
     }
