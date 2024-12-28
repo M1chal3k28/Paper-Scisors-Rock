@@ -29,6 +29,8 @@
 #include <unordered_map>
 #include <stack>
 #include <functional>
+#include <mutex>
+#include <atomic>
 
 // Include all needed namespaces
 using namespace std;

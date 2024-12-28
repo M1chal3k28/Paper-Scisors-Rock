@@ -40,14 +40,15 @@ PlayerServer::PlayerServer(const std::string & name) : MySocket(), serverName(na
 
 // Destructor Clears the socket and thread
 PlayerServer::~PlayerServer() {
-    // Stop responding
-    this->responding = false;
-    if ( this->responseThread.joinable() ) 
-        this->responseThread.join();
+    this->stopRespondingForBroadcast();
     
+    std::lock_guard<std::mutex> lock(destructorMutex);
     // Close sockets
-    closesocket(this->broadcastSocket);
-    closesocket(this->currentSocket);
+    if( this->broadcastSocket != INVALID_SOCKET )
+        closesocket(this->broadcastSocket);
+    
+    if( this->currentSocket != INVALID_SOCKET )
+        closesocket(this->currentSocket);
 }
 
 // Function that runs in a separate thread for responding to broadcast
@@ -65,7 +66,7 @@ void PlayerServer::responseForBroadcast() {
         int n = recvfrom(this->broadcastSocket, buffer, BUFFER_SIZE, 0, (sockaddr*)&clientAddr, &clientAddrLen);
         
         // If data received
-        if (n > 0) {
+        if (n > 0 && this->responding) {
             // Secure data
             buffer[n] = '\0';
 
@@ -100,6 +101,9 @@ void PlayerServer::startRespondingForBroadcast() {
 
 // Stop responding to broadcasts
 void PlayerServer::stopRespondingForBroadcast() {
+    // Stop responding
+    // Lock mutex
+    std::lock_guard<std::mutex> lock(responseMutex);
     this->responding = false;
     if (this->responseThread.joinable()) 
         this->responseThread.join();

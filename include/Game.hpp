@@ -41,6 +41,9 @@ class Game {
     // Type of player
     PlayerType::Value playerType; // update logic depend on this
 
+    // Mutex for thread safety
+    std::mutex setupMutex;
+
 public:
     ~Game();
     // Singleton access to game instance

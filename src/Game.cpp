@@ -64,6 +64,9 @@ void Game::setup(std::string nick, PlayerType::Value type) {
 // 6. After connecting with player stop responding for broadcast
 // 7. Create enemy and player object
 void Game::setupServer( const std::string& nick ) {
+    // Lock setup mutex
+    // std::lock_guard<std::mutex> lock( this->setupMutex );
+
     // Create server
     this->serverOrClientSocket = std::make_unique<PlayerServer>(nick);
     // Start listening for connections
@@ -220,19 +223,24 @@ void Game::run() {
 }
 
 void Game::deinitialize() {
+    std::lock_guard<std::mutex> lock( this->setupMutex );
     this->isSetUp = false;
 
     if(this->enemy)
-        this->enemy.release();
+        this->enemy.reset();
 
     if(this->player)
-        this->player.release();
+        this->player.reset();
     
     if(this->enemySocket)
         this->enemySocket.reset();
     
-    if(this->serverOrClientSocket)
+    if(this->serverOrClientSocket) {
+        // Stop responding 
+        // For crash prevention
+        this->serverOrClientSocket->stopRespondingForBroadcast();
         this->serverOrClientSocket.reset();
+    }
 
     // Prevent from crashing
     // if thread is still running
