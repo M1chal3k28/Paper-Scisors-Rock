@@ -10,6 +10,7 @@ class EnemySocket : public MySocket {
 public:
     // Accept connection and set socket for communication with player
     EnemySocket();
+    ~EnemySocket();
 
     bool connectToServer( const SOCKET & serverSocket );
 

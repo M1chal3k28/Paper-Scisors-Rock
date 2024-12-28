@@ -220,17 +220,19 @@ void Game::run() {
 }
 
 void Game::deinitialize() {
+    this->isSetUp = false;
+
     if(this->enemy)
-        this->enemy.reset(nullptr);
+        this->enemy.release();
 
     if(this->player)
-        this->player.reset(nullptr);
+        this->player.release();
     
     if(this->enemySocket)
-        this->enemySocket.~shared_ptr();
+        this->enemySocket.reset();
     
     if(this->serverOrClientSocket)
-        this->serverOrClientSocket.~shared_ptr();
+        this->serverOrClientSocket.reset();
 
     // Prevent from crashing
     // if thread is still running

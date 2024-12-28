@@ -4,6 +4,12 @@ EnemySocket::EnemySocket( )
     : MySocket(false) /* Doesn't need to be initialized so it's false */{
 }
 
+EnemySocket::~EnemySocket() {
+    // Close socket and clean up
+    closesocket(this->currentSocket);
+    WSACleanup();
+}
+
 bool EnemySocket::connectToServer( const SOCKET & serverSocket ) {
     // Accept connection
     // len of address

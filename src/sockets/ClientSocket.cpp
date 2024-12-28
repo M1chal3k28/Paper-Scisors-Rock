@@ -15,7 +15,7 @@ Client::Client(const char * addr)
         // Close socket and clean up on error
         closesocket(currentSocket);
         WSACleanup();
-        exit(-1);
+        throw std::runtime_error("Connection with server failed");
     }
 
     cout << "Connected to The server !" << endl;

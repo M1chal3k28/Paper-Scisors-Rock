@@ -11,7 +11,6 @@ MySocket::MySocket( bool initializeSocket ) {
         exit(-1);
     }
 
-
     this->currentSocket = INVALID_SOCKET; // initializing as a inivalid socket
     
     if (initializeSocket) {

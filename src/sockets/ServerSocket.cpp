@@ -12,7 +12,7 @@ PlayerServer::PlayerServer(const std::string & name) : MySocket(), serverName(na
         // Close socket and clean up on error
         closesocket(currentSocket);
         WSACleanup();
-        exit(-1);
+        throw std::runtime_error("Failed to bind socket");
     }
 
     // Create socket for broadcast
@@ -21,7 +21,7 @@ PlayerServer::PlayerServer(const std::string & name) : MySocket(), serverName(na
         std::cerr << "Socket creation failed: " << WSAGetLastError() << endl;
         closesocket(currentSocket);
         WSACleanup();
-        exit(-1);
+        throw std::runtime_error("Socket creation failed");
     }
 
     // Set timeout for data receiving (recvfrom)
@@ -34,7 +34,7 @@ PlayerServer::PlayerServer(const std::string & name) : MySocket(), serverName(na
         // Close socket and clean up on error
         closesocket(currentSocket);
         WSACleanup();
-        exit(-1);
+        throw std::runtime_error("Failed to bind broadcast socket");
     }
 }
 
@@ -53,16 +53,17 @@ PlayerServer::~PlayerServer() {
 // Function that runs in a separate thread for responding to broadcast
 void PlayerServer::responseForBroadcast() {
     // Receive data
-    char buffer[BUFFER_SIZE];
+    char buffer[BUFFER_SIZE] = {0};
     // Receive data from broadcast
     sockaddr_in clientAddr {};
     // Size of client address
-    int clientAddrLen = sizeof(clientAddr);
+    int clientAddrLen = sizeof(sockaddr_in);
 
     // Receive data while running
     while ( this->responding ) {
         // Receive data and who sent
         int n = recvfrom(this->broadcastSocket, buffer, BUFFER_SIZE, 0, (sockaddr*)&clientAddr, &clientAddrLen);
+        
         // If data received
         if (n > 0) {
             // Secure data
@@ -85,7 +86,7 @@ void PlayerServer::startListening() {
         // clean up and exit on error
         closesocket(this->currentSocket);
         WSACleanup();
-        exit(-1);
+        throw runtime_error("listen() failed");
     } 
         
     cout << "Waiting for second player to connect..." << endl;
