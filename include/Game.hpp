@@ -77,4 +77,10 @@ public:
 
     // Main loop of the game
     void run();
+    
+    // Deinitialize game
+    // 1. Stop listening for connections
+    // 2. Close sockets
+    // 3. Join setup thread
+    void deinitialize();
 };

@@ -13,24 +13,7 @@ Game::~Game() {
     // Just in case of crash
     M_BG.clear();
 
-    if(this->enemy)
-        this->enemy.reset(nullptr);
-
-    if(this->player)
-        this->player.reset(nullptr);
-    
-    if(this->enemySocket)
-        this->enemySocket.~shared_ptr();
-    
-    if(this->serverOrClientSocket)
-        this->serverOrClientSocket.~shared_ptr();
-
-    // Prevent from crashing
-    // if thread is still running
-    // join it
-    if(this->setupThread.joinable()) 
-        this->setupThread.join();
-
+    this->deinitialize();
 }
 
 // -1 lost, 0 draw, 1 win
@@ -234,4 +217,24 @@ void Game::run() {
 
         system("pause");
     }
+}
+
+void Game::deinitialize() {
+    if(this->enemy)
+        this->enemy.reset(nullptr);
+
+    if(this->player)
+        this->player.reset(nullptr);
+    
+    if(this->enemySocket)
+        this->enemySocket.~shared_ptr();
+    
+    if(this->serverOrClientSocket)
+        this->serverOrClientSocket.~shared_ptr();
+
+    // Prevent from crashing
+    // if thread is still running
+    // join it
+    if(this->setupThread.joinable()) 
+        this->setupThread.join();
 }

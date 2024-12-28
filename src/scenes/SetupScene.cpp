@@ -132,6 +132,9 @@ void SetupScene::update(float deltaTime) {
                 SCENE_MANAGER.pushScene( SceneType::HOST_LOBBY );
             break;
         }
+
+        // If player bo back menu will be shown again
+        this->playerTypeGiven = false;
     }
 }
 
