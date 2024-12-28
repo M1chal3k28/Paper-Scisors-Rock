@@ -7,7 +7,7 @@ SceneManager &SceneManager::getInstance() {
 }
 
 SceneManager::~SceneManager() {
-    // while(!this->scenesStack.empty()) this->popScene();
+    while(!this->scenesStack.empty()) this->popScene();
 }
 
 void SceneManager::pushScene(const SceneType::Value &scene)  {

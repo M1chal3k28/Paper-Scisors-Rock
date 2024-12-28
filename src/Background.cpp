@@ -9,11 +9,6 @@ Background::Background() {
     this->backgroundSprites = std::vector<std::unique_ptr<Sprite>>();
 }
 
-// Unload Resources
-Background::~Background() {
-    //RESOURCE_MANAGER.unloadTexture("backgroundSprite");
-}
-
 void Background::generateSprites() {
     for ( int i = 0; i < SPRITES_PER_GENERATION; ++i ) {
         int spriteType = RANDOM(0, SPRITE_TYPES);
@@ -26,17 +21,23 @@ void Background::generateSprites() {
 
         float rotationSpeed = RANDOM(-20, 20);
 
-        this->backgroundSprites.emplace_back(new RotatingSprite(
-            RESOURCE_MANAGER.getTexture("backgroundSprite"),
-            2,
-            BACKGROUND_SPRITE_SIZE,
-            {speedX, speedY},
+        RotatingSprite * sprite = new RotatingSprite(
+            "backgroundSprite",
+            1,
+            (Vector2)BACKGROUND_SPRITE_SIZE,
+            (Vector2){speedX, speedY},
             rotationSpeed
-        ));
+        );
+
+        this->backgroundSprites.push_back(std::move(std::unique_ptr<Sprite>(sprite)));
 
         this->backgroundSprites.back()->setPosition({(float)posX, (float)posY});
         this->backgroundSprites.back()->setFrame(spriteType);
     }
+}
+
+Background::~Background() {
+    this->backgroundSprites.clear();
 }
 
 // Get background instance
@@ -45,8 +46,7 @@ Background &Background::getInstance() {
     return instance;
 }
 
-void Background::update(float deltaTime)
-{
+void Background::update(float deltaTime) {
     // While updating check if any is outside and flag its id to deletion
     for ( size_t i = 0; i < backgroundSprites.size(); ++i ) {
         // Get sprite for simplicity
@@ -71,9 +71,12 @@ void Background::update(float deltaTime)
     }
 }
 
-void Background::draw()
-{
+void Background::draw() {
     for( auto& sprite : this->backgroundSprites ) {
         sprite->draw();
     }
+}
+
+void Background::clear() {
+    this->backgroundSprites.clear();
 }

@@ -1,7 +1,7 @@
 #include <InputField.hpp>
 
-InputField::InputField(Vector2 position, Vector2 sizeOfTexture /* In the sheet (texture) */, std::shared_ptr<Texture2D> texture, std::shared_ptr<Font> font, Vector2 actualSize) 
-    : Sprite(texture, 1, sizeOfTexture), actualSize(actualSize), font(font) {
+InputField::InputField(Vector2 position, Vector2 sizeOfTexture /* In the sheet (texture) */, std::string textureId, std::shared_ptr<Font> font, Vector2 actualSize) 
+    : Sprite(textureId, 1, sizeOfTexture), actualSize(actualSize), font(font) {
     // Set offset to the center
     this->offset = {actualSize.x / 2, actualSize.y / 2};
     // Set text size 
@@ -11,8 +11,8 @@ InputField::InputField(Vector2 position, Vector2 sizeOfTexture /* In the sheet (
     this->setPosition(position);
 }
 
-InputField::InputField(Vector2 position, Vector2 sizeOfTexture /* In the sheet (texture) */, std::shared_ptr<Texture2D> texture, std::shared_ptr<Font> font) 
-    : Sprite(texture, 1, sizeOfTexture), actualSize(sizeOfTexture), font(font) {
+InputField::InputField(Vector2 position, Vector2 sizeOfTexture /* In the sheet (texture) */, std::string textureId, std::shared_ptr<Font> font) 
+    : Sprite(textureId, 1, sizeOfTexture), actualSize(sizeOfTexture), font(font) {
     // Set offset to the center
     this->offset = {this->actualSize.x / 2, this->actualSize.y / 2};
     // Set text size 

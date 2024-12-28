@@ -13,7 +13,7 @@ SetupScene::SetupScene() {
         Vector2{ (float)GetScreenWidth() / 2, (float)GetScreenHeight() / 2 + 200 }, 
         (Vector2)MENU_BUTTON_SIZE, 
         "Confirm", 
-        RESOURCE_MANAGER.getTexture("button"), 
+        "button", 
         RESOURCE_MANAGER.getFont("minecraft-font"),
         [this]() {
             // This is a function that will be called when the button is clicked
@@ -28,7 +28,7 @@ SetupScene::SetupScene() {
     this->nameInput = std::make_unique<InputField>(
         Vector2{ (float)GetScreenWidth() / 2, (float)GetScreenHeight() / 2 }, 
         (Vector2)MENU_BUTTON_SIZE, 
-        RESOURCE_MANAGER.getTexture("button"), 
+        "button", 
         RESOURCE_MANAGER.getFont("minecraft-font"),
         Vector2{ 800, 100 }
     );
@@ -41,7 +41,7 @@ SetupScene::SetupScene() {
         Vector2{ (float)GetScreenWidth() / 2, (float)GetScreenHeight() / 2 - 115 }, 
         (Vector2)MENU_BUTTON_SIZE, 
         "Play offline", 
-        RESOURCE_MANAGER.getTexture("button"), 
+        "button", 
         RESOURCE_MANAGER.getFont("minecraft-font"),
         [this]() {
             // This is a function that will be called when the button is clicked
@@ -54,7 +54,7 @@ SetupScene::SetupScene() {
         Vector2{ (float)GetScreenWidth() / 2, (float)GetScreenHeight() / 2 }, 
         (Vector2)MENU_BUTTON_SIZE, 
         "Host Game", 
-        RESOURCE_MANAGER.getTexture("button"), 
+        "button", 
         RESOURCE_MANAGER.getFont("minecraft-font"),
         [this]() {
             // This is a function that will be called when the button is clicked
@@ -67,7 +67,7 @@ SetupScene::SetupScene() {
         Vector2{ (float)GetScreenWidth() / 2, (float)GetScreenHeight() / 2 + 115 }, 
         (Vector2)MENU_BUTTON_SIZE, 
         "Join game", 
-        RESOURCE_MANAGER.getTexture("button"), 
+        "button", 
         RESOURCE_MANAGER.getFont("minecraft-font"),
         [this]() {
             // This is a function that will be called when the button is clicked
@@ -80,7 +80,7 @@ SetupScene::SetupScene() {
         Vector2{ (float)GetScreenWidth() / 2, (float)GetScreenHeight() / 2 + 345 }, 
         (Vector2)MENU_BUTTON_SIZE, 
         "Back", 
-        RESOURCE_MANAGER.getTexture("button"), 
+        "button", 
         RESOURCE_MANAGER.getFont("minecraft-font"),
         [this]() {
             // This is a function that will be called when the button is clicked

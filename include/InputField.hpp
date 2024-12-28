@@ -16,8 +16,8 @@ class InputField : public Sprite {
     std::shared_ptr<Font> font;
     Vector2 actualSize;
 public:
-    InputField(Vector2 position, Vector2 sizeOfTexture /* In the sheet (texture) */, std::shared_ptr<Texture2D> texture, std::shared_ptr<Font> font, Vector2 scaleToSize);
-    InputField(Vector2 position, Vector2 sizeOfTexture /* In the sheet (texture) */, std::shared_ptr<Texture2D> texture, std::shared_ptr<Font> font);
+    InputField(Vector2 position, Vector2 sizeOfTexture /* In the sheet (texture) */, std::string textureId, std::shared_ptr<Font> font, Vector2 scaleToSize);
+    InputField(Vector2 position, Vector2 sizeOfTexture /* In the sheet (texture) */, std::string textureId, std::shared_ptr<Font> font);
     virtual void draw();
     virtual void update(float deltaTime) override; 
 

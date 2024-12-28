@@ -8,7 +8,7 @@
 // Not animated sprite
 class Sprite {
 protected:
-    std::shared_ptr<Texture2D> sTexture;
+    std::string sTextureId;
     Vector2 sPosition;
     int sMaxFrames;
     int sFrame;
@@ -16,7 +16,8 @@ protected:
     Rectangle sFrameRect;
     Vector2 offset;
 public:
-    Sprite( std::shared_ptr<Texture2D> texture, int maxFrames, Vector2 frameSize );
+    Sprite( std::string textureId, int maxFrames, Vector2 frameSize );
+    ~Sprite() = default;
 
     // Draw sprite on its position with current frame
     virtual void draw();

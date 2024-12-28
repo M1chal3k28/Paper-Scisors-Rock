@@ -26,7 +26,8 @@ std::shared_ptr<Texture2D> ResourceManager::getTexture(const std::string& key) {
 
 void ResourceManager::unloadTexture(const std::string& key) {
     if (textures.find(key) != textures.end()) {
-        UnloadTexture(*textures[key]);
+        if (textures[key] != nullptr)
+            UnloadTexture(*textures[key]);
         textures.erase(key);
     }
 }

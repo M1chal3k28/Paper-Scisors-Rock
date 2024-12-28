@@ -1,7 +1,7 @@
 #include <Button.hpp>
 
-Button::Button(Vector2 position, Vector2 sizeOfButton, std::string text, std::shared_ptr<Texture2D> texture, std::shared_ptr<Font> font, std::function<void()> onClick) 
- : Sprite( texture, BUTTON_MAX_STATES, sizeOfButton ), text(text), font(font) {
+Button::Button(Vector2 position, Vector2 sizeOfButton, std::string text, std::string textureId, std::shared_ptr<Font> font, std::function<void()> onClick) 
+ : Sprite( textureId, BUTTON_MAX_STATES, sizeOfButton ), text(text), font(font) {
     // Move function to the object variable
     this->onClick = std::move( onClick );
 
@@ -20,7 +20,7 @@ Button::Button(Vector2 position, Vector2 sizeOfButton, std::string text, std::sh
 void Button::draw() {
     // Draw button sprite with current frame
     DrawTexturePro(
-        *(this->sTexture), 
+        *RESOURCE_MANAGER.getTexture(this->sTextureId), 
         {this->sFrameSize.x * this->sFrame, 0, this->sFrameSize.x , this->sFrameSize.y}, 
         {this->sPosition.x, this->sPosition.y, this->sFrameSize.x, this->sFrameSize.y}, 
         this->offset, 

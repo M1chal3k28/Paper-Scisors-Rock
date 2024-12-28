@@ -16,6 +16,7 @@ bool EnemySocket::connectToServer( const SOCKET & serverSocket ) {
         cout << "Accept failed: " << WSAGetLastError() << endl;
         // On error clean up and exit
         WSACleanup();
+        throw std::runtime_error("Accept failed");
         return false; // <- this has to be 
     }
 

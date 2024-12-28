@@ -11,7 +11,6 @@
 #define SPRITES_PER_GENERATION 3
 class Background {
     Background();
-    ~Background();
 
     Background(const Background&) = delete;
     Background& operator=(const Background&) = delete;
@@ -24,6 +23,7 @@ class Background {
     void generateSprites();
 
 public:
+    ~Background();
     // Get background instance
     static Background& getInstance();
     
@@ -32,4 +32,6 @@ public:
 
     // Draw background
     void draw();
+    // Clear background sprites
+    void clear();
 };

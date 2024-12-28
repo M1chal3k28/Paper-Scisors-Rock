@@ -1,5 +1,7 @@
 #include <Game.hpp>
 
+#include <Background.hpp>
+
 // Singleton static instance
 Game& Game::getInstance() {
     static Game instance;
@@ -7,6 +9,8 @@ Game& Game::getInstance() {
 }
 
 Game::~Game() {
+    M_BG.clear();
+
     if(this->enemy)
         this->enemy.reset(nullptr);
 
@@ -18,11 +22,11 @@ Game::~Game() {
     
     if(this->serverOrClientSocket)
         this->serverOrClientSocket.~shared_ptr();
-        
+
     // Prevent from crashing
     if(this->setupThread.joinable()) 
         this->setupThread.join();
-    
+
 }
 
 // -1 lost, 0 draw, 1 win
@@ -82,21 +86,24 @@ void Game::setupServer( const std::string& nick ) {
 
     // Create accepted socket | wait for connection
     this->enemySocket = std::make_unique<EnemySocket>( );
-    if ( !this->enemySocket->connectToServer( this->serverOrClientSocket->getSocket() ) )
-        return;
+    try {
+        this->enemySocket->connectToServer( this->serverOrClientSocket->getSocket() );
+        // Send my nick to enemy
+        this->enemySocket->_send( nick.c_str() );
+        
+        // After connecting with player stop responding for broadcast
+        this->serverOrClientSocket->stopRespondingForBroadcast();
 
-    // Send my nick to enemy
-    this->enemySocket->_send( nick.c_str() );
-    
-    // After connecting with player stop responding for broadcast
-    this->serverOrClientSocket->stopRespondingForBroadcast();
+        // Enemy
+        this->enemy = std::make_unique<Enemy>(enemySocket);
 
-    // Enemy
-    this->enemy = std::make_unique<Enemy>(enemySocket);
-
-    // Player
-    // It's connected to server so player sends to it
-    this->player = std::make_unique<Player>(nick, this->enemySocket);
+        // Player
+        // It's connected to server so player sends to it
+        this->player = std::make_unique<Player>(nick, this->enemySocket);
+    } catch(...) {
+        // On error clean up and exit
+        WSACleanup();
+    }
 }
 
     // Setup client
