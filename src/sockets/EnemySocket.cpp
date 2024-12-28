@@ -6,7 +6,8 @@ EnemySocket::EnemySocket( )
 
 EnemySocket::~EnemySocket() {
     // Close socket and clean up
-    closesocket(this->currentSocket);
+    if (this->currentSocket != INVALID_SOCKET)
+        closesocket(this->currentSocket);
     WSACleanup();
 }
 

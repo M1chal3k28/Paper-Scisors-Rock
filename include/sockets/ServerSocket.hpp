@@ -14,8 +14,6 @@ class PlayerServer : public MySocket {
     std::thread responseThread;
     // Is responding for broadcast. Thread running?
     std::atomic<bool> responding {false};
-    std::mutex responseMutex;
-    std::mutex destructorMutex;
 
     // Function that runs in a separate thread for responding to broadcast
     void responseForBroadcast();

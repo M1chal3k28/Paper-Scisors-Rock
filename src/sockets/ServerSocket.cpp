@@ -42,7 +42,6 @@ PlayerServer::PlayerServer(const std::string & name) : MySocket(), serverName(na
 PlayerServer::~PlayerServer() {
     this->stopRespondingForBroadcast();
     
-    std::lock_guard<std::mutex> lock(destructorMutex);
     // Close sockets
     if( this->broadcastSocket != INVALID_SOCKET )
         closesocket(this->broadcastSocket);
@@ -102,8 +101,6 @@ void PlayerServer::startRespondingForBroadcast() {
 // Stop responding to broadcasts
 void PlayerServer::stopRespondingForBroadcast() {
     // Stop responding
-    // Lock mutex
-    std::lock_guard<std::mutex> lock(responseMutex);
     this->responding = false;
     if (this->responseThread.joinable()) 
         this->responseThread.join();

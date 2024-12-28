@@ -29,7 +29,8 @@ MySocket::MySocket( bool initializeSocket ) {
 
 MySocket::~MySocket() {
     // Close socket and clean up
-    closesocket(currentSocket);
+    if (this->currentSocket != INVALID_SOCKET) 
+        closesocket(currentSocket);
     WSACleanup();
 }
 

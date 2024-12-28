@@ -42,6 +42,12 @@ void HostLobbyScene::update(float deltaTime) {
     SetMouseCursor(MOUSE_CURSOR_DEFAULT);
 
     this->backButton->update();
+
+    // Go back to main menu scene
+    SCENE_MANAGER.popScene();
+
+    // Deinitialize game 
+    GAME.deinitialize();
 }
 
 void HostLobbyScene::draw() const {

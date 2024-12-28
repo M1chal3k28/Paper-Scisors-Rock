@@ -223,7 +223,6 @@ void Game::run() {
 }
 
 void Game::deinitialize() {
-    std::lock_guard<std::mutex> lock( this->setupMutex );
     this->isSetUp = false;
 
     if(this->enemy)
