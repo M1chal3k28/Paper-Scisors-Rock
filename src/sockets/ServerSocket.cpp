@@ -40,10 +40,7 @@ PlayerServer::PlayerServer(const std::string & name) : MySocket(), serverName(na
 
 // Destructor Clears the socket and thread
 PlayerServer::~PlayerServer() {
-    // Stop responding
-    this->responding = false;
-    if ( this->responseThread.joinable() ) 
-        this->responseThread.join();
+    this->stopRespondingForBroadcast();
     
     // Close sockets
     closesocket(this->broadcastSocket);
@@ -92,16 +89,29 @@ void PlayerServer::startListening() {
     cout << "Waiting for second player to connect..." << endl;
 }
 
+void PlayerServer::shutdownServer() {
+    this->stopRespondingForBroadcast();
+
+    // Close sockets
+    if (this->currentSocket != INVALID_SOCKET)
+        closesocket(this->currentSocket);
+    if (this->broadcastSocket != INVALID_SOCKET)
+        closesocket(this->broadcastSocket);
+    WSACleanup();
+}
+
 // Start responding to broadcasts
 void PlayerServer::startRespondingForBroadcast() {
     this->responding = true;
-    this->responseThread = std::thread(&PlayerServer::responseForBroadcast, this);
+    this->responseFuture = std::async(std::launch::async, &PlayerServer::responseForBroadcast, this);
 }
 
 // Stop responding to broadcasts
 void PlayerServer::stopRespondingForBroadcast() {
     this->responding = false;
-    if (this->responseThread.joinable()) 
-        this->responseThread.join();
+    if (this->responseFuture.valid()) {
+        // Czekaj na zakończenie wątku
+        this->responseFuture.get();
+    }
 }
 

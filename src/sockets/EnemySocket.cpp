@@ -6,7 +6,8 @@ EnemySocket::EnemySocket( )
 
 EnemySocket::~EnemySocket() {
     // Close socket and clean up
-    closesocket(this->currentSocket);
+    if (this->currentSocket != INVALID_SOCKET)
+        closesocket(this->currentSocket);
     WSACleanup();
 }
 
@@ -28,4 +29,9 @@ bool EnemySocket::connectToServer( const SOCKET & serverSocket ) {
 
     cout << "Connected with player!" << endl;
     return true;
+}
+
+void EnemySocket::disconnectFromServer() {
+    if(this->currentSocket != INVALID_SOCKET)
+        closesocket(this->currentSocket);
 }

@@ -13,6 +13,6 @@ public:
     ~EnemySocket();
 
     bool connectToServer( const SOCKET & serverSocket );
-
+    void disconnectFromServer();
     // const SOCKET & getSocket() { return this->currSocket; } <- from MySocket
 };

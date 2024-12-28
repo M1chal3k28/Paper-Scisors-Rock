@@ -35,7 +35,7 @@ class Game {
     // It's by accepting connection by server
     std::shared_ptr<MySocket> enemySocket = nullptr;
 
-    std::thread setupThread;
+    std::future<void> setupThread;
     bool isSetUp = false;
 
     // Type of player

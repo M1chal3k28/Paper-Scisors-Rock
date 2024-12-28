@@ -22,9 +22,11 @@ public:
     virtual void startListening() {}
     virtual void startRespondingForBroadcast() {}
     virtual void stopRespondingForBroadcast() {}
+    virtual void shutdownServer() {}
 
     // Useable in Connected Socket
     virtual bool connectToServer( const SOCKET & serverSocket ) { return false; }
+    virtual void disconnectFromServer() {}
 
     // Return socket
     const SOCKET & getSocket(); 
