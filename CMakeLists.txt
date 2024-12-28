@@ -22,6 +22,7 @@ add_executable(RockPaperScisors
     src/Background.cpp
     src/Button.cpp
     src/InputField.cpp
+    src/scenes/HostLobbyScene.cpp
     main.cpp
 )
 

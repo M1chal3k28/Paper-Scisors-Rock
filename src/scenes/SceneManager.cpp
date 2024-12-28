@@ -6,6 +6,10 @@ SceneManager &SceneManager::getInstance() {
     return instance;
 }
 
+SceneManager::~SceneManager() {
+    // while(!this->scenesStack.empty()) this->popScene();
+}
+
 void SceneManager::pushScene(const SceneType::Value &scene)  {
     switch ( scene ) {
         case SceneType::INTRO:
@@ -13,6 +17,9 @@ void SceneManager::pushScene(const SceneType::Value &scene)  {
             break;
         case SceneType::SETUP:
             scenesStack.push( std::make_unique<SetupScene>() );
+            break;
+        case SceneType::HOST_LOBBY:
+            scenesStack.push( std::make_unique<HostLobbyScene>() );
             break;
     }
 }

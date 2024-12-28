@@ -6,24 +6,23 @@ Game& Game::getInstance() {
     return instance;
 }
 
-PlayerType::Value Game::menu() {
-    bool set = false;
-    std::string temporary;
+Game::~Game() {
+    if(this->enemy)
+        this->enemy.reset(nullptr);
 
-    while( !set ) {
-        system("cls");
-
-        cout << "1.Create game\n";
-        cout << "2.Join game\n";
-        getline(cin, temporary);
-
-        switch( temporary[0] ) {
-            case '1': return PlayerType::Host;
-            case '2': return PlayerType::Client;
-        }
-    }
-
-    exit(-1);
+    if(this->player)
+        this->player.reset(nullptr);
+    
+    if(this->enemySocket)
+        this->enemySocket.~shared_ptr();
+    
+    if(this->serverOrClientSocket)
+        this->serverOrClientSocket.~shared_ptr();
+        
+    // Prevent from crashing
+    if(this->setupThread.joinable()) 
+        this->setupThread.join();
+    
 }
 
 // -1 lost, 0 draw, 1 win
@@ -47,16 +46,20 @@ int Game::checkWin( const Choice::Value & p1, const Choice::Value & p2 ) {
     // Set up game
 // 1. Get nick name
 // 2. Set player type
-// 2. Setup server/client socket
+// 2. Setup server/client socket in separate thread
 void Game::setup(std::string nick, PlayerType::Value type) {
+    // Check if already set up
+    if ( this->isSetUp ) return;
+
     this->playerType = type;
+    this->isSetUp = true;
     switch( this->playerType ) {
-        case PlayerType::Host:
-            this->setupServer( nick );
+        case PlayerType::Host: 
+            this->setupThread = std::thread( &Game::setupServer, this, nick );
         break;
 
         case PlayerType::Client:
-            this->setupClient( nick );
+            this->setupThread = std::thread( &Game::setupClient, this, nick );
         break;
     }
 }
@@ -78,7 +81,10 @@ void Game::setupServer( const std::string& nick ) {
     this->serverOrClientSocket->startRespondingForBroadcast();
 
     // Create accepted socket | wait for connection
-    this->enemySocket = std::make_unique<EnemySocket>( this->serverOrClientSocket->getSocket() );
+    this->enemySocket = std::make_unique<EnemySocket>( );
+    if ( !this->enemySocket->connectToServer( this->serverOrClientSocket->getSocket() ) )
+        return;
+
     // Send my nick to enemy
     this->enemySocket->_send( nick.c_str() );
     

@@ -7,8 +7,6 @@ Sprite::Sprite(std::shared_ptr<Texture2D> texture, int maxFrames, Vector2 frameS
         offset = {this->sFrameSize.x / 2, this->sFrameSize.y / 2};
     }
 
-// Destructor
-Sprite::~Sprite() {}
 
 // Update sprite
 void Sprite::update(float deltaTime) {}

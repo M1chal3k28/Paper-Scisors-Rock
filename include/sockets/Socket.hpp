@@ -16,13 +16,16 @@ protected:
 
 public:
     MySocket( bool initializeSocket = true );
-    ~MySocket();
+    virtual ~MySocket();
 
     // Useable in Server
     virtual void startListening() {}
     virtual void startRespondingForBroadcast() {}
     virtual void stopRespondingForBroadcast() {}
-    
+
+    // Useable in Connected Socket
+    virtual bool connectToServer( const SOCKET & serverSocket ) { return false; }
+
     // Return socket
     const SOCKET & getSocket(); 
     // Return sockaddr ptr

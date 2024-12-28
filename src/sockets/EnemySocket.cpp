@@ -1,7 +1,10 @@
 #include <EnemySocket.hpp>
 
-EnemySocket::EnemySocket( const SOCKET & serverSocket ) 
+EnemySocket::EnemySocket( ) 
     : MySocket(false) /* Doesn't need to be initialized so it's false */{
+}
+
+bool EnemySocket::connectToServer( const SOCKET & serverSocket ) {
     // Accept connection
     // len of address
     socklen_t addrLen = sizeof(this->addressOfConnection);
@@ -13,8 +16,9 @@ EnemySocket::EnemySocket( const SOCKET & serverSocket )
         cout << "Accept failed: " << WSAGetLastError() << endl;
         // On error clean up and exit
         WSACleanup();
-        exit(-1);
+        return false; // <- this has to be 
     }
 
     cout << "Connected with player!" << endl;
+    return true;
 }

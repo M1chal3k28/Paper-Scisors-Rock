@@ -35,15 +35,16 @@ class Game {
     // It's by accepting connection by server
     std::shared_ptr<MySocket> enemySocket = nullptr;
 
+    std::thread setupThread;
+    bool isSetUp = false;
+
     // Type of player
     PlayerType::Value playerType; // update logic depend on this
 
 public:
+    ~Game();
     // Singleton access to game instance
     static Game& getInstance();
-
-    // Menu for choosing of either server or client
-    PlayerType::Value menu();
 
     // -1 lost, 0 draw, 1 win 
     // checks if p1 won or lost against p2

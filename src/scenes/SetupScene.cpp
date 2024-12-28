@@ -131,7 +131,6 @@ void SetupScene::update(float deltaTime) {
             case PlayerType::Host:
                 SCENE_MANAGER.pushScene( SceneType::HOST_LOBBY );
             break;
-
         }
     }
 }
@@ -171,4 +170,11 @@ void SetupScene::draw() const {
     }
 }
 
-void SetupScene::cleanUp() {}
+void SetupScene::cleanUp() {
+    // Clean up the input field
+    RESOURCE_MANAGER.unloadTexture("button");
+    RESOURCE_MANAGER.unloadFont("minecraft-font");
+
+    if (this->setupThread.joinable())
+        this->setupThread.join();
+}

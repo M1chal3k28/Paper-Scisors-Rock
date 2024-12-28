@@ -100,6 +100,7 @@ void PlayerServer::startRespondingForBroadcast() {
 // Stop responding to broadcasts
 void PlayerServer::stopRespondingForBroadcast() {
     this->responding = false;
-    this->responseThread.join();
+    if (this->responseThread.joinable()) 
+        this->responseThread.join();
 }
 

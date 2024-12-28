@@ -9,7 +9,9 @@ class EnemySocket : public MySocket {
     sockaddr addressOfConnection;
 public:
     // Accept connection and set socket for communication with player
-    EnemySocket( const SOCKET & serverSocket );
+    EnemySocket();
+
+    bool connectToServer( const SOCKET & serverSocket );
 
     // const SOCKET & getSocket() { return this->currSocket; } <- from MySocket
 };

@@ -17,7 +17,6 @@ protected:
     Vector2 offset;
 public:
     Sprite( std::shared_ptr<Texture2D> texture, int maxFrames, Vector2 frameSize );
-    ~Sprite();
 
     // Draw sprite on its position with current frame
     virtual void draw();

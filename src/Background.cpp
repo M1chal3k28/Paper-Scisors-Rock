@@ -11,7 +11,7 @@ Background::Background() {
 
 // Unload Resources
 Background::~Background() {
-    RESOURCE_MANAGER.unloadTexture("backgroundSprite");
+    //RESOURCE_MANAGER.unloadTexture("backgroundSprite");
 }
 
 void Background::generateSprites() {

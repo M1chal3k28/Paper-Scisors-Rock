@@ -19,6 +19,8 @@ class SceneManager {
 public:
     static SceneManager& getInstance();
 
+    ~SceneManager();
+
     void pushScene( const SceneType::Value& scene );
 
     void popScene();

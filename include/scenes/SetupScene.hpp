@@ -22,6 +22,9 @@ class SetupScene : public Scene {
     std::unique_ptr<Button> backButton = nullptr;
     std::unique_ptr<Button> offlineButton = nullptr;
     bool playerTypeGiven = false;
+
+    std::thread setupThread;
+    bool startedSetup = false;
 public:
     SetupScene();
     ~SetupScene();
