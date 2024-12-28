@@ -11,7 +11,7 @@ class PlayerServer : public MySocket {
     // Socket for responding to broadcast
     SOCKET broadcastSocket;
     // Thread for responding to broadcast
-    std::thread responseThread;
+    std::future<void> responseFuture;
     // Is responding for broadcast. Thread running?
     bool responding = false;
 
@@ -24,6 +24,9 @@ public:
 
     // Listen for connections
     virtual void startListening();
+
+    // Shutdown server
+    virtual void shutdownServer();
 
     // Start responding to broadcasts
     virtual void startRespondingForBroadcast();

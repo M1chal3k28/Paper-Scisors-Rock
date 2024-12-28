@@ -42,15 +42,20 @@ void Game::setup(std::string nick, PlayerType::Value type) {
     // Check if already set up
     if ( this->isSetUp ) return;
 
+    // Set player type
     this->playerType = type;
+    // Set flag
     this->isSetUp = true;
+    // Switch player type
     switch( this->playerType ) {
+        // Server
         case PlayerType::Host: 
-            this->setupThread = std::thread( &Game::setupServer, this, nick );
+            this->setupThread = std::async( std::launch::async, &Game::setupServer, this, nick );
         break;
-
+        
+        // Client
         case PlayerType::Client:
-            this->setupThread = std::thread( &Game::setupClient, this, nick );
+            this->setupThread = std::async( std::launch::async, &Game::setupClient, this, nick );
         break;
     }
 }
@@ -219,24 +224,41 @@ void Game::run() {
     }
 }
 
+// Deinitialize game
+// 1. Change flag
+// 2. Close sockets
+// 3. Delete objects
+// ! it does not delete game object itself
 void Game::deinitialize() {
+    // Check if game is set up
+    if ( !this->isSetUp ) return;
+
+    // un set flag that game is set up
     this->isSetUp = false;
 
-    if(this->enemy)
-        this->enemy.release();
+    // Shutdown server first
+    // This is gonna terminate accept function which is blocking game thread 
+    // This function closes sockets
+    // And also stops thread which is responding to broadcasts
+    this->serverOrClientSocket->shutdownServer();
 
-    if(this->player)
-        this->player.release();
-    
-    if(this->enemySocket)
-        this->enemySocket.reset();
-    
-    if(this->serverOrClientSocket)
-        this->serverOrClientSocket.reset();
+    // Join setup theard where server waits for connection
+    if(this->setupThread.valid()) 
+        this->setupThread.get();
 
-    // Prevent from crashing
-    // if thread is still running
-    // join it
-    if(this->setupThread.joinable()) 
-        this->setupThread.join();
+    // Reset important objects
+    // ----------------------------------------
+    // This are unique ptr so it is better to release
+        if(this->enemy)
+            this->enemy.release();
+
+        if(this->player)
+            this->player.release();
+    // This are shared ptr so it is better to reset
+        if(this->enemySocket)
+            this->enemySocket.reset();
+        
+        if(this->serverOrClientSocket)
+            this->serverOrClientSocket.reset();
+    // ----------------------------------------
 }
