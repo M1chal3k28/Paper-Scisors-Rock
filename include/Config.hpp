@@ -35,6 +35,7 @@ using namespace std;
 
 // Define all needed constants
 #define PORT 48051
+// #define PORT 55555
 #define TIMEOUT_MS 2000
 #define BUFFER_SIZE 256
 #define DISCOVER "DISCOVER"

@@ -9,6 +9,8 @@ Game& Game::getInstance() {
 }
 
 Game::~Game() {
+    // Clear background sprites 
+    // Just in case of crash
     M_BG.clear();
 
     if(this->enemy)
@@ -24,6 +26,8 @@ Game::~Game() {
         this->serverOrClientSocket.~shared_ptr();
 
     // Prevent from crashing
+    // if thread is still running
+    // join it
     if(this->setupThread.joinable()) 
         this->setupThread.join();
 
