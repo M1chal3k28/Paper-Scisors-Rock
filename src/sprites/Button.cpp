@@ -1,4 +1,4 @@
-#include <Button.hpp>
+#include <sprites/Button.hpp>
 
 Button::Button(Vector2 position, Vector2 sizeOfTexture, Vector2 positionOfFrameOnTexture, std::string text, std::string textureId, std::string fontId, std::function<void()> onClick) 
  : Sprite( textureId, BUTTON_MAX_STATES, sizeOfTexture, positionOfFrameOnTexture ), text(text), fontId(fontId) {
@@ -19,14 +19,7 @@ Button::Button(Vector2 position, Vector2 sizeOfTexture, Vector2 positionOfFrameO
 
 void Button::draw() {
     // Draw button sprite with current frame
-    DrawTexturePro(
-        *RESOURCE_MANAGER.getTexture(this->sTextureId), 
-        {this->sFrameSize.x * this->sFrame, 0, this->sFrameSize.x , this->sFrameSize.y}, 
-        {this->sPosition.x, this->sPosition.y, this->sFrameSize.x, this->sFrameSize.y}, 
-        this->sOffset, 
-        0, 
-        WHITE
-    );
+    Sprite::draw();
 
     // Draw button text
     // in the center of the button

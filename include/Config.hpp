@@ -50,6 +50,9 @@ using namespace std;
 #define MY_YELLOW Color{255, 222, 89, 255}
 #define MY_ORANGE Color{255, 189, 89, 255}
 
+#define DEFAULT_FONT "default"
+#define DEFAULT_TEXTURE "default"
+
 class ScreenSide {
 public:
     enum Value {

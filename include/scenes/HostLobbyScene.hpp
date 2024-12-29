@@ -4,7 +4,7 @@
 #include <scenes/Scene.hpp>
 
 #include <Background.hpp>
-#include <Button.hpp>
+#include <sprites/Button.hpp>
 
 class HostLobbyScene : public Scene {
     // Button to return to main menu

@@ -3,7 +3,7 @@
 #include <scenes/Scene.hpp>
 #include <ResourceManager.hpp>
 #include <Background.hpp>
-#include <Button.hpp>
+#include <sprites/Button.hpp>
 #include <InputField.hpp>
 
 #include <Game.hpp>
@@ -11,6 +11,9 @@
 #define TITLE_SIZE 200.f
 
 class SetupScene : public Scene {
+    // Exit button
+    std::unique_ptr<Button> exitButton = nullptr;
+
     // First step of the setup scene
     std::string nick;
     std::unique_ptr<Button> confirmButton = nullptr;

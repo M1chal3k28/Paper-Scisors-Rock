@@ -10,7 +10,13 @@ ResourceManager::~ResourceManager() {
 }
 
 ResourceManager::ResourceManager() {
-    loadTexture("default", "assets/default.png");
+    fonts[DEFAULT_FONT] = std::make_shared<Font>( GetFontDefault() );
+
+    // Default texture
+    Image image = GenImageColor(64, 64, BLACK); 
+    textures[DEFAULT_TEXTURE] = std::make_shared<Texture2D>( LoadTextureFromImage( image ) );
+    // Unload image
+    UnloadImage(image);
 }
 
 void ResourceManager::loadTexture(const std::string& key, const std::string& filePath) {
@@ -25,7 +31,7 @@ std::shared_ptr<Texture2D> ResourceManager::getTexture(const std::string& key) {
     }
     
     // Return default texture
-    return getTexture("default");
+    return textures.at(DEFAULT_TEXTURE);
 }
 
 void ResourceManager::unloadTexture(const std::string& key) {
@@ -63,7 +69,7 @@ std::shared_ptr<Font> ResourceManager::getFont(const std::string &key) {
     if (fonts.find(key) != fonts.end()) {
         return fonts.at(key);
     }
-    return std::shared_ptr<Font>();
+    return fonts.at(DEFAULT_FONT);
 }
 
 void ResourceManager::unloadFont(const std::string &key) {

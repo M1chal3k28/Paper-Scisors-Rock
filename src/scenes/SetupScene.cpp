@@ -6,6 +6,25 @@ SetupScene::SetupScene() {
     // Load button png sprite sheet
     this->prepareResources();
 
+    // Create exit button
+    this->exitButton = std::make_unique<Button>(
+        Vector2{ (float)GetScreenWidth() - 70, (float)GetScreenHeight() - 70 }, 
+        (Vector2){100, 100}, 
+        Vector2{0, 100},
+        "", 
+        "button", 
+        DEFAULT_FONT,
+        [this]() {
+            // This is a function that will be called when the button is clicked
+            // Get window handle
+            HWND hwnd = (HWND)GetWindowHandle(); 
+            // Post close message to winapi
+            PostMessage(hwnd, WM_CLOSE, 0, 0); 
+            // Close window handle;
+            CloseHandle(hwnd);
+        }
+    );
+
     // Prepare title
     this->titlePosition = Vector2{ (float)GetScreenWidth() / 2, 200 };
     Vector2 titleMeasurement = MeasureTextEx(*RESOURCE_MANAGER.getFont("minecraft-font"), this->titleText.c_str(), TITLE_SIZE, TEXT_SPACING);
@@ -111,15 +130,17 @@ void SetupScene::prepareResources() {
     // This will create background object if it doesn't exist
     M_BG;
     // Load button png sprite sheet
-    RESOURCE_MANAGER.loadTexture("button", "assets/menuButton.png");
+    RESOURCE_MANAGER.loadTexture("button", "assets/buttons.png");
     // Load font
     RESOURCE_MANAGER.loadFont("minecraft-font", "assets/Minecraft.ttf");
 }
 
 void SetupScene::update(float deltaTime) {
-    M_BG.update(deltaTime);
     // Set Mouse Cursor to Default
     SetMouseCursor(MOUSE_CURSOR_DEFAULT);
+
+    M_BG.update(deltaTime);
+    this->exitButton->update();
 
     if (!this->nickGiven) {
         // Update button
@@ -193,6 +214,8 @@ void SetupScene::draw() const {
         this->clientButton->draw();
         this->backButton->draw();
     }
+
+    this->exitButton->draw();
 }
 
 void SetupScene::cleanUp() {

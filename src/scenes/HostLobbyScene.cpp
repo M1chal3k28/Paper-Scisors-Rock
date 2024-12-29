@@ -31,7 +31,7 @@ void HostLobbyScene::prepareResources() {
     // Init background if not done already
     M_BG;
     // Load button png sprite sheet
-    RESOURCE_MANAGER.loadTexture("button", "assets/menuButton.png");
+    RESOURCE_MANAGER.loadTexture("button", "assets/buttons.png");
     // Load font
     RESOURCE_MANAGER.loadFont("minecraft-font", "assets/Minecraft.ttf");
 }
