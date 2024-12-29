@@ -17,6 +17,7 @@ SetupScene::SetupScene() {
     this->confirmButton = std::make_unique<Button>(
         Vector2{ (float)GetScreenWidth() / 2, (float)GetScreenHeight() / 2 + 200 }, 
         (Vector2)MENU_BUTTON_SIZE, 
+        Vector2{0, 0},
         "Confirm", 
         "button", 
         "minecraft-font",
@@ -33,6 +34,7 @@ SetupScene::SetupScene() {
     this->nameInput = std::make_unique<InputField>(
         Vector2{ (float)GetScreenWidth() / 2, (float)GetScreenHeight() / 2 }, 
         (Vector2)MENU_BUTTON_SIZE, 
+        Vector2{0, 0},
         "button", 
         "minecraft-font",
         Vector2{ 800, 100 }
@@ -45,6 +47,7 @@ SetupScene::SetupScene() {
     this->offlineButton = std::make_unique<Button>(
         Vector2{ (float)GetScreenWidth() / 2, (float)GetScreenHeight() / 2 - 115 }, 
         (Vector2)MENU_BUTTON_SIZE, 
+        Vector2{0, 0},
         "Play offline", 
         "button", 
         "minecraft-font",
@@ -58,6 +61,7 @@ SetupScene::SetupScene() {
     this->hostButton = std::make_unique<Button>(
         Vector2{ (float)GetScreenWidth() / 2, (float)GetScreenHeight() / 2 }, 
         (Vector2)MENU_BUTTON_SIZE, 
+        Vector2{0, 0},
         "Host Game", 
         "button", 
         "minecraft-font",
@@ -71,6 +75,7 @@ SetupScene::SetupScene() {
     this->clientButton = std::make_unique<Button>(
         Vector2{ (float)GetScreenWidth() / 2, (float)GetScreenHeight() / 2 + 115 }, 
         (Vector2)MENU_BUTTON_SIZE, 
+        Vector2{0, 0},
         "Join game", 
         "button", 
         "minecraft-font",
@@ -83,7 +88,8 @@ SetupScene::SetupScene() {
 
     this->backButton = std::make_unique<Button>(
         Vector2{ (float)GetScreenWidth() / 2, (float)GetScreenHeight() / 2 + 345 }, 
-        (Vector2)MENU_BUTTON_SIZE, 
+        (Vector2)MENU_BUTTON_SIZE,
+        Vector2{0, 0},
         "Back", 
         "button", 
         "minecraft-font",

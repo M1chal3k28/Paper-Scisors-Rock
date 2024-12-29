@@ -39,6 +39,7 @@ void Background::generateSprites() {
             "backgroundSprite",
             2,
             (Vector2)BACKGROUND_SPRITE_SIZE,
+            (Vector2){0, 0},
             (Vector2){speedX, speedY},
             rotationSpeed
         ));

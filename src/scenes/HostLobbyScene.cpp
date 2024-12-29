@@ -8,6 +8,7 @@ HostLobbyScene::HostLobbyScene() {
     this->backButton = std::make_unique<Button>(
         Vector2{ (float)GetScreenWidth() / 2, (float)GetScreenHeight() / 2 + 345 }, 
         (Vector2)MENU_BUTTON_SIZE, 
+        Vector2{0, 0},
         "Back", 
         "button", 
         "minecraft-font",

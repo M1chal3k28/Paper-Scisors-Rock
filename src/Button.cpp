@@ -1,12 +1,12 @@
 #include <Button.hpp>
 
-Button::Button(Vector2 position, Vector2 sizeOfButton, std::string text, std::string textureId, std::string fontId, std::function<void()> onClick) 
- : Sprite( textureId, BUTTON_MAX_STATES, sizeOfButton ), text(text), fontId(fontId) {
+Button::Button(Vector2 position, Vector2 sizeOfTexture, Vector2 positionOfFrameOnTexture, std::string text, std::string textureId, std::string fontId, std::function<void()> onClick) 
+ : Sprite( textureId, BUTTON_MAX_STATES, sizeOfTexture, positionOfFrameOnTexture ), text(text), fontId(fontId) {
     // Move function to the object variable
     this->onClick = std::move( onClick );
 
     // Set offset to the center of the object
-    this->offset = Vector2{sizeOfButton.x / 2.f, sizeOfButton.y / 2.f};
+    this->sOffset = Vector2{sizeOfTexture.x / 2.f, sizeOfTexture.y / 2.f};
 
     // Set position cause sprite constructor doesn't set it
     this->setPosition(position);
@@ -23,7 +23,7 @@ void Button::draw() {
         *RESOURCE_MANAGER.getTexture(this->sTextureId), 
         {this->sFrameSize.x * this->sFrame, 0, this->sFrameSize.x , this->sFrameSize.y}, 
         {this->sPosition.x, this->sPosition.y, this->sFrameSize.x, this->sFrameSize.y}, 
-        this->offset, 
+        this->sOffset, 
         0, 
         WHITE
     );
@@ -46,7 +46,7 @@ void Button::update() {
     // Update button sprite
 
     // Check if button is hovered
-    if ( CheckCollisionPointRec(GetMousePosition(), {this->sPosition.x - this->offset.x, this->sPosition.y - this->offset.y, this->sFrameSize.x, this->sFrameSize.y}) ) {
+    if ( CheckCollisionPointRec(GetMousePosition(), {this->sPosition.x - this->sOffset.x, this->sPosition.y - this->sOffset.y, this->sFrameSize.x, this->sFrameSize.y}) ) {
         // Set mouse to cursor when hovered
         SetMouseCursor(MOUSE_CURSOR_POINTING_HAND);
 

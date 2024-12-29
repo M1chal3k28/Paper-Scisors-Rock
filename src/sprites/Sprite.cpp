@@ -3,10 +3,10 @@
 #include <ResourceManager.hpp>
 
 // Constructor
-Sprite::Sprite(std::string textureId, int maxFrames, Vector2 frameSize) 
-    : sTextureId( textureId ), sPosition({0, 0}), sMaxFrames(maxFrames), sFrame(0), sFrameSize(frameSize) {
+Sprite::Sprite(std::string textureId, int maxFrames, Vector2 frameSize, Vector2 positionOfFrameOnTexture = Vector2{0, 0} /* Left top corner */) 
+    : sTextureId( textureId ), sPosition({0, 0}), sMaxFrames(maxFrames), sFrame(0), sFrameSize(frameSize), sPositionOfFrameOnTexture(positionOfFrameOnTexture) {
         sFrameRect = {0, 0, frameSize.x, frameSize.y};
-        offset = {this->sFrameSize.x / 2, this->sFrameSize.y / 2};
+        sOffset = {this->sFrameSize.x / 2, this->sFrameSize.y / 2};
     }
 
 
@@ -17,9 +17,14 @@ void Sprite::update(float deltaTime) {}
 void Sprite::draw() {
     DrawTexturePro(
         *RESOURCE_MANAGER.getTexture(this->sTextureId),
-        (Rectangle){this->sFrame * this->sFrameSize.x, 0, this->sFrameSize.x, this->sFrameSize.y}, // source rectangle sprite sheet plays role in here
+        (Rectangle){
+            this->sPositionOfFrameOnTexture.x + ( this->sFrame * this->sFrameSize.x ), // X offset on texture 
+            this->sPositionOfFrameOnTexture.y, // Y offset on texture
+            this->sFrameSize.x, // Size of the frame X
+            this->sFrameSize.y // Size of the frame Y
+        }, // source rectangle sprite sheet plays role in here
         (Rectangle){this->sPosition.x, this->sPosition.y, this->sFrameSize.x, this->sFrameSize.y}, // where to display
-        this->offset,
+        this->sOffset,
         0.0f,
         WHITE
     );
@@ -29,9 +34,14 @@ void Sprite::draw() {
 void Sprite::draw(Vector2 size) {
     DrawTexturePro(
         *RESOURCE_MANAGER.getTexture(this->sTextureId),
-        (Rectangle){this->sFrame * this->sFrameSize.x, 0, this->sFrameSize.x, this->sFrameSize.y}, // source rectangle sprite sheet plays role in here
+        (Rectangle){
+            this->sPositionOfFrameOnTexture.x + ( this->sFrame * this->sFrameSize.x ), // X offset on texture 
+            this->sPositionOfFrameOnTexture.y, // Y offset on texture
+            this->sFrameSize.x, // Size of the frame X
+            this->sFrameSize.y // Size of the frame Y
+        }, // source rectangle sprite sheet plays role in here
         (Rectangle){this->sPosition.x, this->sPosition.y, size.x, size.y}, // where to display
-        this->offset,
+        this->sOffset,
         0.0f,
         WHITE
     );

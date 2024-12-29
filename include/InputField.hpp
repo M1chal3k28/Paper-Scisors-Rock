@@ -16,8 +16,21 @@ class InputField : public Sprite {
     std::string fontId;
     Vector2 actualSize;
 public:
-    InputField(Vector2 position, Vector2 sizeOfTexture /* In the sheet (texture) */, std::string textureId, std::string fontId, Vector2 scaleToSize);
-    InputField(Vector2 position, Vector2 sizeOfTexture /* In the sheet (texture) */, std::string textureId, std::string fontId);
+    InputField(
+        Vector2 position, 
+        Vector2 sizeOfTexture /* In the sheet (texture) */, 
+        Vector2 positionOfFrameOnTexture,
+        std::string textureId, 
+        std::string fontId, 
+        Vector2 scaleToSize
+    );
+    InputField(
+        Vector2 position, 
+        Vector2 sizeOfTexture /* In the sheet (texture) */, 
+        Vector2 positionOfFrameOnTexture,
+        std::string textureId, 
+        std::string fontId
+    );
     virtual void draw();
     virtual void update(float deltaTime) override; 
 

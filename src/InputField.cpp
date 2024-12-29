@@ -1,9 +1,9 @@
 #include <InputField.hpp>
 
-InputField::InputField(Vector2 position, Vector2 sizeOfTexture /* In the sheet (texture) */, std::string textureId, std::string fontId, Vector2 actualSize) 
-    : Sprite(textureId, 1, sizeOfTexture), actualSize(actualSize), fontId(fontId) {
+InputField::InputField(Vector2 position, Vector2 sizeOfTexture /* In the sheet (texture) */, Vector2 positionOfFrameOnTexture, std::string textureId, std::string fontId, Vector2 actualSize) 
+    : Sprite(textureId, 1, sizeOfTexture, positionOfFrameOnTexture), actualSize(actualSize), fontId(fontId) {
     // Set offset to the center
-    this->offset = {actualSize.x / 2, actualSize.y / 2};
+    this->sOffset = {actualSize.x / 2, actualSize.y / 2};
     // Set text size 
     this->textSize = this->actualSize.y - 30;
 
@@ -11,10 +11,10 @@ InputField::InputField(Vector2 position, Vector2 sizeOfTexture /* In the sheet (
     this->setPosition(position);
 }
 
-InputField::InputField(Vector2 position, Vector2 sizeOfTexture /* In the sheet (texture) */, std::string textureId, std::string fontId) 
-    : Sprite(textureId, 1, sizeOfTexture), actualSize(sizeOfTexture), fontId(fontId) {
+InputField::InputField(Vector2 position, Vector2 sizeOfTexture /* In the sheet (texture) */, Vector2 positionOfFrameOnTexture, std::string textureId, std::string fontId) 
+    : Sprite(textureId, 1, sizeOfTexture, positionOfFrameOnTexture), actualSize(sizeOfTexture), fontId(fontId) {
     // Set offset to the center
-    this->offset = {this->actualSize.x / 2, this->actualSize.y / 2};
+    this->sOffset = {this->actualSize.x / 2, this->actualSize.y / 2};
     // Set text size 
     this->textSize = this->actualSize.y - 30;
 
@@ -69,7 +69,7 @@ void InputField::draw() {
 
 void InputField::update(float deltaTime) {
     // Check if mouse is on the input field
-    if ( CheckCollisionPointRec(GetMousePosition(), {this->sPosition.x - this->offset.x, this->sPosition.y - this->offset.y, this->actualSize.x, this->actualSize.y}) ) {
+    if ( CheckCollisionPointRec(GetMousePosition(), {this->sPosition.x - this->sOffset.x, this->sPosition.y - this->sOffset.y, this->actualSize.x, this->actualSize.y}) ) {
         this->isFocused = true;
         this->sFrame = 1;
     } else { 

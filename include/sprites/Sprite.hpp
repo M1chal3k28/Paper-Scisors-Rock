@@ -14,9 +14,10 @@ protected:
     int sFrame;
     Vector2 sFrameSize;
     Rectangle sFrameRect;
-    Vector2 offset;
+    Vector2 sOffset;
+    Vector2 sPositionOfFrameOnTexture;
 public:
-    Sprite( std::string textureId, int maxFrames, Vector2 frameSize );
+    Sprite( std::string textureId, int maxFrames, Vector2 frameSize, Vector2 positionOfFrameOnTexture );
     ~Sprite() = default;
 
     // Draw sprite on its position with current frame
