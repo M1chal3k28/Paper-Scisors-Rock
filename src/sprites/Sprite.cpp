@@ -5,7 +5,7 @@
 // Constructor
 Sprite::Sprite(std::string textureId, int maxFrames, Vector2 frameSize, Vector2 positionOfFrameOnTexture = Vector2{0, 0} /* Left top corner */) 
     : sTextureId( textureId ), sPosition({0, 0}), sMaxFrames(maxFrames), sFrame(0), sFrameSize(frameSize), sPositionOfFrameOnTexture(positionOfFrameOnTexture) {
-        sFrameRect = {0, 0, frameSize.x, frameSize.y};
+        // Set offset to the center
         sOffset = {this->sFrameSize.x / 2, this->sFrameSize.y / 2};
     }
 

@@ -4,11 +4,10 @@
 #include <ResourceManager.hpp>
 #include <Background.hpp>
 #include <sprites/Button.hpp>
+#include <sprites/TextButton.hpp>
 #include <InputField.hpp>
 
 #include <Game.hpp>
-
-#define TITLE_SIZE 200.f
 
 class SetupScene : public Scene {
     // Exit button

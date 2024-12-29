@@ -13,7 +13,6 @@ protected:
     int sMaxFrames;
     int sFrame;
     Vector2 sFrameSize;
-    Rectangle sFrameRect;
     Vector2 sOffset;
     Vector2 sPositionOfFrameOnTexture;
 public:

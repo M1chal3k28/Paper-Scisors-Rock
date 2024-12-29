@@ -43,6 +43,8 @@ using namespace std;
 // Define all needed macros
 #define RANDOM(FROM, TO) rand() % (TO - FROM + 1) + FROM
 #define TEXT_SPACING 2.f
+#define TEXT_SIZE 40.f
+#define TITLE_SIZE 200.f
 
 // Define colors
 #define MY_LIGHTGRAY Color{217, 217, 217, 255}
@@ -50,8 +52,16 @@ using namespace std;
 #define MY_YELLOW Color{255, 222, 89, 255}
 #define MY_ORANGE Color{255, 189, 89, 255}
 
+// Resources
 #define DEFAULT_FONT "default"
 #define DEFAULT_TEXTURE "default"
+
+// Buttons
+#define BUTTON_MAX_STATES 2 // 0 is not hovered, 1 is hovered 2 is pressed
+#define MENU_BUTTON_SIZE {600.f, 100.f}
+#define MENU_BUTTON_SHEET_OFFSET {0.f, 0.f}
+#define SMALL_BUTTON_SIZE {100.f, 100.f}
+#define SMALL_BUTTON_SHEET_OFFSET {0.f, 100.f}
 
 class ScreenSide {
 public:

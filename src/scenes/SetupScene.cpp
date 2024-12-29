@@ -9,11 +9,9 @@ SetupScene::SetupScene() {
     // Create exit button
     this->exitButton = std::make_unique<Button>(
         Vector2{ (float)GetScreenWidth() - 70, (float)GetScreenHeight() - 70 }, 
-        (Vector2){100, 100}, 
-        Vector2{0, 100},
-        "", 
+        (Vector2)SMALL_BUTTON_SIZE, 
+        (Vector2)SMALL_BUTTON_SHEET_OFFSET,
         "button", 
-        DEFAULT_FONT,
         [this]() {
             // This is a function that will be called when the button is clicked
             // Get window handle
@@ -33,10 +31,10 @@ SetupScene::SetupScene() {
     // Nick Step 
     // -------------------------------------------------------------------------------------------
     // Then you can create button of confirmation
-    this->confirmButton = std::make_unique<Button>(
+    this->confirmButton = std::make_unique<TextButton>(
         Vector2{ (float)GetScreenWidth() / 2, (float)GetScreenHeight() / 2 + 200 }, 
         (Vector2)MENU_BUTTON_SIZE, 
-        Vector2{0, 0},
+        (Vector2)MENU_BUTTON_SHEET_OFFSET,
         "Confirm", 
         "button", 
         "minecraft-font",
@@ -53,20 +51,20 @@ SetupScene::SetupScene() {
     this->nameInput = std::make_unique<InputField>(
         Vector2{ (float)GetScreenWidth() / 2, (float)GetScreenHeight() / 2 }, 
         (Vector2)MENU_BUTTON_SIZE, 
-        Vector2{0, 0},
+        (Vector2)MENU_BUTTON_SHEET_OFFSET,
         "button", 
         "minecraft-font",
-        Vector2{ 800, 100 }
+        Vector2{ 800, 100 } // Scale to size
     );
     // -------------------------------------------------------------------------------------------
 
     // Menu Step
     // -------------------------------------------------------------------------------------------
     // Then you can create button of host or client
-    this->offlineButton = std::make_unique<Button>(
+    this->offlineButton = std::make_unique<TextButton>(
         Vector2{ (float)GetScreenWidth() / 2, (float)GetScreenHeight() / 2 - 115 }, 
         (Vector2)MENU_BUTTON_SIZE, 
-        Vector2{0, 0},
+        (Vector2)MENU_BUTTON_SHEET_OFFSET,
         "Play offline", 
         "button", 
         "minecraft-font",
@@ -77,10 +75,10 @@ SetupScene::SetupScene() {
         }
     );
 
-    this->hostButton = std::make_unique<Button>(
+    this->hostButton = std::make_unique<TextButton>(
         Vector2{ (float)GetScreenWidth() / 2, (float)GetScreenHeight() / 2 }, 
         (Vector2)MENU_BUTTON_SIZE, 
-        Vector2{0, 0},
+        (Vector2)MENU_BUTTON_SHEET_OFFSET,
         "Host Game", 
         "button", 
         "minecraft-font",
@@ -91,10 +89,10 @@ SetupScene::SetupScene() {
         }
     );
 
-    this->clientButton = std::make_unique<Button>(
+    this->clientButton = std::make_unique<TextButton>(
         Vector2{ (float)GetScreenWidth() / 2, (float)GetScreenHeight() / 2 + 115 }, 
         (Vector2)MENU_BUTTON_SIZE, 
-        Vector2{0, 0},
+        (Vector2)MENU_BUTTON_SHEET_OFFSET,
         "Join game", 
         "button", 
         "minecraft-font",
@@ -105,10 +103,10 @@ SetupScene::SetupScene() {
         }
     );
 
-    this->backButton = std::make_unique<Button>(
+    this->backButton = std::make_unique<TextButton>(
         Vector2{ (float)GetScreenWidth() / 2, (float)GetScreenHeight() / 2 + 345 }, 
         (Vector2)MENU_BUTTON_SIZE,
-        Vector2{0, 0},
+        (Vector2)MENU_BUTTON_SHEET_OFFSET,
         "Back", 
         "button", 
         "minecraft-font",
@@ -140,18 +138,18 @@ void SetupScene::update(float deltaTime) {
     SetMouseCursor(MOUSE_CURSOR_DEFAULT);
 
     M_BG.update(deltaTime);
-    this->exitButton->update();
+    this->exitButton->update(deltaTime);
 
     if (!this->nickGiven) {
         // Update button
-        this->confirmButton->update();
+        this->confirmButton->update(deltaTime);
         this->nameInput->update(deltaTime);
     } else {
         // Update menu buttons
-        this->offlineButton->update();
-        this->hostButton->update();
-        this->clientButton->update();
-        this->backButton->update();
+        this->offlineButton->update(deltaTime);
+        this->hostButton->update(deltaTime);
+        this->clientButton->update(deltaTime);
+        this->backButton->update(deltaTime);
     }
 
     if (this->nickGiven && this->playerTypeGiven) {

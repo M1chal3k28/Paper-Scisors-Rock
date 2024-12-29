@@ -5,7 +5,7 @@
 HostLobbyScene::HostLobbyScene() {
     this->prepareResources();
     
-    this->backButton = std::make_unique<Button>(
+    this->backButton = std::make_unique<TextButton>(
         Vector2{ (float)GetScreenWidth() / 2, (float)GetScreenHeight() / 2 + 345 }, 
         (Vector2)MENU_BUTTON_SIZE, 
         Vector2{0, 0},
@@ -42,7 +42,7 @@ void HostLobbyScene::update(float deltaTime) {
     // Set cursor to default
     SetMouseCursor(MOUSE_CURSOR_DEFAULT);
 
-    this->backButton->update();
+    this->backButton->update(deltaTime);
 }
 
 void HostLobbyScene::draw() const {
