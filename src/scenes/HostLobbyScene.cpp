@@ -1,10 +1,15 @@
 #include <scenes/HostLobbyScene.hpp>
-
 #include <scenes/SceneManager.hpp>
 
 HostLobbyScene::HostLobbyScene() {
     this->prepareResources();
     
+    // Set text info offset and pos
+    Vector2 measurement = MeasureTextEx(*RESOURCE_MANAGER.getFont("minecraft-font"), this->infoText.c_str(), TITLE_SIZE, TEXT_SPACING);
+    this->infoOffset = Vector2{ measurement.x / 2.f, measurement.y / 2.f };
+    this->infoPosition = Vector2{ (float)GetScreenWidth() / 2, 200 };
+
+    // Create back button
     this->backButton = std::make_unique<TextButton>(
         Vector2{ (float)GetScreenWidth() / 2, (float)GetScreenHeight() / 2 + 345 }, 
         (Vector2)MENU_BUTTON_SIZE, 
@@ -47,6 +52,18 @@ void HostLobbyScene::update(float deltaTime) {
 
 void HostLobbyScene::draw() const {
     M_BG.draw();
+
+    // Draw text that server wait for client
+    DrawTextPro(
+        *RESOURCE_MANAGER.getFont("minecraft-font"),
+        this->infoText.c_str(),
+        this->infoPosition,
+        this->infoOffset,
+        0.f,
+        TITLE_SIZE,
+        TEXT_SPACING,
+        MY_ORANGE
+    );
 
     this->backButton->draw();
 }

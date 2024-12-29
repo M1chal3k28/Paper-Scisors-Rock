@@ -5,15 +5,6 @@
 #include <Sockets.hpp>
 
 #define GAME Game::getInstance()
- 
-class PlayerType {
-    public:
-        enum Value {
-            Host = 0,
-            Client = 1,
-            Offline = 2
-        };
-};
 
 class Game {
     // Private constructor for singleton pattern
@@ -35,6 +26,8 @@ class Game {
     // It's by accepting connection by server
     std::shared_ptr<MySocket> enemySocket = nullptr;
 
+    // Setup thread
+    // To isolate update/draw logic from server/client setup
     std::future<void> setupThread;
     bool isSetUp = false;
 

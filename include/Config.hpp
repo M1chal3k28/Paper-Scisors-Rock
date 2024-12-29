@@ -63,6 +63,7 @@ using namespace std;
 #define SMALL_BUTTON_SIZE {100.f, 100.f}
 #define SMALL_BUTTON_SHEET_OFFSET {0.f, 100.f}
 
+// Screen side enum class
 class ScreenSide {
 public:
     enum Value {
@@ -71,4 +72,14 @@ public:
         TOP = 2,
         BOTTOM = 3
     };
+};
+
+// Player type enum class
+class PlayerType {
+    public:
+        enum Value {
+            Host = 0,
+            Client = 1,
+            Offline = 2
+        };
 };
