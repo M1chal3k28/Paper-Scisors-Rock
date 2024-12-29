@@ -11,27 +11,41 @@ Background::Background() {
 
 void Background::generateSprites() {
     for ( int i = 0; i < SPRITES_PER_GENERATION; ++i ) {
+        // Generate random sprite
         int spriteType = RANDOM(0, SPRITE_TYPES);
 
+        // Generate random speed
         float speedX = RANDOM(50, 300);
         float speedY = RANDOM(50, 300);
 
+        // Generate random position X
         int posX = RANDOM(-GetScreenWidth(), GetScreenWidth());
-        int posY = -(Vector2)BACKGROUND_SPRITE_SIZE.y - RANDOM(0, 100);
 
-        float rotationSpeed = RANDOM(-20, 20);
+        int posY = 0;
+        
+        // Generate random position Y 
+        // If position is outside of the screen, generate new position Y which can be on any Y axis
+        if ( posX < -(Vector2)BACKGROUND_SPRITE_SIZE.x - 10 )
+            posY = RANDOM(0, GetScreenHeight());
+        else
+            // Generate random position Y which is above the screen
+            posY = -(Vector2)BACKGROUND_SPRITE_SIZE.y - RANDOM(0, 100);
 
-        RotatingSprite * sprite = new RotatingSprite(
+        // Generate random rotation speed
+        float rotationSpeed = RANDOM(-30, 30);
+
+        // Create sprite
+        this->backgroundSprites.push_back(std::make_unique<RotatingSprite>(
             "backgroundSprite",
-            1,
+            2,
             (Vector2)BACKGROUND_SPRITE_SIZE,
             (Vector2){speedX, speedY},
             rotationSpeed
-        );
+        ));
 
-        this->backgroundSprites.push_back(std::move(std::unique_ptr<Sprite>(sprite)));
-
+        // Set sprite position
         this->backgroundSprites.back()->setPosition({(float)posX, (float)posY});
+        // Set sprite frame (type of sprie) 
         this->backgroundSprites.back()->setFrame(spriteType);
     }
 }

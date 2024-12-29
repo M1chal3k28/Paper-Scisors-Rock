@@ -13,8 +13,7 @@ int main() {
     // Set config flag to enable V-Sync
     SetConfigFlags(FLAG_MSAA_4X_HINT);
     SetConfigFlags(FLAG_VSYNC_HINT);
-    InitWindow(GetMonitorWidth(GetCurrentMonitor()), GetMonitorHeight(GetCurrentMonitor()), "Rock-Paper-Scissors");
-    // Set full screen
+    InitWindow(GetMonitorWidth(GetCurrentMonitor()), GetMonitorHeight(GetCurrentMonitor()), "Rock-Paper-Scissors");    // Set full screen
     SetWindowState(FLAG_FULLSCREEN_MODE);
 
     // Initialize scenes
@@ -43,9 +42,7 @@ int main() {
     // De-Initialization
     //--------------------------------------------------------------------------------------
     CloseWindow();        // Close window and OpenGL context
-    GAME.~Game();
     //--------------------------------------------------------------------------------------
-    
-    system("pause");
+
     return 0;
 }

@@ -240,7 +240,8 @@ void Game::deinitialize() {
     // This is gonna terminate accept function which is blocking game thread 
     // This function closes sockets
     // And also stops thread which is responding to broadcasts
-    this->serverOrClientSocket->shutdownServer();
+    if(this->serverOrClientSocket)
+        this->serverOrClientSocket->shutdownServer();
 
     // Join setup theard where server waits for connection
     if(this->setupThread.valid()) 

@@ -5,6 +5,10 @@ ResourceManager& ResourceManager::getInstance() {
     return instance;
 }
 
+ResourceManager::~ResourceManager() {
+    this->cleanUp();
+}
+
 ResourceManager::ResourceManager() {
     loadTexture("default", "assets/default.png");
 }

@@ -6,6 +6,11 @@ SetupScene::SetupScene() {
     // Load button png sprite sheet
     this->prepareResources();
 
+    // Prepare title
+    this->titlePosition = Vector2{ (float)GetScreenWidth() / 2, 200 };
+    Vector2 titleMeasurement = MeasureTextEx(*RESOURCE_MANAGER.getFont("minecraft-font"), this->titleText.c_str(), TITLE_SIZE, TEXT_SPACING);
+    this->titleOffset = Vector2{ titleMeasurement.x / 2.f, titleMeasurement.y / 2.f };
+
     // Nick Step 
     // -------------------------------------------------------------------------------------------
     // Then you can create button of confirmation
@@ -141,6 +146,17 @@ void SetupScene::update(float deltaTime) {
 void SetupScene::draw() const {
     M_BG.draw();
 
+    DrawTextPro(
+        *RESOURCE_MANAGER.getFont("minecraft-font"),
+        this->titleText.c_str(),
+        this->titlePosition,
+        this->titleOffset,
+        0,
+        TITLE_SIZE,
+        TEXT_SPACING,
+        MY_ORANGE
+    );
+
     // First step of the setup scene
     if (!this->nickGiven) {
         // Draw text above input for information
@@ -177,7 +193,4 @@ void SetupScene::cleanUp() {
     // Clean up the input field
     RESOURCE_MANAGER.unloadTexture("button");
     RESOURCE_MANAGER.unloadFont("minecraft-font");
-
-    if (this->setupThread.joinable())
-        this->setupThread.join();
 }

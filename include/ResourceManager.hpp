@@ -9,6 +9,9 @@ public:
     // Singleton access to ResourceManager instance
     static ResourceManager& getInstance();
 
+    // Clear all loaded resources
+    ~ResourceManager();
+
     // Load a texture and store it by a key
     void loadTexture(const std::string& key, const std::string& filePath);
 

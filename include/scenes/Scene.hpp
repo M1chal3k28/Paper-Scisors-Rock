@@ -4,6 +4,8 @@
 
 class Scene {
 public:
+    virtual ~Scene() {}
+    
     // Function to prepare resources needed by the scene
     virtual void prepareResources() = 0;
 

@@ -8,6 +8,8 @@
 
 #include <Game.hpp>
 
+#define TITLE_SIZE 200.f
+
 class SetupScene : public Scene {
     // First step of the setup scene
     std::string nick;
@@ -23,8 +25,10 @@ class SetupScene : public Scene {
     std::unique_ptr<Button> offlineButton = nullptr;
     bool playerTypeGiven = false;
 
-    std::thread setupThread;
-    bool startedSetup = false;
+    // Game title text
+    Vector2 titlePosition;
+    Vector2 titleOffset;
+    std::string titleText = "Rock Paper Scissors";
 public:
     SetupScene();
     ~SetupScene();
