@@ -2,8 +2,8 @@
 
 #include <ResourceManager.hpp>
 
-Text::Text(std::string text, Vector2 offset, Vector2 position, std::string fontId, float size, float spacing)
-    : tText(text), tOffset(offset), tPosition(position), tFontId(fontId), tSize(size), tSpacing(spacing) {}
+Text::Text(std::string text, Vector2 offset, Vector2 position, std::string fontId, float size, float spacing, Color color = WHITE)
+    : tText(text), tOffset(offset), tPosition(position), tFontId(fontId), tSize(size), tSpacing(spacing), tColor(color) {}
 
 void Text::draw() {
     DrawTextPro(
@@ -14,7 +14,7 @@ void Text::draw() {
         0,
         this->tSize,
         this->tSpacing,
-        WHITE
+        this->tColor
     );
 }
 

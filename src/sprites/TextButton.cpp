@@ -16,7 +16,7 @@ TextButton::TextButton(
     positionOfFrameOnTexture, 
     textureId, 
     onClick
-), Text(text, Vector2{0, 0}, Vector2{0, 0}, fontId, TEXT_SIZE, TEXT_SPACING) {
+), Text(text, Vector2{0, 0}, Vector2{0, 0}, fontId, TEXT_SIZE, TEXT_SPACING, WHITE) {
     // Set text offset and position
     this->tCenterOffset();
     this->tSetPosition(this->sPosition);

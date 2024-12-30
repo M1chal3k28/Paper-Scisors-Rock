@@ -6,6 +6,7 @@
 #include <sprites/Button.hpp>
 #include <sprites/TextButton.hpp>
 #include <InputField.hpp>
+#include <Text.hpp>
 
 #include <Game.hpp>
 
@@ -28,9 +29,7 @@ class SetupScene : public Scene {
     bool playerTypeGiven = false;
 
     // Game title text
-    Vector2 titlePosition;
-    Vector2 titleOffset;
-    std::string titleText = "Rock Paper Scissors";
+    std::unique_ptr<Text> title = nullptr;
 public:
     SetupScene();
     ~SetupScene();

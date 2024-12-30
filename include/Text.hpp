@@ -11,8 +11,9 @@ protected:
     Vector2 tPosition;
     std::string tFontId;
     Vector2 tMeasurement;
+    Color tColor;
 public:
-    Text(std::string text, Vector2 offset, Vector2 position, std::string fontId, float size, float spacing);
+    Text(std::string text, Vector2 offset, Vector2 position, std::string fontId, float size, float spacing, Color color);
     virtual void draw();
 
     void tSetPosition( Vector2 position );

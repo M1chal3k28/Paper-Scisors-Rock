@@ -24,9 +24,16 @@ SetupScene::SetupScene() {
     );
 
     // Prepare title
-    this->titlePosition = Vector2{ (float)GetScreenWidth() / 2, 200 };
-    Vector2 titleMeasurement = MeasureTextEx(*RESOURCE_MANAGER.getFont("minecraft-font"), this->titleText.c_str(), TITLE_SIZE, TEXT_SPACING);
-    this->titleOffset = Vector2{ titleMeasurement.x / 2.f, titleMeasurement.y / 2.f };
+    this->title = std::make_unique<Text>(
+        "Rock Paper Scissors", 
+        Vector2{ 0, 0 }, 
+        Vector2{ (float)GetScreenWidth() / 2, 200 }, 
+        "minecraft-font", 
+        TITLE_SIZE, 
+        TEXT_SPACING, 
+        MY_ORANGE
+    );
+    this->title->tCenterOffset();
 
     // Nick Step 
     // -------------------------------------------------------------------------------------------
@@ -171,16 +178,8 @@ void SetupScene::update(float deltaTime) {
 void SetupScene::draw() const {
     M_BG.draw();
 
-    DrawTextPro(
-        *RESOURCE_MANAGER.getFont("minecraft-font"),
-        this->titleText.c_str(),
-        this->titlePosition,
-        this->titleOffset,
-        0,
-        TITLE_SIZE,
-        TEXT_SPACING,
-        MY_ORANGE
-    );
+    // Draw title
+    this->title->draw();
 
     // First step of the setup scene
     if (!this->nickGiven) {
