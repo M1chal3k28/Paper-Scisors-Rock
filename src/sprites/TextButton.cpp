@@ -16,11 +16,10 @@ TextButton::TextButton(
     positionOfFrameOnTexture, 
     textureId, 
     onClick
-), text(text), fontId(fontId) {
+), Text(text, Vector2{0, 0}, Vector2{0, 0}, fontId, TEXT_SIZE, TEXT_SPACING) {
     // Set text offset and position
-    Vector2 textSize = MeasureTextEx(*RESOURCE_MANAGER.getFont(this->fontId), this->text.c_str(), TEXT_SIZE, TEXT_SPACING);
-    this->textOffset = Vector2{ textSize.x / 2.f, textSize.y / 2.f };
-    this->textPosition = Vector2{ this->sPosition.x, this->sPosition.y };
+    this->tCenterOffset();
+    this->tSetPosition(this->sPosition);
 }
 
 void TextButton::draw() {
@@ -28,17 +27,7 @@ void TextButton::draw() {
     Button::draw();
 
     // Draw button text
-    // in the center of the button
-    DrawTextPro(
-        *RESOURCE_MANAGER.getFont(this->fontId),
-        this->text.c_str(),
-        this->textPosition,
-        this->textOffset,
-        0,
-        TEXT_SIZE,
-        TEXT_SPACING,
-        WHITE
-    );
+    Text::draw();
 }
 
 void TextButton::update(float deltaTime) {

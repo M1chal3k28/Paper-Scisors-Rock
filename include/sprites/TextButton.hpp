@@ -1,15 +1,9 @@
 #pragma once
 
 #include <sprites/Button.hpp>
+#include <Text.hpp>
 
-class TextButton : public Button {
-protected:
-    // Text to display on button
-    std::string text;
-    // Font to use
-    std::string fontId;
-    // Text offset
-    Vector2 textOffset;
+class TextButton : public Button, private Text {
 public:
     TextButton(
         Vector2 position, // position of the button
