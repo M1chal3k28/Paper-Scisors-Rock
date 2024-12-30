@@ -17,7 +17,7 @@ class BroadcastSocket {
     // Is searching for servers
     bool running;
     // Thread for searching
-    std::thread discoverThread;
+    std::future<void> discoverThread;
 
     // Function for searching for servers
     void searchForServers();
@@ -27,6 +27,8 @@ public:
 
     // Starts the broadcast in a separate thread
     void startBroadcast();
+
+    void searchOnce();
 
     // Stops the broadcast and the thread
     std::vector<std::pair<std::string, sockaddr_in>> getResults();

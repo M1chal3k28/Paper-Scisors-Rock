@@ -5,15 +5,6 @@
 
 #define SCENE_MANAGER SceneManager::getInstance()
 
-class SceneType {
-public:
-    enum Value {
-        INTRO = 0,
-        SETUP,
-        HOST_LOBBY
-    };    
-};
-
 class SceneManager {
     std::stack<std::unique_ptr<Scene>> scenesStack;
 public:

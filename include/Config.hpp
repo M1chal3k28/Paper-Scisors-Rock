@@ -76,10 +76,20 @@ public:
 
 // Player type enum class
 class PlayerType {
-    public:
-        enum Value {
-            Host = 0,
-            Client = 1,
-            Offline = 2
-        };
+public:
+    enum Value {
+        Host = 0,
+        Client = 1,
+        Offline = 2
+    };
+};
+
+class SceneType {
+public:
+    enum Value {
+        INTRO = 0,
+        SETUP,
+        HOST_LOBBY,
+        SERVER_SELECTION
+    };    
 };

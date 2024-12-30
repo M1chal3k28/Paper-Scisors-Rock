@@ -34,8 +34,8 @@ BroadcastSocket::BroadcastSocket() : running(false), discoveredServers() {
 // Destructor Clears the socket
 BroadcastSocket::~BroadcastSocket() {
     this->running = false;
-    if (this->discoverThread.joinable())
-        this->discoverThread.join();
+    if (this->discoverThread.valid())
+        this->discoverThread.get();
     
     closesocket(this->broadcastSocket);
     WSACleanup();
@@ -44,13 +44,21 @@ BroadcastSocket::~BroadcastSocket() {
 // Starts the broadcast in a separate thread
 void BroadcastSocket::startBroadcast() {
     this->running = true;
-    this->discoverThread = std::thread(&BroadcastSocket::searchForServers, this);
+    this->discoverThread = std::async(std::launch::async, &BroadcastSocket::searchForServers, this);
+}
+
+void BroadcastSocket::searchOnce() {
+    if (this->discoverThread.valid())
+        this->discoverThread.get();
+
+    this->running = false;
+    this->discoverThread = std::async(std::launch::async, &BroadcastSocket::searchForServers, this);
 }
 
 // Stops the broadcast and the thread
 std::vector<std::pair<std::string, sockaddr_in>> BroadcastSocket::getResults() {
     // Check if thread is running
-    if ( !this->discoverThread.joinable() ) {
+    if ( !this->discoverThread.valid() ) {
         throw std::runtime_error("Thread not started, could not get results from BroadcastSocket");
         return {};
     }
@@ -58,7 +66,7 @@ std::vector<std::pair<std::string, sockaddr_in>> BroadcastSocket::getResults() {
     // Stop searching
     this->running = false;
     // Join thread
-    this->discoverThread.join();
+    this->discoverThread.get();
     return this->discoveredServers;
 }
 

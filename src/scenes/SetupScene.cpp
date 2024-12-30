@@ -105,8 +105,7 @@ SetupScene::SetupScene() {
         "minecraft-font",
         [this]() {
             // This is a function that will be called when the button is clicked
-            this->playerType = PlayerType::Client;
-            this->playerTypeGiven = true;
+            SCENE_MANAGER.pushScene(SceneType::SERVER_SELECTION);
         }
     );
 
