@@ -110,7 +110,7 @@ void PlayerServer::startRespondingForBroadcast() {
 void PlayerServer::stopRespondingForBroadcast() {
     this->responding = false;
     if (this->responseFuture.valid()) {
-        // Czekaj na zakończenie wątku
+        // Wait for thread to finish
         this->responseFuture.get();
     }
 }
