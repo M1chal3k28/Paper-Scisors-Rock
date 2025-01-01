@@ -33,3 +33,8 @@ void Text::tCenterOffset() {
 
     this->tOffset = {this->tMeasurement.x / 2, this->tMeasurement.y / 2};
 }
+
+void Text::tSetText(std::string text) {
+    this->tText = text;
+    this->tCenterOffset();
+}

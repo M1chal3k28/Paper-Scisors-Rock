@@ -10,7 +10,7 @@ SetupScene::SetupScene() {
     this->exitButton = std::make_unique<Button>(
         Vector2{ (float)GetScreenWidth() - 70, (float)GetScreenHeight() - 70 }, 
         (Vector2)SMALL_BUTTON_SIZE, 
-        (Vector2)SMALL_BUTTON_SHEET_OFFSET,
+        (Vector2)SMALL_BUTTON_EXIT_OFFSET,
         "button", 
         [this]() {
             // This is a function that will be called when the button is clicked

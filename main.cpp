@@ -13,9 +13,9 @@ int main() {
     // Set config flag to enable V-Sync
     SetConfigFlags(FLAG_MSAA_4X_HINT);
     SetConfigFlags(FLAG_VSYNC_HINT);
-    // InitWindow(GetMonitorWidth(GetCurrentMonitor()), GetMonitorHeight(GetCurrentMonitor()), "Rock-Paper-Scissors");    // Set full screen
-    InitWindow(1920, 1080, "Rock-Paper-Scissors");    // Set full screen
-    // SetWindowState(FLAG_FULLSCREEN_MODE);
+    InitWindow(GetMonitorWidth(GetCurrentMonitor()), GetMonitorHeight(GetCurrentMonitor()), "Rock-Paper-Scissors");    // Set full screen
+    // InitWindow(1920, 1080, "Rock-Paper-Scissors");    // Set full screen
+    SetWindowState(FLAG_FULLSCREEN_MODE);
 
     // Initialize scenes
     SCENE_MANAGER.pushScene( SceneType::INTRO );

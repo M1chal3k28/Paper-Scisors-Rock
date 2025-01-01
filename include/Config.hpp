@@ -53,15 +53,31 @@ using namespace std;
 #define MY_ORANGE Color{255, 189, 89, 255}
 
 // Resources
-#define DEFAULT_FONT "default"
-#define DEFAULT_TEXTURE "default"
+#define DEFAULT_FONT_KEY "default"
+#define DEFAULT_TEXTURE_KEY "default"
+#define DEFAULT_FONT *RESOURCE_MANAGER.getFont(DEFAULT_FONT_KEY);
+#define DEFAULT_TEXTURE *RESOURCE_MANAGER.getTexture(DEFAULT_TEXTURE_KEY);
 
 // Buttons
 #define BUTTON_MAX_STATES 2 // 0 is not hovered, 1 is hovered 2 is pressed
+
+// Define button sizes and offsets
 #define MENU_BUTTON_SIZE {600.f, 100.f}
+// Define all offsets for this type
 #define MENU_BUTTON_SHEET_OFFSET {0.f, 0.f}
+
 #define SMALL_BUTTON_SIZE {100.f, 100.f}
-#define SMALL_BUTTON_SHEET_OFFSET {0.f, 100.f}
+// Define all offsets for this type
+#define SMALL_BUTTON_EXIT_OFFSET {0.f, 100.f}
+#define SMALL_BUTTON_RELOAD_OFFSET {0.f, 200.f}
+#define SMALL_BUTTON_PAPER_OFFSET {100.f, 100.f}
+#define SMALL_BUTTON_ROCK_OFFSET {200.f, 100.f}
+#define SMALL_BUTTON_SCISSORS_OFFSET {300.f, 100.f}
+
+#define TINY_BUTTON_SIZE {50.f, 50.f}
+// Define all offsets for this type
+#define TINY_BUTTON_LEFTARROW_OFFSET {0.f, 300.f}
+#define TINY_BUTTON_RIGHTARROW_OFFSET {50.f, 300.f}
 
 // Screen side enum class
 class ScreenSide {
@@ -84,6 +100,7 @@ public:
     };
 };
 
+// Type of the scene
 class SceneType {
 public:
     enum Value {
