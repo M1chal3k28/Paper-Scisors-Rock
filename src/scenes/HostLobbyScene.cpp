@@ -48,6 +48,12 @@ void HostLobbyScene::update(float deltaTime) {
     SetMouseCursor(MOUSE_CURSOR_DEFAULT);
 
     this->backButton->update(deltaTime);
+
+    // Check if server is running
+    if (GAME.isServerError()) {
+        SCENE_MANAGER.popScene();
+        GAME.deinitialize();
+    }
 }
 
 void HostLobbyScene::draw() const {

@@ -34,6 +34,8 @@ class Game {
     // Type of player
     PlayerType::Value playerType; // update logic depend on this
 
+    // has server error ?
+    std::atomic<bool> serverError = false;
 public:
     ~Game();
     // Singleton access to game instance
@@ -76,4 +78,7 @@ public:
     // 2. Close sockets
     // 3. Join setup thread
     void deinitialize();
+
+    // return whether server has error
+    bool isServerError();
 };

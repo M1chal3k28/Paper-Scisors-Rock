@@ -69,31 +69,38 @@ void Game::setup(std::string nick, PlayerType::Value type) {
 // 6. After connecting with player stop responding for broadcast
 // 7. Create enemy and player object
 void Game::setupServer( const std::string& nick ) {
-    // Create server
-    this->serverOrClientSocket = std::make_unique<PlayerServer>(nick);
-    // Start listening for connections
-    this->serverOrClientSocket->startListening();
-    // Go Online
-    this->serverOrClientSocket->startRespondingForBroadcast();
-
-    // Create accepted socket | wait for connection
-    this->enemySocket = std::make_unique<EnemySocket>( );
     try {
-        this->enemySocket->connectToServer( this->serverOrClientSocket->getSocket() );
-        // Send my nick to enemy
-        this->enemySocket->_send( nick.c_str() );
-        
-        // After connecting with player stop responding for broadcast
-        this->serverOrClientSocket->stopRespondingForBroadcast();
+        // Create server
+        this->serverOrClientSocket = std::make_unique<PlayerServer>(nick);
+        // Start listening for connections
+        this->serverOrClientSocket->startListening();
+        // Go Online
+        this->serverOrClientSocket->startRespondingForBroadcast();
 
-        // Enemy
-        this->enemy = std::make_unique<Enemy>(enemySocket);
+        // Create accepted socket | wait for connection
+        this->enemySocket = std::make_unique<EnemySocket>( );
+        try {
+            this->enemySocket->connectToServer( this->serverOrClientSocket->getSocket() );
+            // Send my nick to enemy
+            this->enemySocket->_send( nick.c_str() );
+            
+            // After connecting with player stop responding for broadcast
+            this->serverOrClientSocket->stopRespondingForBroadcast();
 
-        // Player
-        // It's connected to server so player sends to it
-        this->player = std::make_unique<Player>(nick, this->enemySocket);
-    } catch(...) {
-        // On error clean up and exit
+            // Enemy
+            this->enemy = std::make_unique<Enemy>(enemySocket);
+
+            // Player
+            // It's connected to server so player sends to it
+            this->player = std::make_unique<Player>(nick, this->enemySocket);
+        } catch(...) {
+            // On error clean up and exit
+            WSACleanup();
+        }
+    } catch( std::exception & e ) {
+        // Handle exception
+        MessageBox((HWND)GetWindowHandle(), e.what(), "Error", MB_OK | MB_ICONERROR);
+        this->serverError = true;
         WSACleanup();
     }
 }
@@ -235,6 +242,7 @@ void Game::deinitialize() {
 
     // un set flag that game is set up
     this->isSetUp = false;
+    this->serverError = false;
 
     // Shutdown server first
     // This is gonna terminate accept function which is blocking game thread 
@@ -262,4 +270,8 @@ void Game::deinitialize() {
         if(this->serverOrClientSocket)
             this->serverOrClientSocket.reset();
     // ----------------------------------------
+}
+
+bool Game::isServerError() {
+    return this->serverError.operator bool();
 }
