@@ -44,7 +44,7 @@ using namespace std;
 #define RANDOM(FROM, TO) rand() % (TO - FROM + 1) + FROM
 #define TEXT_SPACING 2.f
 #define TEXT_SIZE 40.f
-#define TITLE_SIZE 200.f
+#define TITLE_SIZE 150.f
 
 // Define colors
 #define MY_LIGHTGRAY Color{217, 217, 217, 255}
@@ -77,7 +77,7 @@ using namespace std;
 #define TINY_BUTTON_SIZE {50.f, 50.f}
 // Define all offsets for this type
 #define TINY_BUTTON_LEFTARROW_OFFSET {0.f, 300.f}
-#define TINY_BUTTON_RIGHTARROW_OFFSET {50.f, 300.f}
+#define TINY_BUTTON_RIGHTARROW_OFFSET {150.f, 300.f}
 
 // Screen side enum class
 class ScreenSide {

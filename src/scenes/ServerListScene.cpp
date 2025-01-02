@@ -10,7 +10,7 @@ ServerListScene::ServerListScene() : currentPage(0) {
 
     // Create back button
     this->backButton = std::make_unique<TextButton>(
-        Vector2{ (float)GetScreenWidth() / 2, (float)GetScreenHeight() - 200 }, 
+        Vector2{ (float)GetScreenWidth() / 2 - (Vector2)SMALL_BUTTON_SIZE.x / 2 - 10, (float)GetScreenHeight() / 2 + 395 }, 
         (Vector2)MENU_BUTTON_SIZE, 
         (Vector2)MENU_BUTTON_SHEET_OFFSET,
         "Back", 
@@ -23,6 +23,68 @@ ServerListScene::ServerListScene() : currentPage(0) {
         }
     );
 
+    this->reloadButton = std::make_unique<Button>(
+        Vector2{ (float)GetScreenWidth() / 2 + (Vector2)MENU_BUTTON_SIZE.x / 2 + 10, (float)GetScreenHeight() / 2 + 395},
+        (Vector2)SMALL_BUTTON_SIZE,
+        (Vector2)SMALL_BUTTON_RELOAD_OFFSET,
+        "button",
+        [this](){
+            // This is a function that will be called when the button is clicked
+            // Reload servers
+            if (!this->isFinished)
+                return;
+
+            // Start looking for a servers
+            // Set finished to false
+            this->isFinished = false;
+            this->getServersThread = std::async(std::launch::async, &ServerListScene::getAvailableServers, this);
+            this->currentPage = 0;
+            this->pageText->tSetText(std::to_string(this->currentPage + 1));
+        }
+    );
+
+    this->leftArrow = std::make_unique<Button>(
+        Vector2{ (float)GetScreenWidth() / 2 - 50, (float)GetScreenHeight() / 2 + 315},
+        (Vector2)TINY_BUTTON_SIZE,
+        (Vector2)TINY_BUTTON_LEFTARROW_OFFSET,
+        "button",
+        [this](){
+            // This is a function that will be called when the button is clicked
+            if(this->currentPage <= 0)
+                return;
+
+            this->currentPage--;
+            this->pageText->tSetText(std::to_string(this->currentPage + 1));
+        }
+    );
+
+    this->rightArrow = std::make_unique<Button>(
+        Vector2{ (float)GetScreenWidth() / 2 + 50, (float)GetScreenHeight() / 2 + 315},
+        (Vector2)TINY_BUTTON_SIZE,
+        (Vector2)TINY_BUTTON_RIGHTARROW_OFFSET,
+        "button",
+        [this](){
+            // This is a function that will be called when the button is clicked
+            if(this->pages.size() <= this->currentPage + 1)
+                return;
+
+            this->currentPage++;
+            this->pageText->tSetText(std::to_string(this->currentPage + 1));
+        }
+    );
+
+    // page text
+    this->pageText = std::make_unique<Text>( 
+        "1", 
+        Vector2{0, 0}, 
+        Vector2{(float)GetScreenWidth() / 2, (float)GetScreenHeight() / 2 + 315}, 
+        "minecraft-font", 
+        TEXT_SIZE, 
+        TEXT_SPACING, 
+        MY_ORANGE
+    );
+    this->pageText->tCenterOffset();
+
     // Start looking for a servers
     // Set finished to false
     this->isFinished = false;
@@ -34,13 +96,19 @@ ServerListScene::~ServerListScene() {
 }
 
 void ServerListScene::getAvailableServers() {
+    this->info->tSetText("Searching");
+    this->pages.clear();
+
     // Start looking for a servers
     this->broadcastSocket.searchOnce();
     this->discoveredServers = this->broadcastSocket.getResults();
 
-    // Create server buttonsghfh
-    this->pages.clear();
-    this->pages.resize(1);
+    for (size_t i = 1; i <= 20; i++) {
+        this->discoveredServers.emplace_back(std::make_pair("Server " + std::to_string(i), sockaddr_in{}));
+    }
+
+    // Create server buttons
+    this->pages.emplace_back(std::vector<std::unique_ptr<TextButton>>());
 
     // padding
     static int padding = 2;
@@ -112,15 +180,28 @@ void ServerListScene::update(float deltaTime) {
     // Set cursor to default
     SetMouseCursor(MOUSE_CURSOR_DEFAULT);
 
-    // Update buttons
+    // Update server buttons
     for (auto& page : pages)
         for (auto& server : page) 
             server->update(deltaTime);
 
-    // Update back button
-    this->backButton->update(deltaTime);
+    // Update reload button
+    if(this->reloadButton)
+        this->reloadButton->update(deltaTime);
+
+    // Update left arrow
+    if (this->leftArrow)
+        this->leftArrow->update(deltaTime);
+
+    // Update right arrow
+    if (this->rightArrow)
+        this->rightArrow->update(deltaTime);
 
     M_BG.update(deltaTime);
+
+    // Update back button
+    if(this->backButton)
+        this->backButton->update(deltaTime);
 }
 
 void ServerListScene::draw() const {
@@ -129,9 +210,24 @@ void ServerListScene::draw() const {
     // Draw back button
     this->backButton->draw();
 
+    // Draw reload button
+    this->reloadButton->draw();
+
+    // Draw left arrow
+    if (this->leftArrow)
+        this->leftArrow->draw();
+
+    // Draw right arrow
+    if (this->rightArrow)
+        this->rightArrow->draw();
+
     // Draw title
     if (this->info)
         this->info->draw();
+
+    // Draw page text
+    if (this->pageText)
+        this->pageText->draw();
 
     // Draw servers
     if (this->currentPage < this->pages.size())

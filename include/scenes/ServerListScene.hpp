@@ -24,6 +24,7 @@ class ServerListScene : public Scene {
     size_t currentPage = 0;
     std::unique_ptr<Button> leftArrow = nullptr;
     std::unique_ptr<Button> rightArrow = nullptr;
+    std::unique_ptr<Text> pageText = nullptr;
     
     std::unique_ptr<Text> info = nullptr;
 
@@ -31,6 +32,7 @@ class ServerListScene : public Scene {
     std::future<void> getServersThread;
     std::atomic<bool> isFinished = true;
     void getAvailableServers();
+    std::unique_ptr<Button> reloadButton = nullptr;
 
     // Back button
     std::unique_ptr<TextButton> backButton = nullptr;
