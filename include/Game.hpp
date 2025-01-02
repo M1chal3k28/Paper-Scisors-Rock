@@ -4,6 +4,8 @@
 #include <Player.hpp>
 #include <Sockets.hpp>
 
+#include <scenes/SceneManager.hpp>
+
 #define GAME Game::getInstance()
 
 class Game {
@@ -16,7 +18,7 @@ class Game {
 
     // Players
     std::unique_ptr<Player> player = nullptr;
-    std::unique_ptr<Enemy> enemy = nullptr;
+    std::unique_ptr<Player> enemy = nullptr;
 
         // Connection stuff
     // This is either server socket or client socket
@@ -33,6 +35,7 @@ class Game {
 
     // Type of player
     PlayerType::Value playerType; // update logic depend on this
+    PlayerType::Value enemyType;
 
     // has server error ?
     std::atomic<bool> serverError = false;
@@ -70,6 +73,10 @@ public:
     // 6. Create enemy and player object based on connection socket
     void setupClient( const std::string& nick );
 
+        // Setup offline
+    // 1. Create player object
+    void setupOffline( const std::string& nick );
+
     // Main loop of the game
     void run();
     
@@ -81,4 +88,8 @@ public:
 
     // return whether server has error
     bool isServerError();
+
+    PlayerType::Value getPlayerType();
+
+    std::string getNick(PlayerType::Value type);
 };

@@ -6,9 +6,9 @@
 class Choice {
 public:
     enum Value {
-        Paper = 0b001,
-        Scissors = 0b010,
-        Rock = 0b011
+        Paper = 1,
+        Scissors = 2,
+        Rock = 3
     };
 
     static std::string toString(Choice::Value choice) {
@@ -19,7 +19,7 @@ public:
             break;
 
         case Choice::Scissors:
-            return "scissors";
+            return "Scissors";
             break;
 
         case Choice::Rock:
@@ -36,12 +36,11 @@ protected:
     int score;
     std::string name;
     Choice::Value choice;
-    std::shared_ptr<MySocket> connectionSocket;
 public:
     // Constructor
     // 1. Name of the player
     // 2. Connection socket
-    Player(std::string name, std::shared_ptr<MySocket> connectionSocket);
+    Player(std::string name);
 
     // Choose
     virtual void choose();
@@ -55,11 +54,32 @@ public:
     void addScore();
 };
 
-class Enemy : public Player {
+class OnlinePlayer : public Player {
+protected:
+    std::shared_ptr<MySocket> connectionSocket;
+public:
+    // Constructor
+    // 1. Name of the player
+    // 2. Connection socket
+    OnlinePlayer(std::string name, std::shared_ptr<MySocket> connectionSocket);
+
+    // Choose
+    virtual void choose();
+};
+
+class Enemy : public OnlinePlayer {
 public:
     Enemy(std::shared_ptr<MySocket> connectionSocket);
 
     // Choose
     // It receive choice from player
+    virtual void choose();
+};
+
+class Computer : public Player {
+public:
+    Computer();
+
+    // Choose
     virtual void choose();
 };

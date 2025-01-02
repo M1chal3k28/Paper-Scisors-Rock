@@ -57,6 +57,11 @@ void Game::setup(std::string nick, PlayerType::Value type) {
         case PlayerType::Client:
             this->setupThread = std::async( std::launch::async, &Game::setupClient, this, nick );
         break;
+
+        // Offline
+        case PlayerType::Offline:
+            this->setupThread = std::async( std::launch::async, &Game::setupOffline, this, nick );
+        break;
     }
 }
 
@@ -92,7 +97,7 @@ void Game::setupServer( const std::string& nick ) {
 
             // Player
             // It's connected to server so player sends to it
-            this->player = std::make_unique<Player>(nick, this->enemySocket);
+            this->player = std::make_unique<OnlinePlayer>(nick, this->enemySocket);
         } catch(...) {
             // On error clean up and exit
             WSACleanup();
@@ -185,10 +190,19 @@ void Game::setupClient( const std::string& nick ) {
     this->enemy = std::make_unique<Enemy>( this->serverOrClientSocket );
 
     // Player 
-    this->player = std::make_unique<Player>( nick, this->serverOrClientSocket );
+    this->player = std::make_unique<OnlinePlayer>( nick, this->serverOrClientSocket );
 }
 
-void Game::run() {
+void Game::setupOffline(const std::string &nick) {
+    this->enemyType = PlayerType::Offline;
+    this->playerType = PlayerType::Offline;
+    this->player = std::make_unique<Player>(nick);
+    this->enemy = std::make_unique<Computer>();
+    SCENE_MANAGER.pushScene( SceneType::GAME_SCENE );
+}
+
+void Game::run()
+{
     // Game loop
     while( true ) {
         system("cls");
@@ -274,4 +288,22 @@ void Game::deinitialize() {
 
 bool Game::isServerError() {
     return this->serverError.operator bool();
+}
+
+PlayerType::Value Game::getPlayerType() {
+    return this->playerType;
+}
+
+std::string Game::getNick(PlayerType::Value type)
+{
+    switch(type) {
+        case PlayerType::Host:
+        case PlayerType::Client:
+        case PlayerType::Offline:
+            return this->player->getName();
+            
+        case PlayerType::Enemy:
+            return this->enemy->getName();
+    }
+    return std::string();
 }

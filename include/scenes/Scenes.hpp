@@ -6,3 +6,4 @@
 #include <scenes/SetupScene.hpp>
 #include <scenes/HostLobbyScene.hpp>
 #include <scenes/ServerListScene.hpp>
+#include <scenes/GameScene.hpp>

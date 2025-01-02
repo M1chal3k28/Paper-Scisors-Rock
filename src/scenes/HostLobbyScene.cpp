@@ -5,7 +5,7 @@ HostLobbyScene::HostLobbyScene() {
     this->prepareResources();
     
     // Set text info offset and pos
-    Vector2 measurement = MeasureTextEx(*RESOURCE_MANAGER.getFont("minecraft-font"), this->infoText.c_str(), TITLE_SIZE, TEXT_SPACING);
+    Vector2 measurement = MeasureTextEx(*RESOURCE_MANAGER.getFont(MINECRAFT_FONT_KEY), this->infoText.c_str(), TITLE_SIZE, TEXT_SPACING);
     this->infoOffset = Vector2{ measurement.x / 2.f, measurement.y / 2.f };
     this->infoPosition = Vector2{ (float)GetScreenWidth() / 2, 200 };
 
@@ -15,8 +15,8 @@ HostLobbyScene::HostLobbyScene() {
         (Vector2)MENU_BUTTON_SIZE, 
         (Vector2)MENU_BUTTON_SHEET_OFFSET,
         "Back", 
-        "button", 
-        "minecraft-font",
+        BUTTON_TXT_KEY, 
+        MINECRAFT_FONT_KEY,
         [this]() {
             // This is a function that will be called when the button is clicked
             // Go back to main menu scene
@@ -36,9 +36,9 @@ void HostLobbyScene::prepareResources() {
     // Init background if not done already
     M_BG;
     // Load button png sprite sheet
-    RESOURCE_MANAGER.loadTexture("button", "assets/buttons.png");
+    RESOURCE_MANAGER.loadTexture(BUTTON_TXT_KEY, "assets/buttons.png");
     // Load font
-    RESOURCE_MANAGER.loadFont("minecraft-font", "assets/Minecraft.ttf");
+    RESOURCE_MANAGER.loadFont(MINECRAFT_FONT_KEY, "assets/Minecraft.ttf");
 }
 
 void HostLobbyScene::update(float deltaTime) {
@@ -61,7 +61,7 @@ void HostLobbyScene::draw() const {
 
     // Draw text that server wait for client
     DrawTextPro(
-        *RESOURCE_MANAGER.getFont("minecraft-font"),
+        *RESOURCE_MANAGER.getFont(MINECRAFT_FONT_KEY),
         this->infoText.c_str(),
         this->infoPosition,
         this->infoOffset,

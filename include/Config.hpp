@@ -58,8 +58,14 @@ using namespace std;
 #define DEFAULT_FONT *RESOURCE_MANAGER.getFont(DEFAULT_FONT_KEY);
 #define DEFAULT_TEXTURE *RESOURCE_MANAGER.getTexture(DEFAULT_TEXTURE_KEY);
 
+// Minecraft font
+#define MINECRAFT_FONT_KEY "minecraft-font"
+
 // Buttons
 #define BUTTON_MAX_STATES 2 // 0 is not hovered, 1 is hovered 2 is pressed
+
+// Button txt name
+#define BUTTON_TXT_KEY "button"
 
 // Define button sizes and offsets
 #define MENU_BUTTON_SIZE {600.f, 100.f}
@@ -70,9 +76,10 @@ using namespace std;
 // Define all offsets for this type
 #define SMALL_BUTTON_EXIT_OFFSET {0.f, 100.f}
 #define SMALL_BUTTON_RELOAD_OFFSET {0.f, 200.f}
-#define SMALL_BUTTON_PAPER_OFFSET {100.f, 100.f}
-#define SMALL_BUTTON_ROCK_OFFSET {200.f, 100.f}
-#define SMALL_BUTTON_SCISSORS_OFFSET {300.f, 100.f}
+#define SMALL_BUTTON_PAPER_OFFSET {300.f, 100.f}
+#define SMALL_BUTTON_ROCK_OFFSET {600.f, 100.f}
+#define SMALL_BUTTON_SCISSORS_OFFSET {900.f, 100.f}
+#define SMALL_BUTTON_HOME_OFFSET {300.f, 200.f}
 
 #define TINY_BUTTON_SIZE {50.f, 50.f}
 // Define all offsets for this type
@@ -96,7 +103,8 @@ public:
     enum Value {
         Host = 0,
         Client = 1,
-        Offline = 2
+        Offline = 2,
+        Enemy = 3
     };
 };
 
@@ -107,6 +115,7 @@ public:
         INTRO = 0,
         SETUP,
         HOST_LOBBY,
-        SERVER_SELECTION
+        SERVER_SELECTION,
+        GAME_SCENE
     };    
 };

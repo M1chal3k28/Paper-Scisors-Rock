@@ -1,13 +1,10 @@
 #include <Player.hpp>
 
-Player::Player(std::string name, std::shared_ptr<MySocket> connectionSocket) 
+Player::Player(std::string name) 
     :  
     name(name),
     score(0), 
-    choice(Choice::Paper), 
-    // enemy socket is required to send the player's choice
-    // it works cause player is server which accepted connection to enemy socket
-    connectionSocket( std::move(connectionSocket) ) {}
+    choice(Choice::Paper) {}
 
 void Player::choose() {
     bool goodChoice = false;
@@ -27,9 +24,6 @@ void Player::choose() {
             this->choice = static_cast<Choice::Value>(intChoice);
         }
     } while(!goodChoice);
-
-    // Send choice to enemy
-    this->connectionSocket->_send( choiceString.c_str() );
 }
 
 const Choice::Value &Player::getChoice() {
@@ -49,7 +43,7 @@ void Player::addScore() {
 }
 
 Enemy::Enemy(std::shared_ptr<MySocket> connectionSocket)
-    : Player("", connectionSocket) {
+    : OnlinePlayer("", connectionSocket) {
         // Enemy's name is empty
         // receive name from enemy
         // it works cause enemy is client connected to server so it can receive data from server
@@ -61,4 +55,23 @@ void Enemy::choose() {
     std::string choiceString = this->connectionSocket->receive();
     // Convert to int to check if it is between 1 and 3
     this->choice = static_cast<Choice::Value>(atoi(choiceString.c_str()));
+}
+
+OnlinePlayer::OnlinePlayer(std::string name, std::shared_ptr<MySocket> connectionSocket)
+    : Player(name),
+    // enemy socket is required to send the player's choice
+    // it works cause player is server which accepted connection to enemy socket
+    connectionSocket( std::move(connectionSocket) ) {}
+
+void OnlinePlayer::choose() {
+    Player::choose();
+    // Send choice to enemy
+    this->connectionSocket->_send( std::to_string(this->choice).c_str() );
+}
+
+Computer::Computer() : Player("Computer") {}
+
+void Computer::choose() {
+    // Computer's choice is random
+    this->choice = static_cast<Choice::Value>(rand() % 3 + 1);
 }

@@ -5,7 +5,7 @@ ServerListScene::ServerListScene() : currentPage(0) {
     this->prepareResources();
 
     // Create info
-    this->info = std::make_unique<Text>( "Searching", Vector2{0, 0}, Vector2{(float)GetScreenWidth() / 2, 200}, "minecraft-font", TITLE_SIZE, TEXT_SPACING, MY_ORANGE);
+    this->info = std::make_unique<Text>( "Searching", Vector2{0, 0}, Vector2{(float)GetScreenWidth() / 2, 200}, MINECRAFT_FONT_KEY, TITLE_SIZE, TEXT_SPACING, MY_ORANGE);
     this->info->tCenterOffset();
 
     // Create back button
@@ -14,8 +14,8 @@ ServerListScene::ServerListScene() : currentPage(0) {
         (Vector2)MENU_BUTTON_SIZE, 
         (Vector2)MENU_BUTTON_SHEET_OFFSET,
         "Back", 
-        "button", 
-        "minecraft-font",
+        BUTTON_TXT_KEY, 
+        MINECRAFT_FONT_KEY,
         [this]() {
             // This is a function that will be called when the button is clicked
             // Go back to main menu scene
@@ -27,7 +27,7 @@ ServerListScene::ServerListScene() : currentPage(0) {
         Vector2{ (float)GetScreenWidth() / 2 + (Vector2)MENU_BUTTON_SIZE.x / 2 + 10, (float)GetScreenHeight() / 2 + 395},
         (Vector2)SMALL_BUTTON_SIZE,
         (Vector2)SMALL_BUTTON_RELOAD_OFFSET,
-        "button",
+        BUTTON_TXT_KEY,
         [this](){
             // This is a function that will be called when the button is clicked
             // Reload servers
@@ -47,7 +47,7 @@ ServerListScene::ServerListScene() : currentPage(0) {
         Vector2{ (float)GetScreenWidth() / 2 - 50, (float)GetScreenHeight() / 2 + 315},
         (Vector2)TINY_BUTTON_SIZE,
         (Vector2)TINY_BUTTON_LEFTARROW_OFFSET,
-        "button",
+        BUTTON_TXT_KEY,
         [this](){
             // This is a function that will be called when the button is clicked
             if(this->currentPage <= 0)
@@ -62,7 +62,7 @@ ServerListScene::ServerListScene() : currentPage(0) {
         Vector2{ (float)GetScreenWidth() / 2 + 50, (float)GetScreenHeight() / 2 + 315},
         (Vector2)TINY_BUTTON_SIZE,
         (Vector2)TINY_BUTTON_RIGHTARROW_OFFSET,
-        "button",
+        BUTTON_TXT_KEY,
         [this](){
             // This is a function that will be called when the button is clicked
             if(this->pages.size() <= this->currentPage + 1)
@@ -78,7 +78,7 @@ ServerListScene::ServerListScene() : currentPage(0) {
         "1", 
         Vector2{0, 0}, 
         Vector2{(float)GetScreenWidth() / 2, (float)GetScreenHeight() / 2 + 315}, 
-        "minecraft-font", 
+        MINECRAFT_FONT_KEY, 
         TEXT_SIZE, 
         TEXT_SPACING, 
         MY_ORANGE
@@ -143,8 +143,8 @@ void ServerListScene::getAvailableServers() {
                 (Vector2)MENU_BUTTON_SIZE,
                 (Vector2)MENU_BUTTON_SHEET_OFFSET,
                 server.first,
-                "button",
-                "minecraft-font",
+                BUTTON_TXT_KEY,
+                MINECRAFT_FONT_KEY,
                 [this]() {
                     // This is a function that will be called when the button is clicked
                 }
@@ -165,9 +165,9 @@ void ServerListScene::prepareResources() {
     M_BG;
     
     // Load button png sprite sheet
-    RESOURCE_MANAGER.loadTexture("button", "assets/buttons.png");
+    RESOURCE_MANAGER.loadTexture(BUTTON_TXT_KEY, "assets/buttons.png");
     // Load font
-    RESOURCE_MANAGER.loadFont("minecraft-font", "assets/Minecraft.ttf");
+    RESOURCE_MANAGER.loadFont(MINECRAFT_FONT_KEY, "assets/Minecraft.ttf");
 }
 
 void ServerListScene::update(float deltaTime) {

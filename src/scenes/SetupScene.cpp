@@ -11,7 +11,7 @@ SetupScene::SetupScene() {
         Vector2{ (float)GetScreenWidth() - 70, (float)GetScreenHeight() - 70 }, 
         (Vector2)SMALL_BUTTON_SIZE, 
         (Vector2)SMALL_BUTTON_EXIT_OFFSET,
-        "button", 
+        BUTTON_TXT_KEY, 
         [this]() {
             // This is a function that will be called when the button is clicked
             // Get window handle
@@ -28,7 +28,7 @@ SetupScene::SetupScene() {
         "Rock Paper Scissors", 
         Vector2{ 0, 0 }, 
         Vector2{ (float)GetScreenWidth() / 2, 200 }, 
-        "minecraft-font", 
+        MINECRAFT_FONT_KEY, 
         TITLE_SIZE, 
         TEXT_SPACING, 
         MY_ORANGE
@@ -43,8 +43,8 @@ SetupScene::SetupScene() {
         (Vector2)MENU_BUTTON_SIZE, 
         (Vector2)MENU_BUTTON_SHEET_OFFSET,
         "Confirm", 
-        "button", 
-        "minecraft-font",
+        BUTTON_TXT_KEY, 
+        MINECRAFT_FONT_KEY,
         [this]() {
             // This is a function that will be called when the button is clicked
             if (this->nameInput->getText().length() < 3) return;
@@ -59,8 +59,8 @@ SetupScene::SetupScene() {
         Vector2{ (float)GetScreenWidth() / 2, (float)GetScreenHeight() / 2 }, 
         (Vector2)MENU_BUTTON_SIZE, 
         (Vector2)MENU_BUTTON_SHEET_OFFSET,
-        "button", 
-        "minecraft-font",
+        BUTTON_TXT_KEY, 
+        MINECRAFT_FONT_KEY,
         Vector2{ 800, 100 } // Scale to size
     );
     // -------------------------------------------------------------------------------------------
@@ -73,8 +73,8 @@ SetupScene::SetupScene() {
         (Vector2)MENU_BUTTON_SIZE, 
         (Vector2)MENU_BUTTON_SHEET_OFFSET,
         "Play offline", 
-        "button", 
-        "minecraft-font",
+        BUTTON_TXT_KEY, 
+        MINECRAFT_FONT_KEY,
         [this]() {
             // This is a function that will be called when the button is clicked
             this->playerType = PlayerType::Offline;
@@ -87,8 +87,8 @@ SetupScene::SetupScene() {
         (Vector2)MENU_BUTTON_SIZE, 
         (Vector2)MENU_BUTTON_SHEET_OFFSET,
         "Host Game", 
-        "button", 
-        "minecraft-font",
+        BUTTON_TXT_KEY, 
+        MINECRAFT_FONT_KEY,
         [this]() {
             // This is a function that will be called when the button is clicked
             this->playerType = PlayerType::Host;
@@ -101,8 +101,8 @@ SetupScene::SetupScene() {
         (Vector2)MENU_BUTTON_SIZE, 
         (Vector2)MENU_BUTTON_SHEET_OFFSET,
         "Join game", 
-        "button", 
-        "minecraft-font",
+        BUTTON_TXT_KEY, 
+        MINECRAFT_FONT_KEY,
         [this]() {
             // This is a function that will be called when the button is clicked
             SCENE_MANAGER.pushScene(SceneType::SERVER_SELECTION);
@@ -114,8 +114,8 @@ SetupScene::SetupScene() {
         (Vector2)MENU_BUTTON_SIZE,
         (Vector2)MENU_BUTTON_SHEET_OFFSET,
         "Back", 
-        "button", 
-        "minecraft-font",
+        BUTTON_TXT_KEY, 
+        MINECRAFT_FONT_KEY,
         [this]() {
             // This is a function that will be called when the button is clicked
             this->nickGiven = false;
@@ -134,9 +134,9 @@ void SetupScene::prepareResources() {
     // This will create background object if it doesn't exist
     M_BG;
     // Load button png sprite sheet
-    RESOURCE_MANAGER.loadTexture("button", "assets/buttons.png");
+    RESOURCE_MANAGER.loadTexture(BUTTON_TXT_KEY, "assets/buttons.png");
     // Load font
-    RESOURCE_MANAGER.loadFont("minecraft-font", "assets/Minecraft.ttf");
+    RESOURCE_MANAGER.loadFont(MINECRAFT_FONT_KEY, "assets/Minecraft.ttf");
 }
 
 void SetupScene::update(float deltaTime) {
@@ -184,7 +184,7 @@ void SetupScene::draw() const {
     if (!this->nickGiven) {
         // Draw text above input for information
         DrawTextEx(
-            *RESOURCE_MANAGER.getFont("minecraft-font"),
+            *RESOURCE_MANAGER.getFont(MINECRAFT_FONT_KEY),
             "Enter your name: ",
             Vector2{ (float)GetScreenWidth() / 2 - 400, (float)GetScreenHeight() / 2 - 150 },
             50,
@@ -193,7 +193,7 @@ void SetupScene::draw() const {
         );
 
         DrawTextEx(
-            *RESOURCE_MANAGER.getFont("minecraft-font"),
+            *RESOURCE_MANAGER.getFont(MINECRAFT_FONT_KEY),
             "3 characters minimum",
             Vector2{ (float)GetScreenWidth() / 2 - 380, (float)GetScreenHeight() / 2 - 100 },
             50,
@@ -216,6 +216,6 @@ void SetupScene::draw() const {
 
 void SetupScene::cleanUp() {
     // Clean up the input field
-    RESOURCE_MANAGER.unloadTexture("button");
-    RESOURCE_MANAGER.unloadFont("minecraft-font");
+    RESOURCE_MANAGER.unloadTexture(BUTTON_TXT_KEY);
+    RESOURCE_MANAGER.unloadFont(MINECRAFT_FONT_KEY);
 }

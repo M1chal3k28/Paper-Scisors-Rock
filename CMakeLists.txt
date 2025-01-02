@@ -26,6 +26,7 @@ add_executable(RockPaperScisors
     src/scenes/HostLobbyScene.cpp
     src/scenes/ServerListScene.cpp
     src/Text.cpp
+    src/scenes/GameScene.cpp
     main.cpp
 )
 

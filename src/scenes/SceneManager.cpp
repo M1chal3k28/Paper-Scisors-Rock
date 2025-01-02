@@ -24,7 +24,14 @@ void SceneManager::pushScene(const SceneType::Value &scene)  {
         case SceneType::SERVER_SELECTION:
             scenesStack.push( std::make_unique<ServerListScene>() );
             break;
+        case SceneType::GAME_SCENE:
+            scenesStack.push( std::make_unique<GameScene>() );
+            break;
     }
+}
+
+void SceneManager::pushScene( std::unique_ptr<Scene> scene ) {
+    scenesStack.push( std::move( scene ) );
 }
 
 void SceneManager::popScene() {

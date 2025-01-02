@@ -13,6 +13,7 @@ public:
     ~SceneManager();
 
     void pushScene( const SceneType::Value& scene );
+    void pushScene(  std::unique_ptr<Scene> scene ); 
 
     void popScene();
 
