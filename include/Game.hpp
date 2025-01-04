@@ -40,6 +40,7 @@ class Game {
 
     // has server error ?
     std::atomic<bool> serverError = false;
+    std::atomic<bool> connectionError = false;
 public:
     ~Game();
     // Singleton access to game instance
@@ -53,7 +54,7 @@ public:
     // 1. Get nick name
     // 2. Set player type
     // 3. Setup server/client socket
-    void setup(std::string nick, PlayerType::Value type);
+    void setup(std::string nick, PlayerType::Value type, sockaddr_in serverAddress = {});
 
         //  Set up server socket
     // 1. Create server socket
@@ -72,7 +73,7 @@ public:
     // 4. Connect to selected server
     // 5. Send my nick to host player aka server
     // 6. Create enemy and player object based on connection socket
-    void setupClient( const std::string& nick );
+    void setupClient( const std::string& nick, sockaddr_in serverAddr );
 
         // Setup offline
     // 1. Create player object
@@ -90,10 +91,11 @@ public:
     // return whether server has error
     bool isServerError();
     bool isSetupFinished();
+    bool isConnectionError();
 
     PlayerType::Value getPlayerType();
 
-    std::string getNick(PlayerType::Value type);
+    // std::string getNick(PlayerType::Value type);
 
     std::unique_ptr<Player> movePlayer() {
         return std::move(this->player);

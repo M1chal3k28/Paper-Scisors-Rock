@@ -105,7 +105,7 @@ SetupScene::SetupScene() {
         MINECRAFT_FONT_KEY,
         [this]() {
             // This is a function that will be called when the button is clicked
-            SCENE_MANAGER.pushScene(SceneType::SERVER_SELECTION);
+            SCENE_MANAGER.pushScene(std::make_unique<ServerListScene>(this->nick));
         }
     );
 

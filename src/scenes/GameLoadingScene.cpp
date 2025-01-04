@@ -32,9 +32,15 @@ void GameLoadingScene::prepareResources() {
 }
 
 void GameLoadingScene::update(float deltaTime) {
+    M_BG.update(deltaTime);
     if (GAME.isSetupFinished()) {
         SCENE_MANAGER.popScene();
         SCENE_MANAGER.pushScene(SceneType::GAME_SCENE);
+    }
+
+    if (GAME.isConnectionError()) {
+        SCENE_MANAGER.popScene();
+        GAME.deinitialize();
     }
 }
 

@@ -12,11 +12,16 @@
 #include <sockets/BroadcastSocket.hpp>
 
 class ServerListScene : public Scene {
+    // Client name
+    std::string clientName;
+
     // Socket for broadcast
     BroadcastSocket broadcastSocket;
 
     // Copy of discovered servers
     std::vector<std::pair<std::string, sockaddr_in>> discoveredServers;
+    sockaddr_in selectedServer = sockaddr_in{0};
+    std::atomic<bool> isServerSelected = false;
 
     // server buttons
     // Paging
@@ -30,6 +35,7 @@ class ServerListScene : public Scene {
 
     // Serch for servers using broadcastSocket
     std::future<void> getServersThread;
+    std::mutex getServersMutex;
     std::atomic<bool> isFinished = true;
     void getAvailableServers();
     std::unique_ptr<Button> reloadButton = nullptr;
@@ -37,7 +43,7 @@ class ServerListScene : public Scene {
     // Back button
     std::unique_ptr<TextButton> backButton = nullptr;
 public:
-    ServerListScene();
+    ServerListScene(std::string nickName);
     ~ServerListScene();
     void prepareResources() override;
     void update(float deltaTime) override;

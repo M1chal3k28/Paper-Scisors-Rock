@@ -30,6 +30,7 @@
 #include <stack>
 #include <functional>
 #include <future>
+#include <mutex>
 
 // Include all needed namespaces
 using namespace std;

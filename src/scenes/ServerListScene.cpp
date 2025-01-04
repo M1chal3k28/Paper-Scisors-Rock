@@ -1,7 +1,7 @@
 #include <scenes/ServerListScene.hpp>
 #include <scenes/SceneManager.hpp>
 
-ServerListScene::ServerListScene() : currentPage(0) {
+ServerListScene::ServerListScene(std::string nickName) : currentPage(0), clientName(nickName) {
     this->prepareResources();
 
     // Create info
@@ -96,6 +96,8 @@ ServerListScene::~ServerListScene() {
 }
 
 void ServerListScene::getAvailableServers() {
+    std::lock_guard<std::mutex> lock(this->getServersMutex);
+
     this->info->tSetText("Searching");
     this->pages.clear();
 
@@ -135,6 +137,7 @@ void ServerListScene::getAvailableServers() {
             }
         }
 
+        std::cout << server.first << ":" << inet_ntoa( server.second.sin_addr ) << std::endl;
         // Create button
         // And add to proper page
         this->pages[page].emplace_back(
@@ -145,8 +148,10 @@ void ServerListScene::getAvailableServers() {
                 server.first,
                 BUTTON_TXT_KEY,
                 MINECRAFT_FONT_KEY,
-                [this]() {
+                [this, server]() {
                     // This is a function that will be called when the button is clicked
+                    GAME.setup(this->clientName, PlayerType::Client, server.second);
+                    this->isServerSelected = true;
                 }
             )
         );
@@ -179,11 +184,12 @@ void ServerListScene::update(float deltaTime) {
 
     // Set cursor to default
     SetMouseCursor(MOUSE_CURSOR_DEFAULT);
-
-    // Update server buttons
-    for (auto& page : pages)
-        for (auto& server : page) 
-            server->update(deltaTime);
+    
+    if (this->isFinished)
+        // Update server buttons
+        for (auto& page : pages)
+            for (auto& server : page) 
+                server->update(deltaTime);
 
     // Update reload button
     if(this->reloadButton)
@@ -198,6 +204,13 @@ void ServerListScene::update(float deltaTime) {
         this->rightArrow->update(deltaTime);
 
     M_BG.update(deltaTime);
+
+    if (this->isServerSelected) {   
+        // Then deinitialize
+        SCENE_MANAGER.popScene();
+        SCENE_MANAGER.pushScene(SceneType::LOADING_SCENE);
+        return;
+    }
 
     // Update back button
     if(this->backButton)
@@ -228,11 +241,12 @@ void ServerListScene::draw() const {
     // Draw page text
     if (this->pageText)
         this->pageText->draw();
-
-    // Draw servers
-    if (this->currentPage < this->pages.size())
-        for (auto& server : this->pages[this->currentPage])
-            server->draw();
+        
+    if (this->isFinished)
+        // Draw servers
+        if (this->currentPage < this->pages.size())
+            for (auto& server : this->pages[this->currentPage])
+                server->draw();
 }
 
 void ServerListScene::cleanUp() {

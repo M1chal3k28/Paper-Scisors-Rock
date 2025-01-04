@@ -34,11 +34,11 @@ int main() {
         // Update
         //----------------------------------------------------------------------------------
         // Update currentScene
-        try {
+        // try {
             SCENE_MANAGER.update( GetFrameTime() );
-        } catch (const std::exception& e) {
-            MessageBox((HWND)GetWindowHandle(), e.what(), "Error", MB_OK | MB_ICONERROR );
-        }
+        // } catch (const std::exception& e) {
+        //     MessageBox((HWND)GetWindowHandle(), e.what(), "Error", MB_OK | MB_ICONERROR );
+        // }
         //----------------------------------------------------------------------------------
 
         // Draw

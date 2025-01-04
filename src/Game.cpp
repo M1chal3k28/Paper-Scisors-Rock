@@ -38,7 +38,7 @@ int Game::checkWin( const Choice::Value & p1, const Choice::Value & p2 ) {
 // 1. Get nick name
 // 2. Set player type
 // 2. Setup server/client socket in separate thread
-void Game::setup(std::string nick, PlayerType::Value type) {
+void Game::setup(std::string nick, PlayerType::Value type, sockaddr_in serverAddr) { 
     // Check if already set up
     if ( this->isSetUp ) return;
 
@@ -55,7 +55,7 @@ void Game::setup(std::string nick, PlayerType::Value type) {
         
         // Client
         case PlayerType::Client:
-            this->setupThread = std::async( std::launch::async, &Game::setupClient, this, nick );
+            this->setupThread = std::async( std::launch::async, &Game::setupClient, this, nick, serverAddr );
         break;
 
         // Offline
@@ -130,90 +130,99 @@ void Game::setupServer( const std::string& nick ) {
 // 4. Connect to selected server
 // 5. Send my nick to host player aka server
 // 6. Create enemy and player object based on connection socket
-void Game::setupClient( const std::string& nick ) {
+void Game::setupClient( const std::string& nick, sockaddr_in serverAddr ) {
     // Adress of server to connect
-    sockaddr_in serverAddr {};
-    {
-        // Broadcast for servers
-        BroadcastSocket bSocket;
-        // Servers found list
-        std::vector<std::pair<std::string, sockaddr_in>> discoveredServers;
+    // sockaddr_in serverAddr {};
+    // {
+    //     // Broadcast for servers
+    //     BroadcastSocket bSocket;
+    //     // Servers found list
+    //     std::vector<std::pair<std::string, sockaddr_in>> discoveredServers;
 
-        // temporary string for getting user input
-        std::string temporary;
-        do {
-            system("cls");
-            cout << "Searching for servers...\n";
-            // Start broadcast
-            bSocket.startBroadcast();    
+    //     // temporary string for getting user input
+    //     std::string temporary;
+    //     do {
+    //         system("cls");
+    //         cout << "Searching for servers...\n";
+    //         // Start broadcast
+    //         bSocket.startBroadcast();    
 
-            // Get results
-            discoveredServers = bSocket.getResults();
+    //         // Get results
+    //         discoveredServers = bSocket.getResults();
 
-            // Print results
-            std::cout << "Servers found: " << discoveredServers.size() << std::endl;
-            if ( discoveredServers.size() == 0 )
-                std::cout << "No servers found." << std::endl;
-            else {
-                for( int i = 0; i < discoveredServers.size(); i++ ) {
-                    std::cout << i + 1 << ": " << discoveredServers[i].first << std::endl;
-                }   
-            }
+    //         // Print results
+    //         std::cout << "Servers found: " << discoveredServers.size() << std::endl;
+    //         if ( discoveredServers.size() == 0 )
+    //             std::cout << "No servers found." << std::endl;
+    //         else {
+    //             for( int i = 0; i < discoveredServers.size(); i++ ) {
+    //                 std::cout << i + 1 << ": " << discoveredServers[i].first << std::endl;
+    //             }   
+    //         }
 
-            // ask for confirmation
-            std::cout << "\nSearch again? (y/n) ";
-            getline(cin, temporary);
-        } while( tolower( temporary[0] ) != 'n' );
+    //         // ask for confirmation
+    //         std::cout << "\nSearch again? (y/n) ";
+    //         getline(cin, temporary);
+    //     } while( tolower( temporary[0] ) != 'n' );
 
-        system("cls");
-        // If no server to choose from, exit
-        if ( discoveredServers.size() == 0 ) {
-            std::cout << "No servers found." << std::endl;
-            system("pause");
-            return;
-        }
+    //     system("cls");
+    //     // If no server to choose from, exit
+    //     if ( discoveredServers.size() == 0 ) {
+    //         std::cout << "No servers found." << std::endl;
+    //         system("pause");
+    //         return;
+    //     }
 
-        // Choose server
-        std::cout << "Select server id: \n";
-        // Print servers
-        for( int i = 0; i < discoveredServers.size(); i++ ) {
-            std::cout << i + 1 << ": " << discoveredServers[i].first << std::endl;
-        } 
+    //     // Choose server
+    //     std::cout << "Select server id: \n";
+    //     // Print servers
+    //     for( int i = 0; i < discoveredServers.size(); i++ ) {
+    //         std::cout << i + 1 << ": " << discoveredServers[i].first << std::endl;
+    //     } 
 
-        // Get choice
-        getline(cin, temporary);
-        int choice = atoi( temporary.c_str() );
-        while ( choice < 1 && choice > discoveredServers.size() ) {
-            std::cerr << "Wrong input _>";
-            getline(cin, temporary);
-            choice = atoi( temporary.c_str() );
-        }
+    //     // Get choice
+    //     getline(cin, temporary);
+    //     int choice = atoi( temporary.c_str() );
+    //     while ( choice < 1 && choice > discoveredServers.size() ) {
+    //         std::cerr << "Wrong input _>";
+    //         getline(cin, temporary);
+    //         choice = atoi( temporary.c_str() );
+    //     }
 
-        // Set server
-        serverAddr = discoveredServers[choice - 1].second;
+    //     // Set server
+    //     serverAddr = discoveredServers[choice - 1].second;
+    // }
+
+    std::cout << inet_ntoa( serverAddr.sin_addr ) << "\n";
+    try {
+        // Create client socket which connects to the server
+        this->serverOrClientSocket = std::make_unique<Client>( inet_ntoa( serverAddr.sin_addr ) );
+
+        // Client is connected to server so sending to server
+        // this->serverOrClientSocket->_send( nick.c_str() );
+
+        // Enemy
+        this->enemy = std::make_unique<Enemy>( this->serverOrClientSocket, Sprite{
+            PLAYER_TEXTURE_KEY,
+            2,
+            (Vector2)PLAYER_SIZE,
+            (Vector2)PLAYER_LEFT_OFFSET
+        });
+
+        // Player 
+        this->player = std::make_unique<OnlinePlayer>( nick, this->serverOrClientSocket, Sprite{
+            PLAYER_TEXTURE_KEY,
+            2,
+            (Vector2)PLAYER_SIZE,
+            (Vector2)PLAYER_RIGHT_OFFSET
+        });
+
+        this->finishedSetup = true;
+    } catch( std::exception &e ) {
+        MessageBox((HWND)GetWindowHandle(), e.what(), "Error", MB_OK | MB_ICONERROR );
+        WSACleanup();
+        this->connectionError = true;
     }
-
-    // Create client socket which connects to the server
-    this->serverOrClientSocket = std::make_unique<Client>( inet_ntoa( serverAddr.sin_addr ) );
-
-    // Client is connected to server so sending to server
-    this->serverOrClientSocket->_send( nick.c_str() );
-
-    // Enemy
-    this->enemy = std::make_unique<Enemy>( this->serverOrClientSocket, Sprite{
-        PLAYER_TEXTURE_KEY,
-        2,
-        (Vector2)PLAYER_SIZE,
-        (Vector2)PLAYER_LEFT_OFFSET
-    });
-
-    // Player 
-    this->player = std::make_unique<OnlinePlayer>( nick, this->serverOrClientSocket, Sprite{
-        PLAYER_TEXTURE_KEY,
-        2,
-        (Vector2)PLAYER_SIZE,
-        (Vector2)PLAYER_RIGHT_OFFSET
-    });
 }
 
 void Game::setupOffline(const std::string &nick) {
@@ -291,6 +300,7 @@ void Game::deinitialize() {
     // un set flag that game is set up
     this->isSetUp = false;
     this->serverError = false;
+    this->connectionError = false;
 
     // Shutdown server first
     // This is gonna terminate accept function which is blocking game thread 
@@ -330,6 +340,10 @@ bool Game::isSetupFinished() {
 
 PlayerType::Value Game::getPlayerType() {
     return this->playerType;
+}
+
+bool Game::isConnectionError() {
+    return this->connectionError.operator bool();
 }
 
 // std::string Game::getNick(PlayerType::Value type)

@@ -21,9 +21,9 @@ void SceneManager::pushScene(const SceneType::Value &scene)  {
         case SceneType::HOST_LOBBY:
             scenesStack.push( std::make_unique<HostLobbyScene>() );
             break;
-        case SceneType::SERVER_SELECTION:
-            scenesStack.push( std::make_unique<ServerListScene>() );
-            break;
+        // case SceneType::SERVER_SELECTION:
+        //     scenesStack.push( std::make_unique<ServerListScene>() );
+        //     break;
         case SceneType::GAME_SCENE:
             scenesStack.push( std::make_unique<GameScene>() );
             break;
