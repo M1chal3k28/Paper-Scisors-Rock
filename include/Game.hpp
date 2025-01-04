@@ -32,6 +32,7 @@ class Game {
     // To isolate update/draw logic from server/client setup
     std::future<void> setupThread;
     bool isSetUp = false;
+    bool finishedSetup = false;
 
     // Type of player
     PlayerType::Value playerType; // update logic depend on this
@@ -88,8 +89,17 @@ public:
 
     // return whether server has error
     bool isServerError();
+    bool isSetupFinished();
 
     PlayerType::Value getPlayerType();
 
     std::string getNick(PlayerType::Value type);
+
+    std::unique_ptr<Player> movePlayer() {
+        return std::move(this->player);
+    }
+
+    std::unique_ptr<Player> moveEnemy() {
+        return std::move(this->enemy);
+    }
 };

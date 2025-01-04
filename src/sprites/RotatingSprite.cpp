@@ -6,16 +6,9 @@ RotatingSprite::RotatingSprite(std::string textureId, int maxFrames, Vector2 fra
 void RotatingSprite::update(float deltaTime) {
     MovingSprite::update(deltaTime);
 
-    this->rotation += this->rotationSpeed * deltaTime;
+    this->sRotation += this->rotationSpeed * deltaTime;
 }
 
 void RotatingSprite::draw() {
-    DrawTexturePro(
-        *RESOURCE_MANAGER.getTexture(this->sTextureId),
-        (Rectangle){this->sFrame * this->sFrameSize.x, 0, this->sFrameSize.x, this->sFrameSize.y}, // source rectangle sprite sheet plays role in here
-        (Rectangle){this->sPosition.x, this->sPosition.y, this->sFrameSize.x, this->sFrameSize.y}, // where to display
-        this->sOffset,
-        rotation,
-        WHITE
-    );
+    Sprite::draw();
 }

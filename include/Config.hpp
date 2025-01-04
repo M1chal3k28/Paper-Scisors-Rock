@@ -61,6 +61,16 @@ using namespace std;
 // Minecraft font
 #define MINECRAFT_FONT_KEY "minecraft-font"
 
+// Ready texture
+#define READY_TEXTURE_KEY "player_ready"
+#define READY_SIZE { 34.f, 60.f }
+
+// Player texture
+#define PLAYER_TEXTURE_KEY "player_sprite"
+#define PLAYER_SIZE { 500.f, 300.f }
+
+#define PLAYER_LEFT_OFFSET { 0.f, 0.f }
+#define PLAYER_RIGHT_OFFSET { 0.f, 300.f }
 // Buttons
 #define BUTTON_MAX_STATES 2 // 0 is not hovered, 1 is hovered 2 is pressed
 
@@ -116,6 +126,7 @@ public:
         SETUP,
         HOST_LOBBY,
         SERVER_SELECTION,
-        GAME_SCENE
+        GAME_SCENE,
+        LOADING_SCENE
     };    
 };

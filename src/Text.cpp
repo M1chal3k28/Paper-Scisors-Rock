@@ -38,3 +38,7 @@ void Text::tSetText(std::string text) {
     this->tText = text;
     this->tCenterOffset();
 }
+
+Vector2 Text::tGetPosition() {
+    return this->tPosition;
+}

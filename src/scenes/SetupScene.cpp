@@ -167,6 +167,9 @@ void SetupScene::update(float deltaTime) {
             case PlayerType::Host:
                 SCENE_MANAGER.pushScene( SceneType::HOST_LOBBY );
             break;
+
+            case PlayerType::Offline:
+                SCENE_MANAGER.pushScene( SceneType::LOADING_SCENE );
         }
 
         // If player bo back menu will be shown again

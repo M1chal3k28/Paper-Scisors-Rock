@@ -15,6 +15,7 @@ protected:
     Vector2 sFrameSize;
     Vector2 sOffset;
     Vector2 sPositionOfFrameOnTexture;
+    float sRotation = 0.0f;
 public:
     Sprite( std::string textureId, int maxFrames, Vector2 frameSize, Vector2 positionOfFrameOnTexture );
     ~Sprite() = default;
@@ -36,4 +37,7 @@ public:
 
     // Checks if sprite is outside of the window side
     bool isOutsideOfTheWindowSide( ScreenSide::Value side );
+
+    // Get sprite position
+    Vector2 getPosition();
 };

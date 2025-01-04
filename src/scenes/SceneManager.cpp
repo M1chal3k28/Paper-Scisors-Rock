@@ -27,6 +27,9 @@ void SceneManager::pushScene(const SceneType::Value &scene)  {
         case SceneType::GAME_SCENE:
             scenesStack.push( std::make_unique<GameScene>() );
             break;
+        case SceneType::LOADING_SCENE:
+            scenesStack.push( std::make_unique<GameLoadingScene>() );
+            break;
     }
 }
 

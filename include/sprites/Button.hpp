@@ -8,6 +8,7 @@ class Button : public Sprite {
 protected:
     std::function<void()> onClick;
     Vector2 textPosition;
+    std::atomic<bool> isDisabled = false;
 public:
     Button(
         Vector2 position, // position of the button
@@ -23,4 +24,8 @@ public:
 
     // Draws the button in the given position
     virtual void draw();
+
+    // Disables/enables the button
+    void disable();
+    void enable();
 };

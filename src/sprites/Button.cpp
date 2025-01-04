@@ -11,12 +11,28 @@ void Button::draw() {
     Sprite::draw();
 }
 
+void Button::disable() {
+    this->isDisabled = true;
+}
+
+void Button::enable() {
+    this->isDisabled = false;
+}
+
 void Button::update(float deltaTime) {
     // Update button sprite
     Sprite::update(deltaTime);
     
     // Check if button is hovered
     if ( CheckCollisionPointRec(GetMousePosition(), {this->sPosition.x - this->sOffset.x, this->sPosition.y - this->sOffset.y, this->sFrameSize.x, this->sFrameSize.y}) ) {
+        // If button is disabled
+        if (this->isDisabled) {
+            // Set button state to disabled
+            SetMouseCursor(MOUSE_CURSOR_NOT_ALLOWED);
+            this->sFrame = 0;
+            return;
+        }
+
         // Set mouse to cursor when hovered
         SetMouseCursor(MOUSE_CURSOR_POINTING_HAND);
 

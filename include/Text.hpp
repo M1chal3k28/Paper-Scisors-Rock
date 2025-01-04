@@ -20,4 +20,5 @@ public:
     Vector2 tMeasure();
     void tCenterOffset();
     void tSetText(std::string text);
+    Vector2 tGetPosition();
 };

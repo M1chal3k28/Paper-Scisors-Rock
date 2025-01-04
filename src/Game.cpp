@@ -93,11 +93,24 @@ void Game::setupServer( const std::string& nick ) {
             this->serverOrClientSocket->stopRespondingForBroadcast();
 
             // Enemy
-            this->enemy = std::make_unique<Enemy>(enemySocket);
+            this->enemy = std::make_unique<Enemy>(enemySocket, Sprite{
+                PLAYER_TEXTURE_KEY,
+                2,
+                (Vector2)PLAYER_SIZE,
+                (Vector2)PLAYER_LEFT_OFFSET
+            });
 
             // Player
             // It's connected to server so player sends to it
-            this->player = std::make_unique<OnlinePlayer>(nick, this->enemySocket);
+            this->player = std::make_unique<OnlinePlayer>(nick, this->enemySocket, Sprite{
+                PLAYER_TEXTURE_KEY,
+                2,
+                (Vector2)PLAYER_SIZE,
+                (Vector2)PLAYER_RIGHT_OFFSET
+            });
+
+            // Finished setup
+            this->finishedSetup = true;
         } catch(...) {
             // On error clean up and exit
             WSACleanup();
@@ -187,18 +200,39 @@ void Game::setupClient( const std::string& nick ) {
     this->serverOrClientSocket->_send( nick.c_str() );
 
     // Enemy
-    this->enemy = std::make_unique<Enemy>( this->serverOrClientSocket );
+    this->enemy = std::make_unique<Enemy>( this->serverOrClientSocket, Sprite{
+        PLAYER_TEXTURE_KEY,
+        2,
+        (Vector2)PLAYER_SIZE,
+        (Vector2)PLAYER_LEFT_OFFSET
+    });
 
     // Player 
-    this->player = std::make_unique<OnlinePlayer>( nick, this->serverOrClientSocket );
+    this->player = std::make_unique<OnlinePlayer>( nick, this->serverOrClientSocket, Sprite{
+        PLAYER_TEXTURE_KEY,
+        2,
+        (Vector2)PLAYER_SIZE,
+        (Vector2)PLAYER_RIGHT_OFFSET
+    });
 }
 
 void Game::setupOffline(const std::string &nick) {
     this->enemyType = PlayerType::Offline;
     this->playerType = PlayerType::Offline;
-    this->player = std::make_unique<Player>(nick);
-    this->enemy = std::make_unique<Computer>();
-    SCENE_MANAGER.pushScene( SceneType::GAME_SCENE );
+    this->player = std::make_unique<Player>(nick, Sprite{
+        PLAYER_TEXTURE_KEY,
+        2,
+        (Vector2)PLAYER_SIZE,
+        (Vector2)PLAYER_RIGHT_OFFSET
+    });
+    this->enemy = std::make_unique<Computer>(Sprite{
+        PLAYER_TEXTURE_KEY,
+        2,
+        (Vector2)PLAYER_SIZE,
+        (Vector2)PLAYER_LEFT_OFFSET
+    });
+
+    this->finishedSetup = true;
 }
 
 void Game::run()
@@ -290,20 +324,24 @@ bool Game::isServerError() {
     return this->serverError.operator bool();
 }
 
+bool Game::isSetupFinished() {
+    return this->finishedSetup;
+}
+
 PlayerType::Value Game::getPlayerType() {
     return this->playerType;
 }
 
-std::string Game::getNick(PlayerType::Value type)
-{
-    switch(type) {
-        case PlayerType::Host:
-        case PlayerType::Client:
-        case PlayerType::Offline:
-            return this->player->getName();
+// std::string Game::getNick(PlayerType::Value type)
+// {
+//     switch(type) {
+//         case PlayerType::Host:
+//         case PlayerType::Client:
+//         case PlayerType::Offline:
+//             return this->player->getName();
             
-        case PlayerType::Enemy:
-            return this->enemy->getName();
-    }
-    return std::string();
-}
+//         case PlayerType::Enemy:
+//             return this->enemy->getName();
+//     }
+//     return std::string();
+// }

@@ -88,7 +88,7 @@ void Background::update(float deltaTime) {
 
 void Background::draw() {
     for( auto& sprite : this->backgroundSprites ) {
-        sprite->draw();
+        sprite->draw((Vector2)BACKGROUND_SPRITE_REAL_SIZE);
     }
 }
 

@@ -25,7 +25,7 @@ void Sprite::draw() {
         }, // source rectangle sprite sheet plays role in here
         (Rectangle){this->sPosition.x, this->sPosition.y, this->sFrameSize.x, this->sFrameSize.y}, // where to display
         this->sOffset,
-        0.0f,
+        this->sRotation,
         WHITE
     );
 }
@@ -42,7 +42,7 @@ void Sprite::draw(Vector2 size) {
         }, // source rectangle sprite sheet plays role in here
         (Rectangle){this->sPosition.x, this->sPosition.y, size.x, size.y}, // where to display
         this->sOffset,
-        0.0f,
+        this->sRotation,
         WHITE
     );
 }
@@ -82,4 +82,10 @@ bool Sprite::isOutsideOfTheWindowSide(ScreenSide::Value side) {
             return this->sPosition.y > GetScreenHeight();
     }
     return false;
+}
+
+// Get sprite position
+Vector2 Sprite::getPosition()
+{
+    return this->sPosition;
 }

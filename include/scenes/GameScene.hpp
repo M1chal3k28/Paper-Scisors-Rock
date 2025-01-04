@@ -10,8 +10,11 @@
 class GameScene : public Scene
 {
     // Player related stuff
-    std::unique_ptr<Sprite> playerSprite = nullptr;
-    std::unique_ptr<Sprite> enemySprite = nullptr;
+    
+    // Moved from game which setup them
+    std::unique_ptr<Player> player = nullptr;
+    std::unique_ptr<Player> enemy = nullptr;
+
     std::unique_ptr<Text> playerName = nullptr;
     std::unique_ptr<Text> enemyName = nullptr;
     std::unique_ptr<Text> playerScore = nullptr;
@@ -25,8 +28,18 @@ class GameScene : public Scene
     std::unique_ptr<Button> paperButton = nullptr;
     std::unique_ptr<Button> rockButton = nullptr;
     std::unique_ptr<Button> scissorsButton = nullptr;
+
+    // logic stuff
+    std::future<void> enemyChoiceThread;
+
+    // Choose by player method
+    void playerChoose(Choice::Value choice);
+    void enemyChoose();
 public:
     GameScene();
+    // Reset choices, unlock buttons, reset states, etc
+    // Starts new game round
+    void newRound();
     ~GameScene();
     void prepareResources() override;
     void update(float deltaTime) override;

@@ -7,3 +7,4 @@
 #include <scenes/HostLobbyScene.hpp>
 #include <scenes/ServerListScene.hpp>
 #include <scenes/GameScene.hpp>
+#include <scenes/GameLoadingScene.hpp>

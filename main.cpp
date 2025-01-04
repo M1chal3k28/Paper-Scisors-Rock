@@ -3,19 +3,26 @@
 #include <scenes/Scenes.hpp>
 
 int main() {
+    // Init random number generator
+    srand(time(NULL));
+
     // Initialization
     //--------------------------------------------------------------------------------------
-    GAME; // <- This is the game object (initialize)
-        // Init random number generator
-        srand(time(NULL));
-        //----------------------------------------------------------------------------------
-
     // Set config flag to enable V-Sync
     SetConfigFlags(FLAG_MSAA_4X_HINT);
+    SetTraceLogLevel(LOG_DEBUG);
     SetConfigFlags(FLAG_VSYNC_HINT);
     // InitWindow(GetMonitorWidth(GetCurrentMonitor()), GetMonitorHeight(GetCurrentMonitor()), "Rock-Paper-Scissors");    // Set full screen
-    InitWindow(1920, 1080, "Rock-Paper-Scissors");    // Set full screen
+    InitWindow(1920, 1080, "Rock-Paper-Scissors"); 
     // SetWindowState(FLAG_FULLSCREEN_MODE);
+
+    GAME; // <- This is the game object (initialize)
+        //----------------------------------------------------------------------------------
+
+    // Init resource manager
+    RESOURCE_MANAGER;
+    // Init background
+    M_BG;
 
     // Initialize scenes
     SCENE_MANAGER.pushScene( SceneType::INTRO );
@@ -43,7 +50,8 @@ int main() {
         EndDrawing();
         //----------------------------------------------------------------------------------
 
-        DrawFPS(0, 0);
+        // Don't draw fps
+        // DrawFPS(0, 0);
     }
 
     // De-Initialization

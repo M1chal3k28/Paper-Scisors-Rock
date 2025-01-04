@@ -4,11 +4,13 @@
 #include <sprites/Sprites.hpp>
 
 #define BACKGROUND_SPRITE_SIZE {80.f, 100.f}
+#define BACKGROUND_SPRITE_REAL_SIZE {40.f, 50.f}
 #define SPRITE_TYPES 2 // 0 is rock, 1 is scissors, 2 is paper
 
 #define M_BG Background::getInstance()
 #define GENERATION_DELAY 0.5f
 #define SPRITES_PER_GENERATION 3
+
 class Background {
     Background();
 

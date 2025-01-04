@@ -3,7 +3,6 @@
 #include <sprites/Sprites.hpp>
 
 class RotatingSprite : public MovingSprite {
-    float rotation;
     float rotationSpeed;
 public:
     RotatingSprite(std::string textureId, int maxFrames, Vector2 frameSize, Vector2 postionOfFrameOnTexture, Vector2 velocity, float rotationSpeed);
