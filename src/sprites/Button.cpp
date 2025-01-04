@@ -20,6 +20,7 @@ void Button::enable() {
 }
 
 void Button::update(float deltaTime) {
+    this->clicked = false;
     // Update button sprite
     Sprite::update(deltaTime);
     
@@ -44,10 +45,16 @@ void Button::update(float deltaTime) {
             this->sFrame = 2;
 
         // Check if button is released
-        if ( IsMouseButtonReleased(MOUSE_BUTTON_LEFT) )
+        if ( IsMouseButtonReleased(MOUSE_BUTTON_LEFT) ) {
             this->onClick();
+            this->clicked = true;
+        }
     } else {
         // Set button state to not hovered
         this->sFrame = 0;
     }
+}
+
+bool Button::wasClicked() {
+    return this->clicked;
 }

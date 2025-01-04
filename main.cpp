@@ -37,7 +37,7 @@ int main() {
         try {
             SCENE_MANAGER.update( GetFrameTime() );
         } catch (const std::exception& e) {
-            MessageBox((HWND)GetWindowHandle(), e.what(), "Error", MB_OK | MB_ICONERROR );
+            MessageBox(NULL, e.what(), "Error", MB_OK | MB_ICONERROR );
         }
         //----------------------------------------------------------------------------------
 

@@ -9,6 +9,7 @@ protected:
     std::function<void()> onClick;
     Vector2 textPosition;
     std::atomic<bool> isDisabled = false;
+    std::atomic<bool> clicked = false;
 public:
     Button(
         Vector2 position, // position of the button
@@ -21,7 +22,7 @@ public:
     // Updates button states
     // Checks if button is hovered, clicked
     virtual void update(float deltaTime);
-
+    bool wasClicked();
     // Draws the button in the given position
     virtual void draw();
 

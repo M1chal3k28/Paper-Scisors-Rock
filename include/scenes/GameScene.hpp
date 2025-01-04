@@ -31,6 +31,7 @@ class GameScene : public Scene
 
     // logic stuff
     std::future<void> enemyChoiceThread;
+    std::atomic<bool> fatalError = false;
 
     // Choose by player method
     void playerChoose(Choice::Value choice);

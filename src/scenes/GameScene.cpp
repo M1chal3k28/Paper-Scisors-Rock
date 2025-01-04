@@ -28,7 +28,7 @@ GameScene::GameScene() {
         (Vector2)SMALL_BUTTON_HOME_OFFSET,
         BUTTON_TXT_KEY,
         [this]() {
-            SCENE_MANAGER.popScene();
+            this->fatalError = true;
 
             // Deinitialize game 
             GAME.deinitialize();
@@ -165,9 +165,10 @@ void GameScene::enemyChoose() {
     try {
         this->enemy->choose();
     } catch (const std::exception& e) {
+        std::cout << "Error reciving enemy's choice\n";
         // Handle exception
-        // MessageBox((HWND)GetWindowHandle(), e.what(), "Error", MB_OK | MB_ICONERROR);
         WSACleanup();
+        this->fatalError = true;
     }
     this->enemyReady->setFrame(this->enemy->hasChosen());
 }
@@ -235,6 +236,10 @@ void GameScene::update(float deltaTime) {
 
     // Home button must be last
     this->homeButton->update(deltaTime);
+
+    if (this->fatalError) {
+        SCENE_MANAGER.popScene();
+    }
 }
 
 void GameScene::draw() const {
