@@ -81,7 +81,7 @@ OnlinePlayer::OnlinePlayer(std::string name, std::shared_ptr<MySocket> connectio
 
 void OnlinePlayer::choose(Choice::Value choice) {
     this->choice = choice;
-    this->choose(this->choice);
+    this->chosen = true;
     // Send choice to enemy
     this->connectionSocket->_send( std::to_string(this->choice).c_str() );
 }

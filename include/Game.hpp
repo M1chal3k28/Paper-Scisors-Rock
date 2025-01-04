@@ -104,4 +104,6 @@ public:
     std::unique_ptr<Player> moveEnemy() {
         return std::move(this->enemy);
     }
+
+    void disconnect();
 };

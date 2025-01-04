@@ -137,7 +137,6 @@ void ServerListScene::getAvailableServers() {
             }
         }
 
-        std::cout << server.first << ":" << inet_ntoa( server.second.sin_addr ) << std::endl;
         // Create button
         // And add to proper page
         this->pages[page].emplace_back(
@@ -241,7 +240,7 @@ void ServerListScene::draw() const {
     // Draw page text
     if (this->pageText)
         this->pageText->draw();
-        
+
     if (this->isFinished)
         // Draw servers
         if (this->currentPage < this->pages.size())

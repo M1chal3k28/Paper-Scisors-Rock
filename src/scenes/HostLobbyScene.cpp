@@ -54,6 +54,12 @@ void HostLobbyScene::update(float deltaTime) {
         SCENE_MANAGER.popScene();
         GAME.deinitialize();
     }
+
+    if (GAME.isSetupFinished()) {
+        SCENE_MANAGER.popScene();
+        SCENE_MANAGER.pushScene(SceneType::GAME_SCENE);
+        return;
+    }
 }
 
 void HostLobbyScene::draw() const {

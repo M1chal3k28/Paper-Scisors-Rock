@@ -20,3 +20,8 @@ Client::Client(const char * addr)
 
     cout << "Connected to The server !" << endl;
 }
+
+void Client::disconnectFromServer() {
+    if(this->currentSocket != INVALID_SOCKET)
+        closesocket(this->currentSocket);
+}

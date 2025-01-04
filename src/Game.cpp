@@ -88,10 +88,10 @@ void Game::setupServer( const std::string& nick ) {
             this->enemySocket->connectToServer( this->serverOrClientSocket->getSocket() );
             // Send my nick to enemy
             this->enemySocket->_send( nick.c_str() );
-            
+            std::cout << "Sent nick to enemy" << std::endl;
             // After connecting with player stop responding for broadcast
             this->serverOrClientSocket->stopRespondingForBroadcast();
-
+std::cout << "Stopped responding for broadcast" << std::endl;
             // Enemy
             this->enemy = std::make_unique<Enemy>(enemySocket, Sprite{
                 PLAYER_TEXTURE_KEY,
@@ -99,7 +99,7 @@ void Game::setupServer( const std::string& nick ) {
                 (Vector2)PLAYER_SIZE,
                 (Vector2)PLAYER_LEFT_OFFSET
             });
-
+            std::cout << "Created enemy" << std::endl;
             // Player
             // It's connected to server so player sends to it
             this->player = std::make_unique<OnlinePlayer>(nick, this->enemySocket, Sprite{
@@ -131,75 +131,12 @@ void Game::setupServer( const std::string& nick ) {
 // 5. Send my nick to host player aka server
 // 6. Create enemy and player object based on connection socket
 void Game::setupClient( const std::string& nick, sockaddr_in serverAddr ) {
-    // Adress of server to connect
-    // sockaddr_in serverAddr {};
-    // {
-    //     // Broadcast for servers
-    //     BroadcastSocket bSocket;
-    //     // Servers found list
-    //     std::vector<std::pair<std::string, sockaddr_in>> discoveredServers;
-
-    //     // temporary string for getting user input
-    //     std::string temporary;
-    //     do {
-    //         system("cls");
-    //         cout << "Searching for servers...\n";
-    //         // Start broadcast
-    //         bSocket.startBroadcast();    
-
-    //         // Get results
-    //         discoveredServers = bSocket.getResults();
-
-    //         // Print results
-    //         std::cout << "Servers found: " << discoveredServers.size() << std::endl;
-    //         if ( discoveredServers.size() == 0 )
-    //             std::cout << "No servers found." << std::endl;
-    //         else {
-    //             for( int i = 0; i < discoveredServers.size(); i++ ) {
-    //                 std::cout << i + 1 << ": " << discoveredServers[i].first << std::endl;
-    //             }   
-    //         }
-
-    //         // ask for confirmation
-    //         std::cout << "\nSearch again? (y/n) ";
-    //         getline(cin, temporary);
-    //     } while( tolower( temporary[0] ) != 'n' );
-
-    //     system("cls");
-    //     // If no server to choose from, exit
-    //     if ( discoveredServers.size() == 0 ) {
-    //         std::cout << "No servers found." << std::endl;
-    //         system("pause");
-    //         return;
-    //     }
-
-    //     // Choose server
-    //     std::cout << "Select server id: \n";
-    //     // Print servers
-    //     for( int i = 0; i < discoveredServers.size(); i++ ) {
-    //         std::cout << i + 1 << ": " << discoveredServers[i].first << std::endl;
-    //     } 
-
-    //     // Get choice
-    //     getline(cin, temporary);
-    //     int choice = atoi( temporary.c_str() );
-    //     while ( choice < 1 && choice > discoveredServers.size() ) {
-    //         std::cerr << "Wrong input _>";
-    //         getline(cin, temporary);
-    //         choice = atoi( temporary.c_str() );
-    //     }
-
-    //     // Set server
-    //     serverAddr = discoveredServers[choice - 1].second;
-    // }
-
-    std::cout << inet_ntoa( serverAddr.sin_addr ) << "\n";
     try {
         // Create client socket which connects to the server
         this->serverOrClientSocket = std::make_unique<Client>( inet_ntoa( serverAddr.sin_addr ) );
 
         // Client is connected to server so sending to server
-        // this->serverOrClientSocket->_send( nick.c_str() );
+        this->serverOrClientSocket->_send( nick.c_str() );
 
         // Enemy
         this->enemy = std::make_unique<Enemy>( this->serverOrClientSocket, Sprite{
@@ -301,13 +238,16 @@ void Game::deinitialize() {
     this->isSetUp = false;
     this->serverError = false;
     this->connectionError = false;
+    this->finishedSetup = false;
 
     // Shutdown server first
     // This is gonna terminate accept function which is blocking game thread 
     // This function closes sockets
     // And also stops thread which is responding to broadcasts
-    if(this->serverOrClientSocket)
+    if(this->serverOrClientSocket) {
         this->serverOrClientSocket->shutdownServer();
+        this->serverOrClientSocket->disconnectFromServer();
+    }
 
     // Join setup theard where server waits for connection
     if(this->setupThread.valid()) 
@@ -340,6 +280,10 @@ bool Game::isSetupFinished() {
 
 PlayerType::Value Game::getPlayerType() {
     return this->playerType;
+}
+
+void Game::disconnect() {
+    this->serverOrClientSocket->disconnectFromServer();
 }
 
 bool Game::isConnectionError() {

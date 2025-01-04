@@ -3,6 +3,11 @@
 
 GameScene::~GameScene() {
     this->cleanUp();
+
+    GAME.deinitialize();
+
+    if (this->enemyChoiceThread.valid())
+        this->enemyChoiceThread.get();
 }
 
 GameScene::GameScene() {
@@ -157,7 +162,13 @@ void GameScene::playerChoose(Choice::Value choice) {
 }
 
 void GameScene::enemyChoose() {
-    this->enemy->choose();
+    try {
+        this->enemy->choose();
+    } catch (const std::exception& e) {
+        // Handle exception
+        // MessageBox((HWND)GetWindowHandle(), e.what(), "Error", MB_OK | MB_ICONERROR);
+        WSACleanup();
+    }
     this->enemyReady->setFrame(this->enemy->hasChosen());
 }
 

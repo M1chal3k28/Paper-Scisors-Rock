@@ -19,10 +19,10 @@ MySocket::MySocket( bool initializeSocket ) {
         this->currentSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
         // Check if creating socket is successfull or not
         if(this->currentSocket == INVALID_SOCKET){
-            cout << "Error at socket():"<< WSAGetLastError() << endl;
+            // cout << "Error at socket():"<< WSAGetLastError() << endl;
+            throw std::runtime_error("Error at socket() :" + std::to_string(WSAGetLastError()));
             // Clean and exit on error
-            WSACleanup();
-            exit(-1);
+            // WSACleanup();
         }
     }
 }
@@ -40,7 +40,7 @@ void MySocket::sendTo( const char * buffer, const sockaddr * addr ) {
     // Check if sending is successfull
     if(sbyteCount == SOCKET_ERROR){
         cout << "Send error: " << WSAGetLastError() << endl;
-        exit(-1);
+        throw std::runtime_error("Send error");
     }
 }
 
@@ -56,7 +56,7 @@ std::string MySocket::receiveFrom( sockaddr * addr ) {
     // Check if receiving is successfull
     if(rbyteCount < 0){
         cout << "Server recv error: " << WSAGetLastError() << endl;
-        exit(-1);
+        throw std::runtime_error("Server recv error");
     }
 
     // Add null terminator to secure string
@@ -82,7 +82,7 @@ std::string MySocket::receive() {
     // Check if receiving is successfull
     if(rbyteCount < 0){
         cout << "Server recv error: " << WSAGetLastError() << endl;
-        exit(-1);
+        throw std::runtime_error("Server recv error");
     }
 
     // Add null terminator to secure string
@@ -98,6 +98,6 @@ void MySocket::_send( const char * buffer ) {
     // Check if sending is successfull
     if(sbyteCount == SOCKET_ERROR){
         cout << "Server send error: " << WSAGetLastError() << endl;
-        exit(-1);
+        throw std::runtime_error("Server send error");
     }
 }
