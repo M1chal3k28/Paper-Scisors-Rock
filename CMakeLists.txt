@@ -38,4 +38,6 @@ include_directories(
 )
 
 target_compile_features(RockPaperScisors PUBLIC cxx_std_17)
-target_link_libraries(RockPaperScisors PRIVATE raylib wsock32 ws2_32)
+target_link_libraries(RockPaperScisors PRIVATE raylib wsock32 ws2_32 -static -g)
+
+
