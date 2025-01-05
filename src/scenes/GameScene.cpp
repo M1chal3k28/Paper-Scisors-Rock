@@ -28,7 +28,7 @@ GameScene::GameScene() {
         (Vector2)SMALL_BUTTON_HOME_OFFSET,
         BUTTON_TXT_KEY,
         [this]() {
-            this->fatalError = true;
+            SCENE_MANAGER.popScene();
 
             // Deinitialize game 
             GAME.deinitialize();
@@ -235,7 +235,8 @@ void GameScene::update(float deltaTime) {
     }
 
     // Home button must be last
-    this->homeButton->update(deltaTime);
+    if( this->homeButton->bUpdate(deltaTime) ) // If back button is clicked skip fatal error cause scene is deleted anyway
+        return;
 
     if (this->fatalError) {
         SCENE_MANAGER.popScene();

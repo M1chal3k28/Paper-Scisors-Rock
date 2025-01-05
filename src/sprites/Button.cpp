@@ -55,6 +55,12 @@ void Button::update(float deltaTime) {
     }
 }
 
+// More safe than calling wasClicked !
+bool Button::bUpdate(float deltaTime) {
+    this->update(deltaTime);
+    return IsMouseButtonReleased(MOUSE_BUTTON_LEFT);
+}
+
 bool Button::wasClicked() {
     return this->clicked;
 }

@@ -22,6 +22,7 @@ public:
     // Updates button states
     // Checks if button is hovered, clicked
     virtual void update(float deltaTime);
+    virtual bool bUpdate(float deltaTime); // Returns true if button was clicked
     bool wasClicked();
     // Draws the button in the given position
     virtual void draw();
