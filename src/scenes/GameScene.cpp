@@ -148,6 +148,16 @@ GameScene::GameScene() {
         }    
     );
 
+    this->infoText = std::make_unique<Text>(
+        "",
+        Vector2{0, 0},
+        Vector2{GetScreenWidth() / 2.f, GetScreenHeight() / 2.f},
+        MINECRAFT_FONT_KEY,
+        TITLE_SIZE / 2,
+        TEXT_SPACING,
+        MY_ORANGE
+    );
+
     // Start new round !
     this->newRound();
 }
@@ -159,6 +169,8 @@ void GameScene::playerChoose(Choice::Value choice) {
 
     this->player->choose(choice);
     this->playerReady->setFrame(this->player->hasChosen());
+    if (this->player->hasChosen()) 
+        this->infoText->tSetText("Waiting !");
 }
 
 void GameScene::enemyChoose() {
@@ -186,6 +198,12 @@ void GameScene::newRound() {
     this->rockButton->enable();
     this->paperButton->enable();
     this->scissorsButton->enable();
+
+    this->resultsTimer = RESULTS_OFFSET;
+    this->newRoundTimer = NEW_ROUND_OFFSET;
+    this->showedResults = false;
+
+    this->infoText->tSetText("Choose !");
 
     // this->enemyChoose();
     this->enemyChoiceThread = std::async(std::launch::async, &GameScene::enemyChoose, this);
@@ -218,20 +236,38 @@ void GameScene::update(float deltaTime) {
     this->scissorsButton->update(deltaTime);
 
     if (this->player->hasChosen() && this->enemy->hasChosen()) {
-        if (this->enemyChoiceThread.valid())
-            this->enemyChoiceThread.get();
-        
-        int result = GAME.checkWin(this->player->getChoice(), this->enemy->getChoice());
-        if (result == 0) {}
-        else if (result == 1) {
-            this->player->addScore();
-            
-        } else {
-            this->enemy->addScore();
-           
+        // Show results with 3 seconds delay
+        if (!this->showedResults) {
+            this->resultsTimer -= deltaTime;
+            this->infoText->tSetText(to_string(int(this->resultsTimer)));
         }
 
-        this->newRound();
+        if (this->resultsTimer <= 0) {
+            if (!this->showedResults) {
+                if (this->enemyChoiceThread.valid())
+                    this->enemyChoiceThread.get();
+                
+                this->player->showResult();
+                this->enemy->showResult();
+            
+                int result = GAME.checkWin(this->player->getChoice(), this->enemy->getChoice());
+                if (result == 0) { this->infoText->tSetText("Tie !"); }
+                else if (result == 1) {
+                    this->player->addScore();
+                    this->infoText->tSetText("You Win!");
+                } else {
+                    this->enemy->addScore();
+                    this->infoText->tSetText("You Lose!");
+                }
+
+                this->showedResults = true;
+            }
+
+            // Wait 2 seconds before starting a new round
+            this->newRoundTimer -= deltaTime;
+            if (this->newRoundTimer <= 0.f)
+                this->newRound();
+        }
     }
 
     // Home button must be last
@@ -255,6 +291,7 @@ void GameScene::draw() const {
     this->enemyReady->draw();
     this->enemyScore->draw();
     this->enemy->draw();
+    this->infoText->draw();
     this->player->draw();
     this->paperButton->draw();
     this->rockButton->draw();

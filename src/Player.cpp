@@ -12,27 +12,12 @@ void Player::choose(Choice::Value choice) {
     this->chosen = true;
 }
 
-// void Player::choose() {
-//     bool goodChoice = false;
-//     // This is sent to the enemy
-//     string choiceString;
-//     do {
-//         cout << "-\n1.Paper\n2.scissors\n3.Rock\nYour choice(1-3): ";
-//         choiceString = "";
-//         getline(cin, choiceString);
+void Player::showResult() {
+    this->sFrame = static_cast<int>(this->choice);
+}
 
-//         // Convert to int to check if it is between 1 and 3
-//         int intChoice = atoi(choiceString.c_str());
-//         if ( intChoice >= 1 && intChoice <= 3) {
-//             // Choice is good
-//             goodChoice = true;
-//             // Convert to Choice
-//             this->choice = static_cast<Choice::Value>(intChoice);
-//         }
-//     } while(!goodChoice);
-// }
-
-const Choice::Value &Player::getChoice() {
+const Choice::Value &Player::getChoice()
+{
     return this->choice;
 }
 

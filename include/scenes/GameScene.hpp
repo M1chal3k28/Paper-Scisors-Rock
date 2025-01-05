@@ -7,8 +7,16 @@
 #include <ResourceManager.hpp>
 #include <Text.hpp>
 #include <Game.hpp>
+
+#define RESULTS_OFFSET 4.f
+#define NEW_ROUND_OFFSET 2.f
+
 class GameScene : public Scene
 {
+    float resultsTimer = RESULTS_OFFSET; // Timer goes down
+    float newRoundTimer = NEW_ROUND_OFFSET; // Timer goes up
+    std::unique_ptr<Text> infoText = nullptr;
+    std::atomic<bool> showedResults = false;
     // Player related stuff
     
     // Moved from game which setup them

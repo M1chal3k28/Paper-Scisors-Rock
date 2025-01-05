@@ -49,9 +49,11 @@ public:
     virtual void choose() {};
     virtual void choose(Choice::Value choice);
 
-    void resetChosen() { this->chosen = false; }
+    void resetChosen() { this->chosen = false; this->sFrame = 0; }
     bool hasChosen() { return this->chosen; }
     
+    void showResult();
+
     // Getters
     const Choice::Value & getChoice();
     const std::string & getName();

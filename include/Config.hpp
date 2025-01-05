@@ -31,6 +31,7 @@
 #include <functional>
 #include <future>
 #include <mutex>
+#include <cmath>
 
 // Include all needed namespaces
 using namespace std;
