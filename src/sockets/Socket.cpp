@@ -22,7 +22,7 @@ MySocket::MySocket( bool initializeSocket ) {
             // cout << "Error at socket():"<< WSAGetLastError() << endl;
             throw std::runtime_error("Error at socket() :" + std::to_string(WSAGetLastError()));
             // Clean and exit on error
-            // WSACleanup();
+            // // WSACleanup();
         }
     }
 }
@@ -30,7 +30,7 @@ MySocket::MySocket( bool initializeSocket ) {
 MySocket::~MySocket() {
     // Close socket and clean up
     closesocket(currentSocket);
-    WSACleanup();
+    // WSACleanup();
 }
 
 // Send to address

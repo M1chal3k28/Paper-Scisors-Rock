@@ -14,7 +14,7 @@ Client::Client(const char * addr)
         cout << "Connection with server failed: " << WSAGetLastError() << endl;
         // Close socket and clean up on error
         closesocket(currentSocket);
-        WSACleanup();
+        // WSACleanup();
         throw std::runtime_error("Connection with server failed");
     }
 
@@ -22,6 +22,8 @@ Client::Client(const char * addr)
 }
 
 void Client::disconnectFromServer() {
-    if(this->currentSocket != INVALID_SOCKET)
+    if(this->currentSocket != INVALID_SOCKET) {
         closesocket(this->currentSocket);
+        std::cout << "Disconnected from server " << std::endl;
+    }
 }

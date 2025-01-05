@@ -13,7 +13,7 @@ BroadcastSocket::BroadcastSocket() : running(false), discoveredServers() {
     this->broadcastSocket = socket(AF_INET, SOCK_DGRAM, 0); // UDP socket
     if (this->broadcastSocket == INVALID_SOCKET) {
         std::cerr << "Socket creation failed\n";
-        WSACleanup();
+        // WSACleanup();
         return;
     }
 
@@ -38,7 +38,7 @@ BroadcastSocket::~BroadcastSocket() {
         this->discoverThread.get();
     
     closesocket(this->broadcastSocket);
-    WSACleanup();
+    // WSACleanup();
 }
 
 // Starts the broadcast in a separate thread

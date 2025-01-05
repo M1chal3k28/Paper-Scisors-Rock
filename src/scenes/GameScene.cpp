@@ -3,11 +3,6 @@
 
 GameScene::~GameScene() {
     this->cleanUp();
-
-    GAME.deinitialize();
-
-    if (this->enemyChoiceThread.valid())
-        this->enemyChoiceThread.get();
 }
 
 GameScene::GameScene() {
@@ -28,10 +23,13 @@ GameScene::GameScene() {
         (Vector2)SMALL_BUTTON_HOME_OFFSET,
         BUTTON_TXT_KEY,
         [this]() {
-            SCENE_MANAGER.popScene();
-
             // Deinitialize game 
             GAME.deinitialize();
+
+            if (this->enemyChoiceThread.valid())
+                this->enemyChoiceThread.get();
+
+            SCENE_MANAGER.popScene();
         }
     );
 
@@ -179,7 +177,6 @@ void GameScene::enemyChoose() {
     } catch (const std::exception& e) {
         std::cout << "Error reciving enemy's choice\n";
         // Handle exception
-        WSACleanup();
         this->fatalError = true;
     }
     this->enemyReady->setFrame(this->enemy->hasChosen());

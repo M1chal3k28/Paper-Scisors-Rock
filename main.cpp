@@ -12,9 +12,9 @@ int main() {
     SetConfigFlags(FLAG_MSAA_4X_HINT);
     SetTraceLogLevel(LOG_DEBUG);
     SetConfigFlags(FLAG_VSYNC_HINT);
-    // InitWindow(GetMonitorWidth(GetCurrentMonitor()), GetMonitorHeight(GetCurrentMonitor()), "Rock-Paper-Scissors");    // Set full screen
-    InitWindow(1920, 1080, "Rock-Paper-Scissors"); 
-    // SetWindowState(FLAG_FULLSCREEN_MODE);
+    InitWindow(GetMonitorWidth(GetCurrentMonitor()), GetMonitorHeight(GetCurrentMonitor()), "Rock-Paper-Scissors");    // Set full screen
+    // InitWindow(1920, 1080, "Rock-Paper-Scissors"); 
+    SetWindowState(FLAG_FULLSCREEN_MODE);
 
     GAME; // <- This is the game object (initialize)
         //----------------------------------------------------------------------------------

@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.29)
 project(RockPaperScisors VERSION 0.1.0 LANGUAGES C CXX)
 
+set(CMAKE_CONFIGURATION_TYPES "Release" CACHE STRING "" FORCE)
+
 # Dependencies
 add_subdirectory(include/external/raylib)
 
@@ -37,7 +39,8 @@ include_directories(
     include/sockets 
 )
 
+
 target_compile_features(RockPaperScisors PUBLIC cxx_std_17)
-target_link_libraries(RockPaperScisors PRIVATE raylib wsock32 ws2_32 -static -g)
+target_link_libraries(RockPaperScisors PUBLIC raylib wsock32 ws2_32 -static -g -O3)
 
 

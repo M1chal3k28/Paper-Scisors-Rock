@@ -11,7 +11,7 @@ PlayerServer::PlayerServer(const std::string & name) : MySocket(), serverName(na
         cout << "bind() failed: " << WSAGetLastError() << endl;
         // Close socket and clean up on error
         closesocket(currentSocket);
-        WSACleanup();
+        // WSACleanup();
         throw std::runtime_error("Failed to bind socket");
     }
 
@@ -20,7 +20,7 @@ PlayerServer::PlayerServer(const std::string & name) : MySocket(), serverName(na
     if ( this->broadcastSocket == INVALID_SOCKET ) {
         std::cerr << "Socket creation failed: " << WSAGetLastError() << endl;
         closesocket(currentSocket);
-        WSACleanup();
+        // WSACleanup();
         throw std::runtime_error("Socket creation failed");
     }
 
@@ -33,7 +33,7 @@ PlayerServer::PlayerServer(const std::string & name) : MySocket(), serverName(na
         cout << "bind() for broadcast failed: " << WSAGetLastError() << endl;
         // Close socket and clean up on error
         closesocket(currentSocket);
-        WSACleanup();
+        // WSACleanup();
         throw std::runtime_error("Failed to bind broadcast socket");
     }
 }
@@ -82,7 +82,7 @@ void PlayerServer::startListening() {
         cout << "listen(): Error listening on socket: " << WSAGetLastError() << endl;
         // clean up and exit on error
         closesocket(this->currentSocket);
-        WSACleanup();
+        // WSACleanup();
         throw runtime_error("listen() failed");
     } 
         
@@ -97,7 +97,7 @@ void PlayerServer::shutdownServer() {
         closesocket(this->currentSocket);
     if (this->broadcastSocket != INVALID_SOCKET)
         closesocket(this->broadcastSocket);
-    WSACleanup();
+    // WSACleanup();
 }
 
 // Start responding to broadcasts

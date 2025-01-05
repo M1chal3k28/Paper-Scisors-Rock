@@ -8,7 +8,7 @@ EnemySocket::~EnemySocket() {
     // Close socket and clean up
     if (this->currentSocket != INVALID_SOCKET)
         closesocket(this->currentSocket);
-    WSACleanup();
+    // WSACleanup();
 }
 
 bool EnemySocket::connectToServer( const SOCKET & serverSocket ) {
@@ -22,7 +22,7 @@ bool EnemySocket::connectToServer( const SOCKET & serverSocket ) {
     if(this->currentSocket == INVALID_SOCKET){
         cout << "Accept failed: " << WSAGetLastError() << endl;
         // On error clean up and exit
-        WSACleanup();
+        // WSACleanup();
         throw std::runtime_error("Accept failed");
         return false; // <- this has to be 
     }
