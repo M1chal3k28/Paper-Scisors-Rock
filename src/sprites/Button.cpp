@@ -46,8 +46,8 @@ void Button::update(float deltaTime) {
 
         // Check if button is released
         if ( IsMouseButtonReleased(MOUSE_BUTTON_LEFT) ) {
-            this->onClick();
             this->clicked = true;
+            this->onClick();
         }
     } else {
         // Set button state to not hovered
