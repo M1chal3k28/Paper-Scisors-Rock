@@ -50,7 +50,7 @@ public:
     virtual void choose(Choice::Value choice);
 
     void resetChosen() { this->chosen = false; this->sFrame = 0; }
-    bool hasChosen() { return this->chosen; }
+    bool hasChosen() { return this->chosen.operator bool(); }
     
     void showResult();
 
