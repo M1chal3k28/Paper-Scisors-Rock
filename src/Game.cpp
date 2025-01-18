@@ -248,6 +248,10 @@ void Game::deinitialize() {
         this->serverOrClientSocket->shutdownServer();
         this->serverOrClientSocket->disconnectFromServer();
     }
+    
+    if(this->enemySocket) {
+        this->enemySocket->disconnectFromServer();
+    }
 
     // Join setup theard where server waits for connection
     if(this->setupThread.valid()) 

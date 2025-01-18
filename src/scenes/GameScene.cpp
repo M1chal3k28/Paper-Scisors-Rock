@@ -170,7 +170,8 @@ void GameScene::playerChoose(Choice::Value choice) {
 void GameScene::enemyChoose() {
     try {
         GAME.getEnemy()->choose();
-        this->enemyReady->setFrame(GAME.getEnemy()->hasChosen());
+        if (GAME.getEnemy())
+            this->enemyReady->setFrame(GAME.getEnemy()->hasChosen());
     } catch (const std::exception& e) {
         std::cout << "Error reciving enemy's choice\n";
         // Handle exception
@@ -268,6 +269,12 @@ void GameScene::update(float deltaTime) {
         return;
 
     if (this->fatalError) {
+        // Deinitialize game 
+        GAME.deinitialize();
+
+        if (this->enemyChoiceThread.valid())
+            this->enemyChoiceThread.get();
+
         SCENE_MANAGER.popScene();
     }
 }
