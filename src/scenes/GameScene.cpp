@@ -8,12 +8,8 @@ GameScene::~GameScene() {
 GameScene::GameScene() {
     this->prepareResources();
 
-    // Receive Players
-    this->player = GAME.movePlayer();
-    this->enemy = GAME.moveEnemy();
-
-    this->player->setPosition(Vector2{ 0.f + (Vector2)PLAYER_SIZE.x / 2.f, GetScreenHeight() / 2.f });
-    this->enemy->setPosition(Vector2{ GetScreenWidth() - (Vector2)PLAYER_SIZE.x / 2.f, GetScreenHeight() / 2.f });
+    GAME.getPlayer()->setPosition(Vector2{ 0.f + (Vector2)PLAYER_SIZE.x / 2.f, GetScreenHeight() / 2.f });
+    GAME.getEnemy()->setPosition(Vector2{ GetScreenWidth() - (Vector2)PLAYER_SIZE.x / 2.f, GetScreenHeight() / 2.f });
 
     // Initialize the game scene's properties
     // Buttons
@@ -50,7 +46,7 @@ GameScene::GameScene() {
     );
 
     // Enemy stuff
-    std::string enemyType = this->enemy->getName();
+    std::string enemyType = GAME.getEnemy()->getName();
     Vector2 measure = MeasureTextEx(*RESOURCE_MANAGER.getFont(MINECRAFT_FONT_KEY), enemyType.c_str(), TITLE_SIZE / 2, TEXT_SPACING);
     this->enemyName = std::make_unique<Text>(
         enemyType,
@@ -72,7 +68,7 @@ GameScene::GameScene() {
     this->enemyScore = std::make_unique<Text>(
         "",
         Vector2{0, 0},
-        Vector2{ this->enemyReady->getPosition().x - (Vector2)READY_SIZE.x - 20, GetScreenHeight() - TITLE_SIZE / 4.f - 10},
+        Vector2{ GAME.getEnemy()->getPosition().x - (Vector2)READY_SIZE.x - 20, GetScreenHeight() - TITLE_SIZE / 4.f - 10},
         MINECRAFT_FONT_KEY,
         TITLE_SIZE / 2,
         TEXT_SPACING,
@@ -82,7 +78,7 @@ GameScene::GameScene() {
 
     // Player stuff
     this->playerName = std::make_unique<Text>(
-        "(You) " + this->player->getName(),
+        "(You) " + GAME.getPlayer()->getName(),
         Vector2{0, 0},
         Vector2{10, 10},
         MINECRAFT_FONT_KEY,
@@ -165,32 +161,32 @@ void GameScene::playerChoose(Choice::Value choice) {
     this->paperButton->disable();
     this->scissorsButton->disable();
 
-    this->player->choose(choice);
-    this->playerReady->setFrame(this->player->hasChosen());
-    if (this->player->hasChosen()) 
+    GAME.getPlayer()->choose(choice);
+    this->playerReady->setFrame(GAME.getPlayer()->hasChosen());
+    if (GAME.getPlayer()->hasChosen()) 
         this->infoText->tSetText("Waiting !");
 }
 
 void GameScene::enemyChoose() {
     try {
-        this->enemy->choose();
+        GAME.getEnemy()->choose();
+        this->enemyReady->setFrame(GAME.getEnemy()->hasChosen());
     } catch (const std::exception& e) {
         std::cout << "Error reciving enemy's choice\n";
         // Handle exception
         this->fatalError = true;
     }
-    this->enemyReady->setFrame(this->enemy->hasChosen());
 }
 
 void GameScene::newRound() {
-    this->player->resetChosen();
-    this->enemy->resetChosen();
+    GAME.getPlayer()->resetChosen();
+    GAME.getEnemy()->resetChosen();
 
     this->playerReady->setFrame(0);
     this->enemyReady->setFrame(0);
 
-    this->playerScore->tSetText(to_string(this->player->getScore()));
-    this->enemyScore->tSetText(to_string(this->enemy->getScore()));
+    this->playerScore->tSetText(to_string(GAME.getPlayer()->getScore()));
+    this->enemyScore->tSetText(to_string(GAME.getEnemy()->getScore()));
 
     this->rockButton->enable();
     this->paperButton->enable();
@@ -226,13 +222,13 @@ void GameScene::update(float deltaTime) {
     this->exitButton->update(deltaTime);
     this->playerReady->update(deltaTime);
     this->enemyReady->update(deltaTime);
-    this->player->update(deltaTime);
-    this->enemy->update(deltaTime);
+    GAME.getPlayer()->update(deltaTime);
+    GAME.getEnemy()->update(deltaTime);
     this->paperButton->update(deltaTime);
     this->rockButton->update(deltaTime);
     this->scissorsButton->update(deltaTime);
 
-    if (this->player->hasChosen() && this->enemy->hasChosen()) {
+    if (GAME.getPlayer()->hasChosen() && GAME.getEnemy()->hasChosen()) {
         // Show results with 3 seconds delay
         if (!this->showedResults) {
             this->resultsTimer -= deltaTime;
@@ -244,16 +240,16 @@ void GameScene::update(float deltaTime) {
                 if (this->enemyChoiceThread.valid())
                     this->enemyChoiceThread.get();
                 
-                this->player->showResult();
-                this->enemy->showResult();
+                GAME.getPlayer()->showResult();
+                GAME.getEnemy()->showResult();
             
-                int result = GAME.checkWin(this->player->getChoice(), this->enemy->getChoice());
+                int result = GAME.checkWin(GAME.getPlayer()->getChoice(), GAME.getEnemy()->getChoice());
                 if (result == 0) { this->infoText->tSetText("Tie !"); }
                 else if (result == 1) {
-                    this->player->addScore();
+                    GAME.getPlayer()->addScore();
                     this->infoText->tSetText("You Win!");
                 } else {
-                    this->enemy->addScore();
+                    GAME.getEnemy()->addScore();
                     this->infoText->tSetText("You Lose!");
                 }
 
@@ -287,9 +283,9 @@ void GameScene::draw() const {
     this->playerReady->draw();
     this->enemyReady->draw();
     this->enemyScore->draw();
-    this->enemy->draw();
+    GAME.getPlayer()->draw();
     this->infoText->draw();
-    this->player->draw();
+    GAME.getEnemy()->draw();
     this->paperButton->draw();
     this->rockButton->draw();
     this->scissorsButton->draw();

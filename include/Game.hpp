@@ -97,13 +97,16 @@ public:
 
     // std::string getNick(PlayerType::Value type);
 
-    std::unique_ptr<Player> movePlayer() {
-        return std::move(this->player);
-    }
+    // std::unique_ptr<Player> movePlayer() {
+    //     return std::move(this->player);
+    // }
 
-    std::unique_ptr<Player> moveEnemy() {
-        return std::move(this->enemy);
-    }
+    // std::unique_ptr<Player> moveEnemy() {
+    //     return std::move(this->enemy);
+    // }
+
+    Player* getPlayer() { return this->player.get(); }
+    Player* getEnemy() { return this->enemy.get(); }
 
     void disconnect();
 };
