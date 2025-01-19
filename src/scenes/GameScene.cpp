@@ -198,9 +198,11 @@ void GameScene::newRound() {
     this->showedResults = false;
 
     this->infoText->tSetText("Choose !");
-
-    // this->enemyChoose();
-    this->enemyChoiceThread = std::async(std::launch::async, &GameScene::enemyChoose, this);
+    
+    if (dynamic_cast<Client*>(GAME.getPlayer()->getConnectionSocket()) == 0)
+        this->enemyChoose();
+    else
+        this->enemyChoiceThread = std::async(std::launch::async, &GameScene::enemyChoose, this);
 }
 
 void GameScene::prepareResources() {

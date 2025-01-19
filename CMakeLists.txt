@@ -41,6 +41,6 @@ include_directories(
 
 
 target_compile_features(RockPaperScisors PUBLIC cxx_std_17)
-target_link_libraries(RockPaperScisors PUBLIC raylib wsock32 ws2_32 -static)
+target_link_libraries(RockPaperScisors PUBLIC raylib wsock32 ws2_32 -static -g)
 
 

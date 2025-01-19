@@ -58,6 +58,7 @@ public:
     const Choice::Value & getChoice();
     const std::string & getName();
     const int & getScore();
+    virtual MySocket* getConnectionSocket() { return nullptr; } 
 
     // add score
     void addScore();
@@ -78,6 +79,8 @@ public:
     // Choose
     virtual void choose() {};
     void choose(Choice::Value choice); 
+
+    virtual MySocket* getConnectionSocket() { return this->connectionSocket.get(); }
 };
 
 class Enemy : public OnlinePlayer {
