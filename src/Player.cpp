@@ -54,6 +54,7 @@ Enemy::Enemy(std::shared_ptr<MySocket> connectionSocket, Sprite sprite)
 void Enemy::choose() {
     // Enemy's choice is received from the player
     std::string choiceString = this->connectionSocket->receive();
+    std::cout << "Enemy received choice: " << choiceString << std::endl;
     // Convert to int to check if it is between 1 and 3
     Player::choose(static_cast<Choice::Value>(atoi(choiceString.c_str())));
 }

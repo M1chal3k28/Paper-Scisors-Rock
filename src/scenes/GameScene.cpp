@@ -7,6 +7,7 @@ GameScene::~GameScene() {
 
 GameScene::GameScene() {
     this->prepareResources();
+    
 
     GAME.getPlayer()->setPosition(Vector2{ 0.f + (Vector2)PLAYER_SIZE.x / 2.f, GetScreenHeight() / 2.f });
     GAME.getEnemy()->setPosition(Vector2{ GetScreenWidth() - (Vector2)PLAYER_SIZE.x / 2.f, GetScreenHeight() / 2.f });
@@ -199,9 +200,9 @@ void GameScene::newRound() {
 
     this->infoText->tSetText("Choose !");
     
-    if (dynamic_cast<Client*>(GAME.getPlayer()->getConnectionSocket()) == 0)
-        this->enemyChoose();
-    else
+    // if (dynamic_cast<Client*>(GAME.getPlayer()->getConnectionSocket()) == 0)
+    //     this->enemyChoose();
+    // else
         this->enemyChoiceThread = std::async(std::launch::async, &GameScene::enemyChoose, this);
 }
 

@@ -25,22 +25,26 @@ void GameLoadingScene::cleanUp() {}
 
 void GameLoadingScene::prepareResources() {
     // Init background if not done already
-    M_BG;
+    // M_BG;
 
     // Ensure that the font is loaded
     RESOURCE_MANAGER.loadFont(MINECRAFT_FONT_KEY, "assets/Minecraft.ttf");
 }
 
 void GameLoadingScene::update(float deltaTime) {
-    M_BG.update(deltaTime);
-    if (GAME.isSetupFinished()) {
-        SCENE_MANAGER.popScene();
-        SCENE_MANAGER.pushScene(SceneType::GAME_SCENE);
-    }
-
     if (GAME.isConnectionError()) {
         SCENE_MANAGER.popScene();
         GAME.deinitialize();
+    }
+
+    this->timer += deltaTime;
+    if (this->timer < LOADING_SCENE_DURATION)
+        return;
+        
+    // M_BG.update(deltaTime);
+    if (GAME.isSetupFinished()) {
+        SCENE_MANAGER.popScene();
+        SCENE_MANAGER.pushScene(SceneType::GAME_SCENE);
     }
 }
 

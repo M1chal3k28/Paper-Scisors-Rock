@@ -87,6 +87,8 @@ std::string MySocket::receive() {
 
     // Add null terminator to secure string
     buffer[rbyteCount] = '\0';
+
+    cout << "Received: " << buffer << endl;
     // Return
     return std::string(buffer);
 }
